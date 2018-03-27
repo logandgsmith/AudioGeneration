@@ -6,14 +6,10 @@
  
 class Chord {
 public:
-	Chord(std::string note_name1, std::string note_name2, std::string note_name3) {
-		n1 = note_name1;
-		n2 = note_name2;
-		n3 = note_name3;
-	}
-
-	Chord(bool major, std::string base_note) {
-
+	Chord(std::string note_one, std::string note_two, std::string note_three) {
+		this-> note_one = note_one;
+	    this-> note_two = note_two;
+		this-> note_three = note_three;
 	}
 
 	void Chord::set_note_one(std::string note_name);
@@ -25,9 +21,8 @@ public:
 	Chord::get_note_three();
 
 private:
-	Note n1;
-	Note n2;
-	Note n3;
+	Note note_one;
+	Note note_two;
+	Note note_three;
 };
 #endif
-
