@@ -1,5 +1,6 @@
 #pragma once
-#include "chord.h"
+
+#include "chord_generator.h"
 
 /******************************************************************
 *							Regarding Songs					      *

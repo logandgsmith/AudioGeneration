@@ -1,4 +1,5 @@
 #pragma once
+
 #include "note_generator.h"
 
 //this is a test

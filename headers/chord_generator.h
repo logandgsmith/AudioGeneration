@@ -1,21 +1,23 @@
 #pragma once
+
 #include <string>
 #include <vector>
-#include "Chord.h"
+#include "chord.h"
 
-using namespace std;
+class Chord_Generator {
+public:
+	//Constructor
+	 Chord_Generator();
+	~Chord_Generator();
 
-class Chord_Generator
-{
+	//Accessors
+	Chord getMajorChord(std::string root_note);
+	Chord getMinorChord(std::string root_note);
+	int checkExistingChord(std::string root_name);
+	int searchNote(std::string name);
+
 private:
 	Note * note_array;
-	vector<Chord>* chords_we_have;
-public:
-	Chord_Generator();
-	~Chord_Generator();
-	Chord get_major_chord(string root_note);
-	Chord get_minor_chord(string root_note);
-	int check_existing_chord(string root_name);
-	int search_note(string name);
+	vector<Chord>* created_chords;
 };
 
