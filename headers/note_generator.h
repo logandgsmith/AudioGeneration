@@ -1,8 +1,5 @@
-#ifndef NOTE_GENERATOR_H
-#define NOTE_GENERATOR_H
+#pragma once
 #include <string> 
-
-using namespace std;
 
 struct Note{
 	double note_frequency;
@@ -11,23 +8,20 @@ struct Note{
 
 class NoteGenerator {
 public:
+	//Constructor
 	 NoteGenerator();
-	//~NoteGenerator(); May or may not use according to Logan.
-	//Sets the note in question. Assigns a name and a frequency value. 
-	void setNote(Note* keyboard);
-	double getNoteFreq(Note* keyboard);
-	string getNoteName(Note* keyboard);
-	Note* getArray();
+	//~NoteGenerator(); May or may not use
 
+	//Accessors
+	double getNoteFreq(int index, Note* keyboard);
+	string getNoteName(int index, Note* keyboard);
+	Note*  getArray();
+
+	//Mutators
+	void   setNote(Note* keyboard);
 
 private:
-	int const note_array = 13;
+	int const note_array_size = 13;
 	//Array of name keyboard
-	Note keyboard[note_array];
-
-
-
-
+	Note keyboard[note_array_size];
 };
-
-#endif /*NOTE_GENERATOR_H*/

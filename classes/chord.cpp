@@ -1,5 +1,4 @@
-#include "Chord.h"
-#include "Note_Generator.h"
+#include "chord.h"
 
 //Constructor
 Chord :: Chord(std::string name, std::string note_one, std::string note_two, std::string note_three) {

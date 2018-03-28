@@ -2,7 +2,9 @@
 #include <string>
 #include <vector>
 #include "Chord.h"
+
 using namespace std;
+
 class Chord_Generator
 {
 private:
