@@ -13,8 +13,8 @@ public:
 	//Accessors
 	Chord getMajorChord(std::string root_note);
 	Chord getMinorChord(std::string root_note);
-	int checkExistingChord(std::string root_name);
-	int searchNote(std::string name);
+	int   checkExistingChord(std::string root_name);
+	int   searchNote(std::string name);
 
 private:
 	Note * note_array;
