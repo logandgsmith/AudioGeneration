@@ -1,23 +1,27 @@
 #pragma once
-
 #include <string>
 #include <vector>
 #include "chord.h"
+#include "note_generator.h"
 
-class Chord_Generator {
+using namespace std;
+class chord_generator
+{
+
 public:
 	//Constructor
-	 Chord_Generator();
-	~Chord_Generator();
+	chord_generator();
 
 	//Accessors
-	Chord getMajorChord(std::string root_note);
-	Chord getMinorChord(std::string root_note);
-	int   checkExistingChord(std::string root_name);
-	int   searchNote(std::string name);
+	chord* get_major_chord(string root_note);
+	chord* get_minor_chord(string root_note);
+
+	//other methods
+	int check_existing_chord(string root_name);	//return the index of the chord in the existing chord* vector. If not found, return -1.
+	int search_note(string name);				//return the index of the note in the note array (length 12), if no such note, return -1
 
 private:
-	Note * note_array;
-	vector<Chord>* created_chords;
+	note * note_array;
+	vector<chord*>* chords_we_have;
 };
 
