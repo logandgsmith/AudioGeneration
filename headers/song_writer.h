@@ -19,6 +19,7 @@ public:
 	int                getTempo();
 	std::string        getMood();
 	Chord              getChord(int index);
+	int								 findChord(string chord_name);  //*NEW*
 	std::vector<Chord> getSong();
 
 	//Mutators
@@ -34,4 +35,5 @@ private:
 	//int duration;
 	std::string mood;
 	std::vector<Chord> current_song;
+	ChordGenerator myChords; //NEW* 4/2/18 - Jared L.
 };

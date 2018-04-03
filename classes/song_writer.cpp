@@ -17,7 +17,11 @@ std::string SongWriter::getMood() {
 }
 
 Chord SongWriter::getChord(int index) {
-	//return specified Chord
+	return myChords[index];
+}
+
+int SongWriter::findChord(chord_name){
+	return myChords.checkExistingChord(chord_name);
 }
 
 std::vector<Chord> SongWriter::getSong() {
@@ -35,7 +39,10 @@ void SongWriter::setMood(std::string) {
 }
 
 void SongWriter::addChord(Chord new_chord) {
-	//Adds a new Chord to the end of the song vector
+	if (findChord(new_chord.name) != -1)
+	{
+			myChords.push_back(new_chord);
+	}
 }
 
 void SongWriter::removeChord(int index) {
