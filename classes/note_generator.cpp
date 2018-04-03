@@ -81,7 +81,7 @@ void NoteGenerator::setNote() {
 		}
 
 		if(i == 11){
-			keyboard[i].note_name = ;
+			keyboard[i].note_name = "B4";
 			keyboard[i].note_frequency = 493.89;	
 		}
 	}
