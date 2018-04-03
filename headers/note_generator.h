@@ -12,14 +12,14 @@ public:
 	//~NoteGenerator(); May or may not use
 
 	//Accessors
-	double      getNoteFreq(int index, Note* keyboard);
-	std::string getNoteName(int index, Note* keyboard);
+	double      getNoteFreq(int index);
+	std::string getNoteName(int index);
 	Note*       getArray();
 
 	//Mutators
-	void        setNote(int index, Note new_note);
+	void        setNote();
 
 private:
-	int const   note_array_size = 13;
-	Note        keyboard[note_array_size];
+	int const   note_array_size = 12;
+	Note*       keyboard;
 };
