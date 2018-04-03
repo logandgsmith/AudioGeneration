@@ -18,10 +18,11 @@ public:
 	SongWriter(int tempo, std::string mood);
 
 	//Accessors
-	int                getTempo();
-	std::string        getMood();
-	Chord              getChord(int index);
-	std::vector<Chord> getSong();
+	int					getTempo();
+	std::string			getMood();
+	Chord				getChord(int index);
+	int					findChord(string chord_name);
+	std::vector<Chord>	getSong();
 
 	//Mutators
 	note melodyGenerator (note melody_line[], int melody_array_size);
@@ -37,4 +38,5 @@ private:
 	//int duration;
 	std::string mood;
 	std::vector<Chord> current_song;
+	ChordGenerator myChords; //NEW* 4/2/18 - Jared L.
 };
