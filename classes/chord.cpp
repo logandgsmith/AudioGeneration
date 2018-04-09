@@ -24,5 +24,6 @@ std::string Chord::get_note_three() {
 }
 
 Note Chord::setNote(std::string note_name) {
-	return note_generator->getNote(note_name);
+	return note_gernerator->getNote(note_name);
 }
+
