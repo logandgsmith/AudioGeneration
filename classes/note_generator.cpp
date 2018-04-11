@@ -2,14 +2,11 @@
 
 // constructor defaults to middle C (C4)
 NoteGenerator :: NoteGenerator() {
-	note_frequency = 261.63;
-	note_name = "C4";
-	keyboard[note_array_size]
-
+	
 }
 
 //frequncy getter
-double NoteGenerator::getNoteFreq(int index, ){
+double NoteGenerator::getNoteFreq(int index){
 	return keyboard[index].note_frequency;
 }
 //name getter
@@ -17,72 +14,64 @@ std::string NoteGenerator::getNoteName(int index) {
 	return keyboard[index].note_name;
 }
 //array getter
-Note* NoteGnerator::getArray() {
+Note* NoteGenerator::getArray() {
 	return this->keyboard;
 }
 
 //Mutators  //ERROR MIGHT OCCUR DUE TO ME NOT USING POINTER NOTATION '->'
-void NoteGenerator::setNote() {
-	for(int i = 0; i < 12; i++){
-		
-		if(i == 0){
-			keyboard[i].note_name = "C4";
-			keyboard[i].note_frequency = 261.63;
+void NoteGenerator::setNote(double base_freq, string base_note, int num_of_notes) {
+	char letter=base_note[0];
+	bool has_sharp=false;
+	if (base_note[1] == '#') {
+		has_sharp = true;
+	}
+	int number=has_sharp?base_note[2]:base_note[1]-'0';
+	string note_name=base_note;
+	double freq = base_freq;
+	Note* keyboard = new Note[num_of_notes];
+	keyboard[0].note_frequency = freq;
+	keyboard[0].note_name = note_name;
+	int octave_count = 0;
+	for(int i = 1; i < num_of_notes; i++){
+		note_name = "";
+		//determine number
+		if (octave_count == 11) {
+			number++;
+			octave_count = 0;
 		}
-
-		if(i == 1){
-			keyboard[i].note_name = "C#4";
-			keyboard[i].note_frequency = 277.19;
+		else {
+			octave_count++;
 		}
-
-		if(i == 2){
-			keyboard[i].note_name = "D4";
-			keyboard[i].note_frequency = 293.67 ;
+		//determine sharp and letter
+		if (has_sharp) {
+			letter++;
+			if (letter == 'H') {
+				letter = 'A';
+			}
+			has_sharp = false;
 		}
-
-		if(i == 3){
-			keyboard[i].note_name = "D#4";
-			keyboard[i].note_frequency = 311.13;
+		else {
+			if (letter == 'B' || letter == 'E') {
+				has_sharp = false;
+				letter++;
+				if (letter == 'H') {
+					letter = 'A';
+				}
+			}
+			else {
+				has_sharp = true;
+			}
 		}
-
-		if(i == 4){
-			keyboard[i].note_name = "E4";
-			keyboard[i].note_frequency = 329.63;
+		//assemble note name
+		if (has_sharp) {
+			note_name = note_name + letter + '#' + char(48 + number);
 		}
-
-		if(i == 5){
-			keyboard[i].note_name = "F4";
-			keyboard[i].note_frequency = 349.23 ;
+		else {
+			note_name = note_name + letter + char(48 + number);
 		}
-
-		if(i == 6){
-			keyboard[i].note_name = "F#4";
-			keyboard[i].note_frequency = 370.00;
-		}
-
-		if(i == 7){
-			keyboard[i].note_name = "G4";
-			keyboard[i].note_frequency = 392.00;
-		}
-
-		if(i == 8){
-			keyboard[i].note_name = "G#4";
-			keyboard[i].note_frequency = 415.31;
-		}
-
-		if(i == 9){
-			keyboard[i].note_name = "A4";
-			keyboard[i].note_frequency = 440.01;
-		}
-
-		if(i == 10){
-			keyboard[i].note_name = "A#4";
-			keyboard[i].note_frequency = 466.17;
-		}
-
-		if(i == 11){
-			keyboard[i].note_name = "B4";
-			keyboard[i].note_frequency = 493.89;	
-		}
+		//calculate frequency
+		freq *= 1.059463;
+		keyboard[i].note_frequency = freq;
+		keyboard[i].note_name = note_name;
 	}
 }

@@ -2,7 +2,7 @@
 
 //Constructor
 Chord :: Chord(std::string name, std::string note_one, std::string note_two, std::string note_three) {
-	this->note_gernerator = new NoteGenerator();
+	this->note_generator = new NoteGenerator();
 
 	this->name       = name;
 	this->note_one   = setNote(note_one);
@@ -11,15 +11,15 @@ Chord :: Chord(std::string name, std::string note_one, std::string note_two, std
 }
 
 //Accessors
-std::string Chord::get_note_one() {
+Note* Chord::getNoteOne() {
 	return this->note_one;
 }
 
-std::string Chord::get_note_two() {
+Note* Chord::getNoteTwo() {
 	return this->note_two;
 }
 
-std::string Chord::get_note_three() {
+Note* Chord::getNoteThree() {
 	return this->note_three;
 }
 

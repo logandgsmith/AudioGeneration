@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+using namespace std;
 
 struct Note{
 	double note_frequency;
@@ -13,13 +15,12 @@ public:
 
 	//Accessors
 	double      getNoteFreq(int index);
-	std::string getNoteName(int index);
+	string		getNoteName(int index);
 	Note*       getArray();
 
 	//Mutators
-	void        setNote();
+	void        setNote(double base_freq, string base_note, int num_of_notes);	//starting from the base note with base freq, count numOfNotes notes
 
 private:
-	int const   note_array_size = 12;
 	Note*       keyboard;
 };
