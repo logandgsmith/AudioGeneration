@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Chord.h"
+#include "chord.h"
 #include "note_generator.h"
 
 using namespace std;
