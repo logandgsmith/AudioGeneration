@@ -26,7 +26,7 @@ public:
 	string				getNoteName(int index);
 	std::vector<Note>	getKeyboard();
 	size_t				getKeyboardSize();
-	Note 				getRandomNote();
+	Note 				getRandomNote(bool is_major_key);
 
 	//Mutators
 	void        setNote(double base_freq, string base_note, int num_of_notes);	//starting from the base note with base freq, count numOfNotes notes
