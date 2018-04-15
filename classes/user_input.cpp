@@ -1,4 +1,4 @@
-#include "user_input.h"
+#include "../headers/user_input.h"
 
 UserInput::userInput(std::string mood) {
 	this->mood = mood;

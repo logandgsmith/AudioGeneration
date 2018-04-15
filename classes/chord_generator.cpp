@@ -1,4 +1,4 @@
-#include "chord_generator.h"
+#include "../headers/chord_generator.h"
 
 //Constructor
 ChordGenerator::ChordGenerator()

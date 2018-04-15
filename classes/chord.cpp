@@ -1,4 +1,4 @@
-#include "chord.h"
+#include "../headers/chord.h"
 
 //Constructor
 Chord :: Chord(std::string name, Note* note_one, Note* note_two, Note* note_three) {
