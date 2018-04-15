@@ -85,13 +85,27 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_
 	}
 }
 
-Note NoteGenerator::getRandomNote() 
-{
+Note NoteGenerator::getRandomNote(bool is_major_key) {
 	Note rand_note;
 
 //	srand(time(NULL));
-
-	int rand_note_index = rand() % (this->keyboard.size());
+	bool valid_key = false
+	do {
+		int rn_i = rand() % (this->keyboard.size()); // rn_i is the random note's index
+		if (is_major_key) {
+			if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 4) || (rn_i % 12 == 5) || 
+				(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10)) { valid_key = true; }
+			}
+		}
+		else {
+			if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 3) || (rn_i % 12 == 5) || 
+				(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10)) { valid_key = true; }
+			}
+		}
+		
+	}
+	while (valid_key == false) 
+	
 	rand_note.note_frequency = getNoteFreq(rand_note_index);
 	rand_note.note_name = getNoteName(rand_note_index);
 	
