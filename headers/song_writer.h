@@ -12,10 +12,11 @@
 *           but we don't have anything for duration.              *
 *******************************************************************/
 
-class SongWriter {
+class SongWriter 
+{
 public:
 	//Constructor
-	SongWriter(int tempo, std::string mood);
+	SongWriter(int tempo, int num_measures, std::string mood);
 
 	//Accessors
 	int					getTempo();
@@ -25,18 +26,20 @@ public:
 	std::vector<Chord>	getSong();
 
 	//Mutators
-	note melodyGenerator (note melody_line[], int melody_array_size);
 	void setTempo(int tempo);
-	void setMood(std::string);
+	void setNumMeasures(int num_measures);
+	void setMood(std::string mood);
 	void addChord(Chord new_chord);
 	void removeChord(int index);
+	std::vector<Chord> generateSong();
 	void printSong();
 	void clearSong();
 
 private:
+	NoteGenerator * note_gen;
 	int tempo;
-	//int duration;
+	int num_measures;
 	std::string mood;
-	std::vector<Chord> current_song;
+	std::vector<Chord> song;
 	ChordGenerator myChords; //NEW* 4/2/18 - Jared L.
 };
