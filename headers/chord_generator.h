@@ -21,6 +21,6 @@ public:
 	int searchNote(string name);				//return the index of the note in the note array (length 12), if no such note, return -1
 
 private:
-	Note * note_array;
+	vector<Note>* note_array;
 	vector<Chord*>* chords_we_have;
 };
