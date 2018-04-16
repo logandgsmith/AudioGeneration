@@ -9,17 +9,16 @@ using namespace std;
 class Chord {
 public:
 	//Constructor
-	Chord(std::string name, Note* note_one, Note* note_two, Note* note_three);
+	Chord(std::string name, Note note_one, Note note_two, Note note_three);
 
 	//Accessors
+	std::string getName();
 	Note* getNoteOne();
 	Note* getNoteTwo();
 	Note* getNoteThree();
 
 private:
-	Note* note_one;
-	Note* note_two;
-	Note* note_three;
+	std::vector<Note> chord;
 	string name;
-	NoteGenerator* note_generator;
+//	NoteGenerator* note_generator;
 };

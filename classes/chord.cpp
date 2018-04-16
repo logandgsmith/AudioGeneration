@@ -1,25 +1,50 @@
 #include "../headers/chord.h"
+#include <stdexcept>
 
-//Constructor
-Chord :: Chord(std::string name, Note* note_one, Note* note_two, Note* note_three) {
-	this->note_generator = new NoteGenerator();
+//Constructor for triads
+Chord :: Chord(std::string name, Note note_one, Note note_two, Note note_three) {
+//	this->note_generator = new NoteGenerator();
 
-	this->name       = name;
-	this->note_one   = note_one;
-	this->note_two   = note_two;
-	this->note_three = note_three;
+	this->name = name;
+	this->chord.push_back(note_one);
+	this->chord.push_back(note_two);
+	this->chord.push_back(note_three);
 }
 
 //Accessors
+std::string Chord::getName() {
+	return name;
+}
+
 Note* Chord::getNoteOne() {
-	return this->note_one;
+	Note* note;
+	try {
+		note = &(this->chord.at(0));
+	}
+	catch (const std::out_of_range &e) {
+		note = nullptr;
+	}
+	return note;
 }
 
 Note* Chord::getNoteTwo() {
-	return this->note_two;
+	Note* note;
+	try {
+		note = &(this->chord.at(1));
+	}
+	catch (const std::out_of_range &e) {
+		note = nullptr;
+	}
+	return note;
 }
 
 Note* Chord::getNoteThree() {
-	return this->note_three;
+	Note* note;
+	try {
+		note = &(this->chord.at(2));
+	}
+	catch (const std::out_of_range &e) {
+		note = nullptr;
+	}
+	return note;
 }
-
