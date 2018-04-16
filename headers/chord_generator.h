@@ -22,6 +22,6 @@ public:
 
 private:
 	NoteGenerator* ng;
-	vector<Note>* keyboard;
+//	vector<Note>* keyboard;
 	vector<Chord*>* chords;
 };
