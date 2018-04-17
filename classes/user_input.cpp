@@ -49,7 +49,7 @@ void UserInput::playBack() {
 	//Checks for valid file names
 	bool          isValidFileName = false;
 	std::ifstream inFile;
-	std::string   token
+	std::string   token;
 
 	while (!isValidFileName) {
 		std::cout << "Please enter the name of the input file:" << std::endl;

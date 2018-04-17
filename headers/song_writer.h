@@ -4,6 +4,15 @@
 #include "chord_generator.h"
 #include "note_generator.h"
 
+struct selectedChord {
+	int index;
+	bool major;
+	selectedChord(int a, bool b){
+		index=a;
+		major=b;
+	}
+};
+
 class SongWriter 
 {
 public:
@@ -16,6 +25,7 @@ public:
 	Chord				getChord(int index);
 	int					findChord(string chord_name);
 	std::vector<Chord>	getSong();
+	Chord*				getProgression();	//default to C
 
 	//Mutators
 	void               setTempo(int tempo);
@@ -33,5 +43,5 @@ private:
 	int                num_measures;
 	std::string        mood;
 	std::vector<Chord> song;
-	ChordGenerator     myChords; //NEW* 4/2/18 - Jared L.
+	ChordGenerator*     myChords; //NEW* 4/2/18 - Jared L.
 };

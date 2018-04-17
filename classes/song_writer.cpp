@@ -1,13 +1,16 @@
 #include "../headers/song_writer.h"
 #include "../headers/note_generator.h"
 
+const selectedChord progression1[4] = { selectedChord(0,true), selectedChord(9,false), selectedChord(5,true), selectedChord(7,true) };
+const selectedChord progression2[4] = { selectedChord(0,true), selectedChord(7,true), selectedChord(9,false), selectedChord(5,true) };
+
 //Constructor
 SongWriter::SongWriter(int tempo, int num_measures, std::string mood) 
 {
 	SongWriter::setTempo(tempo);
 	SongWriter::setNumMeasures(num_measures);
 	SongWriter::setMood(mood);
-	
+	myChords = new ChordGenerator;
 	this->note_gen = new NoteGenerator;
 }
 
@@ -32,6 +35,9 @@ std::vector<Chord> SongWriter::getSong()
 	return this->song;
 }
 
+Chord* SongWriter::getProgression() {
+
+}
 
 //Mutators
 void SongWriter::setTempo(int tempo) 
@@ -62,6 +68,7 @@ void SongWriter::removeChord(int index)
 
 std::vector<Chord> SongWriter::generateSong()
 {
+	/*
 	// Measures are assumed to be in common time (4/4)
 	int max_num_quarter_notes = 4 * num_measures;
 	std::vector<Note> melody;
@@ -75,6 +82,30 @@ std::vector<Chord> SongWriter::generateSong()
 	std::vector<Chord> new_song;
 	
 	return new_song;
+	*/
+	Chord* progA[4];
+	Chord* progB[4];
+	for (int i = 0; i < 4; i++) {
+		Chord* in = NULL;
+		if (progression1[i].major) {
+			in = myChords->getMajorTriadChord(note_gen->getNoteName(progression1[i].index));
+		}
+		else {
+			in = myChords->getMinorTriadChord(note_gen->getNoteName(progression1[i].index));
+		}
+		progA[i] = in;
+	}
+	for (int i = 0; i < 4; i++) {
+		Chord* in = NULL;
+		if (progression2[i].major) {
+			in = myChords->getMajorTriadChord(note_gen->getNoteName(progression2[i].index));
+		}
+		else {
+			in = myChords->getMinorTriadChord(note_gen->getNoteName(progression2[i].index));
+		}
+		progB[i] = in;
+	}
+	
 }
 
 void SongWriter::printSong() 

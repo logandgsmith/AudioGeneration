@@ -20,7 +20,7 @@ public:
 
 	//Accessors
 	double            getNoteFreq(int index);
-	std::string            getNoteName(int index);
+	std::string       getNoteName(int index);
 	std::vector<Note> getKeyboard();
 	size_t            getKeyboardSize();
 	Note              getRandomNote(bool is_major_key);
