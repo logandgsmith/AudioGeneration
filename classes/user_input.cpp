@@ -1,18 +1,16 @@
 #include "../headers/user_input.h"
-#include <iostream>
-#include <cstdlib>
 
 //using namespace std;
 
 //TESTING/DEBUGGING 
 int main() {
 
-	string mood_of_song;
+	string song_mood;
 	UserInput::displayMood(); //prints out list of moods for user selection 
-	cout << "Please pick a mood: " << endl;
-	cin >> mood_of_song;
+	std::cout << "Please pick a mood: " << std::endl;
+	std::cin  >> song_mood;
 
-	UserInput::setMood(mood_of_song); 
+	UserInput::setMood(song_mood); 
 
 	//call SongWriter class and play the song generated 
 	//after song finish playing, ask for feedback (like/dislike, save--> name the song)
@@ -23,17 +21,17 @@ int main() {
 void UserInput::feedback() {
 
 	int user_decision = 0;
-	cout << "1. Print the Song\n2. Save the Song\n3. Exit the program" << endl;
-	cin >> user_decision;
+	std::cout << "1. Print the Song\n2. Save the Song\n3. Exit the program" << std::endl;
+	std::cin  >> user_decision;
 
 	if (user_decision == 1) {
-		cout << "Placeholder" << endl;
+		cout << "Placeholder" << std::endl;
 		//call songwriter class and the print() method
 	}
 	else if (user_decision == 2) {
 		string song_name;
-		cout << "Please name the song: " << endl;
-		cin >> song_name;
+		std::cout << "Please name the song: " << std::endl;
+		std::cin  >> song_name;
 
 		UserInput::save(); //method to save the song(i.e., the chord array/vector?
 	}
@@ -42,33 +40,54 @@ void UserInput::feedback() {
 }
 
 void UserInput::save() {
-	// how do we save the song that was generated?
+
 }
 
 void UserInput::playBack() {
 
+	//Checks for valid file names
+	bool          isValidFileName = false;
+	std::ifstream inFile;
+	std::string   token
+
+	while (!isValidFileName) {
+		std::cout << "Please enter the name of the input file:" << std::endl;
+		std::getline(std::cin, fileName);
+		try {
+			inFile.open(fileName);
+			if (!inFile)
+				throw std::runtime_error("File could not be opened");
+		}
+		catch (std::runtime_error e) {
+			std::cout << e.what() << std::endl;
+			continue;
+		}
+
+		isValidFileName = true;
+	}
+
+	while (inFile >> token) {
+		//TODO TURN TOKENS INTO CHORDS THEN ADD TO SONG VECTOR
+	}
 }
 
 //display the 5 moods the user can choose from
 void UserInput::displayMood() {
-	cout << "Moods " << endl;
-	cout << "Boisterous\nCheerful\nWistful\nWhimsical\nAggressive" << endl;
+	std::cout << "Moods " << std::endl;
+	std::cout << "Boisterous\nCheerful\nWistful\nWhimsical\nAggressive" << std::endl;
 }
 
-string UserInput::getMood() {
-	return mood;
+std::string UserInput::getMood() {
+	return this->song_mood;
 }
 
-bool getLike() {
-
-//	return like;
-}
 
 //user picks and sets the mood of the song 
-void UserInput::setMood(string new_mood) {
-	mood = new_mood;
+void UserInput::setMood(string mood) {
+	this->song_mood = mood;
 }
 
+//Should set a like on the current SongWriter Song
 void UserInput::setLike() {
 
 

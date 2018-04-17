@@ -1,8 +1,9 @@
 #pragma once
 
+#include <cstdlib>
+#include <iostream>
 #include <string>
-
-using namespace std;
+#include <fstream>
 
 int main();
 
@@ -15,13 +16,12 @@ namespace UserInput {
 	//Accessors
 	void displayMood();
 	std::string getMood();
-	bool getLike();
 	
 	//Mutators
 	void setMood(std::string mood);
 	void setLike();
 
 //private:
-	std::string mood;
-
+	std::string song_mood;
+	std::string song_name;
 }
