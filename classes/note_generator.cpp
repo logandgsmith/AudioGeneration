@@ -33,7 +33,7 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_
 		has_sharp = true;
 	}
 	int number=has_sharp?base_note[2]:base_note[1]-'0';
-	string note_name=base_note;
+	std::string note_name=base_note;
 	double freq = base_freq;
 
 	keyboard[0].note_frequency = freq;
