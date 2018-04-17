@@ -1,9 +1,9 @@
 #include "../headers/user_input.h"
 
-//using namespace std;
-
 //TESTING/DEBUGGING 
 int main() {
+	//TODO: WRITE A CONSTRUCTOR FOR SONGWRITER THAT DOESN'T TAKE PARAMETERS
+	SongWriter mySongWriter = new SongWriter();
 
 	string song_mood;
 	UserInput::displayMood(); //prints out list of moods for user selection 
@@ -12,7 +12,7 @@ int main() {
 
 	UserInput::setMood(song_mood); 
 
-	//call SongWriter class and play the song generated 
+	//TODO: call SongWriter class and play the song generated 
 	//after song finish playing, ask for feedback (like/dislike, save--> name the song)
 	UserInput::feedback();
 }
@@ -25,7 +25,7 @@ void UserInput::feedback() {
 	std::cin  >> user_decision;
 
 	if (user_decision == 1) {
-		cout << "Placeholder" << std::endl;
+		cout << "Song Notes:" << std::endl;
 		//call songwriter class and the print() method
 	}
 	else if (user_decision == 2) {
@@ -40,10 +40,11 @@ void UserInput::feedback() {
 }
 
 void UserInput::save() {
-
+	//TODO: PRINT THE CURRENT SONGWRITER'S SONG TO A .TXT FILE AND USE SONG_NAME TO STORE IT FOR LATER
 }
 
 void UserInput::playBack() {
+	//TODO: WRITE A FUNCTION TO FIND SONG .TXT FILES 
 
 	//Checks for valid file names
 	bool          isValidFileName = false;
@@ -69,6 +70,8 @@ void UserInput::playBack() {
 	while (inFile >> token) {
 		//TODO TURN TOKENS INTO CHORDS THEN ADD TO SONG VECTOR
 	}
+
+	//TODO: CALL AUDIOGENERATION CLASS TO PLAY THE SONG
 }
 
 //display the 5 moods the user can choose from

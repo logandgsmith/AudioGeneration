@@ -24,4 +24,5 @@ namespace UserInput {
 //private:
 	std::string song_mood;
 	std::string song_name;
+	SongWriter mySongWriter;
 }
