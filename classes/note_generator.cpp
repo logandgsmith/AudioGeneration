@@ -113,8 +113,11 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 	rand_note.note_frequency = getNoteFreq(rn_i);
 	rand_note.note_name = getNoteName(rn_i);
 	
+	/*
 	int rand_note_duration = (rand() % 2) + 1; // notes can be quarter (1 beat) or half (2 beats)
 	rand_note.note_duration = rand_note_duration;
+	*/
+	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
 	
 	return rand_note;
 }
