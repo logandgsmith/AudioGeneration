@@ -3,6 +3,7 @@
 #include "chord.h"
 #include "chord_generator.h"
 #include "note_generator.h"
+#include <cstdlib>
 
 struct selectedChord {
 	int index;
@@ -24,8 +25,7 @@ public:
 	std::string			getMood();
 	Chord				getChord(int index);
 	int					findChord(string chord_name);
-	std::vector<Chord>	getSong();
-	Chord*				getProgression();	//default to C
+	std::vector<Chord*[4]>	getSong();
 
 	//Mutators
 	void               setTempo(int tempo);
@@ -33,7 +33,7 @@ public:
 	void               setMood(std::string mood);
 	void               addChord(Chord new_chord);
 	void               removeChord(int index);
-	std::vector<Chord> generateSong();
+	void			   generateSong();
 	void               printSong();
 	void               clearSong();
 
@@ -42,6 +42,6 @@ private:
 	int                tempo;
 	int                num_measures;
 	std::string        mood;
-	std::vector<Chord> song;
+	std::vector<Chord*[4]> song;
 	ChordGenerator*     myChords; //NEW* 4/2/18 - Jared L.
 };

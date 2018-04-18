@@ -11,7 +11,8 @@ SongWriter::SongWriter(int tempo, int num_measures, std::string mood)
 	SongWriter::setNumMeasures(num_measures);
 	SongWriter::setMood(mood);
 	myChords = new ChordGenerator;
-	this->note_gen = new NoteGenerator;
+	note_gen = new NoteGenerator;
+	vector<Chord*> song();
 }
 
 //Accessors
@@ -30,13 +31,9 @@ Chord SongWriter::getChord(int index)
 	//return specified Chord
 }
 
-std::vector<Chord> SongWriter::getSong() 
+std::vector<Chord*[4]> SongWriter::getSong() 
 {
 	return this->song;
-}
-
-Chord* SongWriter::getProgression() {
-
 }
 
 //Mutators
@@ -66,7 +63,7 @@ void SongWriter::removeChord(int index)
 	//Deletes the indexed Chord
 }
 
-std::vector<Chord> SongWriter::generateSong()
+void SongWriter::generateSong()
 {
 	/*
 	// Measures are assumed to be in common time (4/4)
@@ -85,6 +82,8 @@ std::vector<Chord> SongWriter::generateSong()
 	*/
 	Chord* progA[4];
 	Chord* progB[4];
+	int randNum = 0;
+	//generate progressions
 	for (int i = 0; i < 4; i++) {
 		Chord* in = NULL;
 		if (progression1[i].major) {
@@ -105,7 +104,11 @@ std::vector<Chord> SongWriter::generateSong()
 		}
 		progB[i] = in;
 	}
-	
+	//one chord per measure (4 measures per progression)
+	for (int i = 0; i < num_measures; i+=4) {
+		randNum = rand() % 2;
+		randNum == 0 ? song.push_back(progA) : song.push_back(progB);
+	}
 }
 
 void SongWriter::printSong() 
@@ -117,5 +120,5 @@ void SongWriter::printSong()
 void SongWriter::clearSong() 
 {
 	this->song.clear();
-	this->song = SongWriter::generateSong(); //initialize new song
+	//generateSong(); //initialize new song
 }
