@@ -47,8 +47,10 @@ int main() {
 	if (err != paNoError)
 		goto error;
 
+	std::cout << "Stream Opened" << std::endl;
+
 	//Audio Generation
-	for (int k = 0; k < 3; k++) {
+	for (int k = 0; k < 3; ++k) {
 		err = Pa_StartStream(stream);
 		if (err != paNoError)
 			goto error;
@@ -72,12 +74,12 @@ int main() {
 				goto error;
 		}
 
-		err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
+		err = Pa_StopStream(stream);
 		if (err != paNoError)
 			goto error;
 
-		left_inc++;
-		right_inc++;
+		++left_inc;
+		++right_inc;
 
 		Pa_Sleep(1000);
 	}
@@ -89,6 +91,8 @@ int main() {
 
 	Pa_Terminate();
 	std::cout << "No Error" << std::endl;
+
+	return err;
 
 error:
 	 std::cout << stderr << "An error has occured in the portaudio stream\n";
