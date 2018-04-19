@@ -3,15 +3,16 @@
 #include <iostream>
 #include <math.h>
 #include "../headers/portaudio.h"
+//#include "../headers/song.h"
 
-#define PI (3.14159265)
-#define NUM_SECONDS (1)
-#define SAMPLE_RATE (44100)
-#define FRAMES_PER_BUFFER (64)
+const float PI = 3.14159265f;
+const int NUM_SECONDS = 5;
+const int SAMPLE_RATE = 44100;
+const int FRAMES_PER_BUFFER = 64;
 
-#define TABLE_SIZE (44100)
+const int TABLE_SIZE = 44100;
 
 namespace AudioGeneration {
-	float  sineMaker(int, double);
-	double getFrequency(int);
+	float*   generateWaveform(float frequency);
+	//float* findMelody(Song song);
 };
