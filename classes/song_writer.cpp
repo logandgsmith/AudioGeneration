@@ -116,7 +116,7 @@ void SongWriter::printSong()
 	song current_song = getSong();
 
 	for(int i = 0; i < current_song.size(); i++){
-		for (int j = 0; j < 4; j++){
+		for (int j = 0; j < current_song.at(i).size(); j++){
 
 			//cout << current_song.
 			// we need to complete getChord
