@@ -1,5 +1,4 @@
-#include "note_generator.h"
-#include <algorithm>
+#include "../headers/note_generator.h"
 #include <vector>
 #include <ctime> // To be used for note generator
 
