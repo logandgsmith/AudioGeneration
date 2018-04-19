@@ -121,3 +121,36 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 	
 	return rand_note;
 }
+
+//get note based on the index on the major scale (after removing all the sharps)
+/*
+1=C
+2=D
+3=E
+4=F
+5=G
+6=A
+7=B
+8=C
+*/
+Note NoteGenerator::getNote(int index) {
+	switch (index) {
+	case 1:
+		return keyboard.at(0);
+	case 2:
+		return keyboard.at(2);
+	case 3:
+		return keyboard.at(4);
+	case 4:
+		return keyboard.at(5);
+	case 5:
+		return keyboard.at(7);
+	case 6:
+		return keyboard.at(9);
+	case 7:
+		return keyboard.at(11);
+	case 8:
+		return keyboard.at(12);
+	}
+
+}
