@@ -1,32 +1,21 @@
 #include "../headers/audio_generation.h"
 
 int main() {
-
-	//SetUp PortAudio
+	//PortAudio Setup
 	PaStreamParameters outputParameters;
-	PaStream *stream;
+	PaStream* stream;
 	PaError err;
 	float buffer[FRAMES_PER_BUFFER][2];
-	float sine[TABLE_SIZE];
-	int left_phase = 0;
-	int right_phase = 0;
-	int left_inc = 1;
-	int right_inc = 3;
+	int phase = 0;
 	int bufferCount;
-
-	//Fill Table With Sine Values
-	for (int i = 0; i < TABLE_SIZE; i++)
-	{
-		sine[i] = (float)sin(((double)i / (double)TABLE_SIZE) * PI * 2.);
-	}
 
 	//Initialize the Stream
 	err = Pa_Initialize();
-	if (err != paNoError) 
+	if(err != paNoError)
 		goto error;
 
 	outputParameters.device = Pa_GetDefaultOutputDevice();
-	if (outputParameters.device == paNoDevice) {
+	if(outputParameters.device == paNoDevice) {
 		std::cout << stderr << "Error: No Output Devices Found" << std::endl;
 		goto error;
 	}
@@ -44,49 +33,47 @@ int main() {
 		paClipOff,
 		nullptr,
 		nullptr);
-	if (err != paNoError)
+	if(err != paNoError)
 		goto error;
 
-	std::cout << "Stream Opened" << std::endl;
-
 	//Audio Generation
-	for (int k = 0; k < 3; ++k) {
-		err = Pa_StartStream(stream);
-		if (err != paNoError)
-			goto error;
+	err = Pa_StartStream(stream);
+	if(err != paNoError)
+		goto error;
 
-		bufferCount = ((NUM_SECONDS * SAMPLE_RATE) / FRAMES_PER_BUFFER);
+	//Composite Wave Form for Chord
+	int* waveform_one = AudioGeneration::generateWaveForm();
+	int* waveform_two = AudioGeneration::generateWaveForm();
+	int* waveform_thr = AudioGeneration::generateWaveForm();
+	int* waveform_end = new int[SAMPLE_RATE];
 
-		for (int i = 0; i < bufferCount; i++) {
-			for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
-				buffer[j][0] = sine[left_phase];
-				buffer[j][1] = sine[right_phase];
-				left_phase  += left_inc;
-				if (left_phase >= TABLE_SIZE)
-					left_phase -= TABLE_SIZE;
-				right_phase += right_inc;
-				if (right_phase >= TABLE_SIZE)
-					right_phase -= TABLE_SIZE;
-			}
+	for(int i = 0; i < SAMPLE_RATE; i++)
+		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
 
-			err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
-			if (err != paNoError)
-				goto error;
+	bufferCount = ((duration * SAMPLE_RATE) / FRAMES_PER_BUFFER);
+
+	//Add Waveform to buffer then output
+	for(int i = 0; i < bufferCount; i++) {
+		for(int j = 0; j < FRAMES_PER_BUFFER; j++) {
+			buffer[j][0] = waveform_end[phase];
+			buffer[j][1] = waveform_end[phase];
+			phase++;
+			if (phase >= TABLE_SIZE)
+				phase -= TABLE_SIZE;
 		}
 
-		err = Pa_StopStream(stream);
-		if (err != paNoError)
+		err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
+		if(err != paNoError)
 			goto error;
 
-		++left_inc;
-		++right_inc;
-
-		Pa_Sleep(1000);
 	}
 
-	//Clean Up
+	err = Pa_StopStream(stream);
+	if(err != paNoError)
+		goto error;
+
 	err = Pa_CloseStream(stream);
-	if (err != paNoError)
+	if(err != paNoError)
 		goto error;
 
 	Pa_Terminate();
@@ -95,10 +82,41 @@ int main() {
 	return err;
 
 error:
-	 std::cout << stderr << "An error has occured in the portaudio stream\n";
-	 std::cout << stderr << "Error Number: " << err << std::endl;
-	 std::cout << stderr << "Error Message: " << Pa_GetErrorText(err);
+	std::cout << stderr << "An error has occured in the portaudio stream \n" << std::endl;
+	std::cout << stderr << "Error Number: "  << err << std::endl;
+	std::cout << stderr << "Error Message: " << Pa_GetErrorText(err);
 
-	 Pa_Terminate();
-	 return err;
+	Pa_Terminate();
+	return err;
+}
+
+int* AudioGeneration::generateWaveForm(float frequency, float duration) {
+	int* waveform = new int[SAMPLE_RATE];
+
+	for(int i = 0; i < SAMPLE_RATE; i++)
+		waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency);
+	
+	return waveform;
+}
+
+float* AudioGeneration::findMelody(Song song) {
+	//This is where frequencies of notes will be stored
+	float* melody = new float[SONG_LENGTH];
+
+	//Turns all of the Notes in melody into frequencies
+	for(int i = 0; i < SONG_LENGTH; i++)
+		melody[i] = song->melody.at(i).getFrequency();
+	
+	return melody;
+}
+
+float* AudioGeneration::findHarmony(Song song) {
+	float* harmony = new float[SONG_LENGTH * 3];
+	int index = 0;
+
+	for(int i = 0; i < SONG_LENGTH * 3; i++) {
+		for(int j = 0; j < 3; j++) {
+
+		}
+	}
 }
