@@ -8,21 +8,14 @@
 int main();
 
 namespace UserInput {
-//public:
-	void feedback();
-	void save();
-	void playBack();
 
-	//Accessors
-	void displayMood();
-	std::string getMood();
-	
-	//Mutators
-	void setMood(std::string mood);
-	void setLike();
+//public:
+	void save(string name);
+	void load(string name);
+	void playnewSong();
+
 
 //private:
-	std::string song_mood;
 	std::string song_name;
 	SongWriter mySongWriter;
 }

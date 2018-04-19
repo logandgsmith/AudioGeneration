@@ -49,7 +49,7 @@ void SongWriter::setNumMeasures(int num_measures)
 
 void SongWriter::setMood(std::string mood) 
 {
-	this->mood  = mood;
+	this->mood = mood;
 }
 
 void SongWriter::addChord(Chord new_chord) 
@@ -112,9 +112,25 @@ void SongWriter::generateSong()
 }
 
 void SongWriter::printSong() 
-{
+{	
+	song current_song = getSong();
+
+	for(int i = 0; i < current_song.size(); i++){
+		for (int j = 0; j < current_song.at(i).size(); j++){
+
+			//cout << current_song.
+			// we need to complete getChord
+
+
+
+			//not sure if this will work as intendend...
+		}
+	}
+
+	//if (current_song!= NULL){
+
+
 	//Should display the notes of the song on the console and
-	//get the user to name the song
 }
 
 void SongWriter::clearSong() 

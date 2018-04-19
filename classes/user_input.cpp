@@ -1,48 +1,115 @@
+iostream>
+#include <string> 
+#include <fstream>
 #include "../headers/user_input.h"
 
-//TESTING/DEBUGGING 
-int main() {
-	//TODO: WRITE A CONSTRUCTOR FOR SONGWRITER THAT DOESN'T TAKE PARAMETERS
-	SongWriter mySongWriter = new SongWriter();
 
-	string song_mood;
-	UserInput::displayMood(); //prints out list of moods for user selection 
-	std::cout << "Please pick a mood: " << std::endl;
-	std::cin  >> song_mood;
+int main(){
 
-	UserInput::setMood(song_mood); 
+SongWriter Song_Writer = new SongWriter();
 
-	//TODO: call SongWriter class and play the song generated 
-	//after song finish playing, ask for feedback (like/dislike, save--> name the song)
-	UserInput::feedback();
-}
+string user_input;
+bool run_program = true; 
 
-//user feedback: what the user can do after the song is played
-void UserInput::feedback() {
 
-	int user_decision = 0;
-	std::cout << "1. Print the Song\n2. Save the Song\n3. Exit the program" << std::endl;
-	std::cin  >> user_decision;
 
-	if (user_decision == 1) {
-		cout << "Song Notes:" << std::endl;
-		//call songwriter class and the print() method
+cout << "Welcome to group 9's project!" << endl;
+
+while(run_program){
+
+	cout << "< Please input your desired command >" << endl;
+	cout << "1.Play a new song\n2. Print the song\n3. Save Song\n4.load and play a saved song\n5. Exit prorgram" << endl;
+
+	cin >> user_input;
+
+
+		if(user_input == "1"){
+
+			// do stuff
+
+		}
+
+
+		else if (user_input == "2"){
+
+			cout << "Song notes:" << endl; 
+			// call songwriter class and the print() method
+		}
+
+		else if (user_input == "3"){
+
+			string song_name;
+			cout << "Please name the song:" << endl;
+			cin >> song_name;
+			save(song_name);
+
+		}
+
+		else if (user_input == "4"){
+
+			string song_name; 
+			cout << "Please enter the name of the song you wish to play: "
+			cin >> song_name;
+			load(song_name);
+
+		}
+
+		else if (user_input == "5"){
+
+			cout << "Logging out...";
+			run_program = false;
+
+		}
+
+		else{
+
+			cout << "Invalid input. Please try again" << endl; 
+
+		}
+
 	}
-	else if (user_decision == 2) {
-		string song_name;
-		std::cout << "Please name the song: " << std::endl;
-		std::cin  >> song_name;
+}
 
-		UserInput::save(); //method to save the song(i.e., the chord array/vector?
+
+void UserInput::save(string song_name){
+
+ofstream saveFile(song_name);
+
+
+// getline(cin, printsong()); this is ideally what is supposed to happen. 
+// We still need to work on this on the "song writer class".
+// my logic may be wrong tho, but it will be easy to fix ;).
+
+
+//saveFile << getline(cin, printsong());
+//this is the the function that actually saves the strings.
+
+saveFile.close();
+
+
+}
+
+
+void UserInput::load(string song_name){
+
+ifstream loadFile(song_name);
+
+if(loadFile.is_open()){
+	
+	//do stuff. Call up songwriter perhaps
+
+}
+
+else{
+
+	cout << "The file does not exist. Input another name."
+	return;
+
 	}
-	else if (user_decision == 3) //exit the program
-		exit(0);
+
 }
 
-void UserInput::save() {
-	//TODO: PRINT THE CURRENT SONGWRITER'S SONG TO A .TXT FILE AND USE SONG_NAME TO STORE IT FOR LATER
-}
-
+/*
 void UserInput::playBack() {
 	//TODO: WRITE A FUNCTION TO FIND SONG .TXT FILES 
 
@@ -74,25 +141,4 @@ void UserInput::playBack() {
 	//TODO: CALL AUDIOGENERATION CLASS TO PLAY THE SONG
 }
 
-//display the 5 moods the user can choose from
-void UserInput::displayMood() {
-	std::cout << "Moods " << std::endl;
-	std::cout << "Boisterous\nCheerful\nWistful\nWhimsical\nAggressive" << std::endl;
-}
-
-std::string UserInput::getMood() {
-	return this->song_mood;
-}
-
-
-//user picks and sets the mood of the song 
-void UserInput::setMood(string mood) {
-	this->song_mood = mood;
-}
-
-//Should set a like on the current SongWriter Song
-void UserInput::setLike() {
-
-
-}
-
+*/
