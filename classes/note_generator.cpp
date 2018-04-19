@@ -132,25 +132,29 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 6=A
 7=B
 8=C
+.
+.
+.
+as high as the keyboard gets
 */
 Note NoteGenerator::getNote(int index) {
+	index %= 7;
+	int multiple = index / 7;
 	switch (index) {
 	case 1:
-		return keyboard.at(0);
+		return keyboard.at(0 + multiple * 12);
 	case 2:
-		return keyboard.at(2);
+		return keyboard.at(2 + multiple * 12);
 	case 3:
-		return keyboard.at(4);
+		return keyboard.at(4 + multiple * 12);
 	case 4:
-		return keyboard.at(5);
+		return keyboard.at(5 + multiple * 12);
 	case 5:
-		return keyboard.at(7);
+		return keyboard.at(7 + multiple * 12);
 	case 6:
-		return keyboard.at(9);
+		return keyboard.at(9 + multiple * 12);
 	case 7:
-		return keyboard.at(11);
-	case 8:
-		return keyboard.at(12);
+		return keyboard.at(11 + multiple * 12);
 	}
 
 }
