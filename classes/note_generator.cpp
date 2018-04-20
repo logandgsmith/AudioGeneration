@@ -38,10 +38,6 @@ unsigned char NoteGenerator::getKeyboardSize() {
 <<<<<<< HEAD
 //set all the notes in the keyboard. give each note a note name, frequency, and duration 0
 void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned char num_of_notes) {
-=======
-
-void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_notes) {
->>>>>>> ea459e60a8d2f405acf3e80c67b0e0882541f753
 	char letter = base_note[0];
 	bool has_sharp = false;
 	if (base_note[1] == '#') {
