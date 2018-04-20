@@ -2,8 +2,7 @@
 #include <stdexcept>
 
 //Constructor for triads
-Chord :: Chord(std::string name, Note note_one, Note note_two, Note note_three) {
-//	this->note_generator = new NoteGenerator();
+Chord::Chord(std::string name, Note note_one, Note note_two, Note note_three) {
 
 	this->name = name;
 	this->chord.push_back(note_one);
@@ -12,10 +11,12 @@ Chord :: Chord(std::string name, Note note_one, Note note_two, Note note_three) 
 }
 
 //Accessors
+//return the name of the chord
 std::string Chord::getName() {
 	return name;
 }
 
+//return the first note of the chord
 Note* Chord::getNoteOne() {
 	Note* note;
 	try {
@@ -27,6 +28,7 @@ Note* Chord::getNoteOne() {
 	return note;
 }
 
+//return the second note of the chord
 Note* Chord::getNoteTwo() {
 	Note* note;
 	try {
@@ -38,6 +40,7 @@ Note* Chord::getNoteTwo() {
 	return note;
 }
 
+//return the third note of the chord
 Note* Chord::getNoteThree() {
 	Note* note;
 	try {
@@ -47,4 +50,15 @@ Note* Chord::getNoteThree() {
 		note = nullptr;
 	}
 	return note;
+}
+
+//format the chord to a string, if withNotes is true, the string includes both the chord name and the note names;
+//if withNote is false, the string contains only chord name (same as getName)
+string Chord::printChord(bool withNotes) {
+	string a = "";
+	if (withNotes)
+		a = a + getName() + ": " + getNoteOne()->note_name + " " + getNoteTwo()->note_name + " " + getNoteThree()->note_name;
+	else
+		a = a + getName();
+	return a;
 }

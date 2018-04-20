@@ -10,11 +10,11 @@ NoteGenerator::NoteGenerator() {
 
 //frequncy getter
 double NoteGenerator::getNoteFreq(int index) {
-	return keyboard.at(index).note_frequency;
+	return getNote(index).note_frequency;
 }
 //name getter
 std::string NoteGenerator::getNoteName(int index) {
-	return keyboard.at(index).note_name;
+	return getNote(index).note_name;
 }
 //keyboard vector getter
 std::vector<Note> NoteGenerator::getKeyboard() {
@@ -25,7 +25,8 @@ size_t NoteGenerator::getKeyboardSize() {
 	return this->keyboard.size();
 }
 
-//Mutators  //ERROR MIGHT OCCUR DUE TO ME NOT USING POINTER NOTATION '->'
+//Mutators
+//set all the notes in the keyboard. give each note a note name, frequency, and duration 0
 void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_notes) {
 	char letter = base_note[0];
 	bool has_sharp = false;
@@ -86,9 +87,10 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_
 	}
 }
 
-Note NoteGenerator::getRandomNote(bool is_major_key) {
+//generate a random note in the higher octave only (without sharp)
+Note NoteGenerator::getRandomNote() {
+	/*
 	Note rand_note;
-
 	//	srand(time(NULL));
 	bool valid_key = false;
 	int rn_i; // rn_i is the random note's index
@@ -115,9 +117,13 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 	/*
 	int rand_note_duration = (rand() % 2) + 1; // notes can be quarter (1 beat) or half (2 beats)
 	rand_note.note_duration = rand_note_duration;
-	*/
 	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
-
+	*/
+	
+	//higher octaves
+	Note rand_note;
+	int rand_num = rand() % 7 + 8;
+	rand_note = getNote(rand_num);
 	return rand_note;
 }
 
