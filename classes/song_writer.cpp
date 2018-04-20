@@ -1,11 +1,28 @@
 #include "../headers/song_writer.h"
 #include "../headers/note_generator.h"
 
+#define Num_of_Progressions 4
+/*
 const selectedChord progression1[4] = { selectedChord(0,true), selectedChord(9,false), selectedChord(5,true), selectedChord(7,true) };
 const selectedChord progression2[4] = { selectedChord(0,true), selectedChord(7,true), selectedChord(9,false), selectedChord(5,true) };
+*/
+
+/*Preset major chord progressions
+*https://www.libertyparkmusic.com/common-chord-progressions/
+*https://en.wikipedia.org/wiki/Chord_progression
+*/
+
+int progressions[Num_of_Progressions][4] =
+{
+	{1,6,4,5},
+	{1,5,6,4},
+	{1,4,1,5},
+	{1,4,5,1}
+};
+
 
 //Constructor
-SongWriter::SongWriter(int tempo, int num_measures, std::string mood) 
+SongWriter::SongWriter(int tempo, int num_measures, std::string mood)
 {
 	SongWriter::setTempo(tempo);
 	SongWriter::setNumMeasures(num_measures);
@@ -16,49 +33,49 @@ SongWriter::SongWriter(int tempo, int num_measures, std::string mood)
 }
 
 //Accessors
-int SongWriter::getTempo() 
+int SongWriter::getTempo()
 {
 	return this->tempo;
 }
 
-std::string SongWriter::getMood() 
+std::string SongWriter::getMood()
 {
 	return this->mood;
 }
 
-Chord SongWriter::getChord(int index) 
+Chord SongWriter::getChord(int index)
 {
 	//return specified Chord
 }
 
-std::vector<Chord*[4]> SongWriter::getSong() 
+std::vector<Chord*[4]> SongWriter::getSong()
 {
 	return this->song;
 }
 
 //Mutators
-void SongWriter::setTempo(int tempo) 
+void SongWriter::setTempo(int tempo)
 {
 	this->tempo = tempo;
 }
 
-void SongWriter::setNumMeasures(int num_measures) 
+void SongWriter::setNumMeasures(int num_measures)
 {
 	this->num_measures = num_measures;
 }
 
-void SongWriter::setMood(std::string mood) 
+void SongWriter::setMood(std::string mood)
 {
-	this->mood = mood;
+	this->mood  = mood;
 }
 
-void SongWriter::addChord(Chord new_chord) 
+void SongWriter::addChord(Chord new_chord)
 {
-  
+
 	//Adds a new Chord to the end of the song vector
 }
 
-void SongWriter::removeChord(int index) 
+void SongWriter::removeChord(int index)
 {
 	//Deletes the indexed Chord
 }
@@ -75,11 +92,12 @@ void SongWriter::generateSong()
 		melody.push_back(new_note);
 		i += new_note.note_duration;
 	}
-	
+
 	std::vector<Chord> new_song;
-	
+
 	return new_song;
 	*/
+	/*
 	Chord* progA[4];
 	Chord* progB[4];
 	int randNum = 0;
@@ -87,7 +105,7 @@ void SongWriter::generateSong()
 	for (int i = 0; i < 4; i++) {
 		Chord* in = NULL;
 		if (progression1[i].major) {
-			in = myChords->getMajorTriadChord(note_gen->getNoteName(progression1[i].index));
+			in = myChords->getMajorTriadChord(note_gen->getNoteName(progression1[i].index->note_one->name));
 		}
 		else {
 			in = myChords->getMinorTriadChord(note_gen->getNoteName(progression1[i].index));
@@ -109,32 +127,58 @@ void SongWriter::generateSong()
 		randNum = rand() % 2;
 		randNum == 0 ? song.push_back(progA) : song.push_back(progB);
 	}
+	*/
+
+
 }
 
-void SongWriter::printSong() 
-{	
-	song current_song = getSong();
+/*
+Note SongWriter::getMelodyNotes()
+{
 
-	for(int i = 0; i < current_song.size(); i++){
-		for (int j = 0; j < current_song.at(i).size(); j++){
-
-			//cout << current_song.
-			// we need to complete getChord
-
-
-
-			//not sure if this will work as intendend...
-		}
-	}
-
-	//if (current_song!= NULL){
-
-
+}
+*/
+void SongWriter::printSong()
+{
 	//Should display the notes of the song on the console and
+	//get the user to name the song
 }
 
-void SongWriter::clearSong() 
+void SongWriter::clearSong()
 {
 	this->song.clear();
 	//generateSong(); //initialize new song
+}
+
+int* getHarmony()
+{
+	int* output = &harmony[0];
+	return output;
+}
+
+float* getMelody()
+{
+	float* output = &melody[0];
+	return output;
+}
+
+void writeSong()
+{
+	//srand(time(0));
+
+	for(int i = 0; i < (SONG_LENGTH/4); i++)
+	{
+		int r = rand() % progressions.length(); //change the modulo returned
+		for(int j = 0; j < 4; j++)
+		{
+			harmony.push_back(progressions[r][j]);
+		}
+	}
+	for(int k = 0; k < NUM_MELODY_NOTES; k++ )
+	{
+		Note new_note = this->note_gen->getRandomNote(true);
+		melody.push_back(new_note);
+	}
+
+
 }
