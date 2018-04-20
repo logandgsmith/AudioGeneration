@@ -16,7 +16,6 @@ namespace UserInput {
 	void load(std::string name);
 	void playnewSong();
 
-
 //private:
 	std::string song_name;
 }

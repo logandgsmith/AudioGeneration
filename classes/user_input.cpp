@@ -1,19 +1,20 @@
 #include "../headers/user_input.h"
+#include <limits>
 #include <stdexcept>
 
 int main() 
 {
 	SongWriter s_w();
 
-	unsigned char user_input;
+	char user_input;
 	bool run_program = true; 
 
 	cout << "Welcome to group 9's project!" << endl;
 
 	while(run_program){
 
-		cout << "< Please input your desired command >" << endl;
-		cout 	<< "1.Play a new song" << endl
+		cout 	<< "< Please input your desired command >" << endl;
+		cout 	<< "1. Play a new song" << endl
 				<< "2. Print the song" << endl
 				<< "3. Save Song" << endl
 				<< "4. Load and play a saved song" << endl
@@ -25,23 +26,25 @@ int main()
 		}
 		catch (const std::exception &e)
 		{
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			continue;
 		}
 
 		switch(user_input)
 		{
-			case 1:
+			case '1':
 			{
 				// do stuff
 				break;
 			}
-			case 2:
+			case '2':
 			{
 				cout << "Song notes:" << endl; 
 				// call songwriter class and the print() method
 				break;
 			}
-			case 3:
+			case '3':
 			{
 				std::string song_name;
 				cout << "Please name the song:" << endl;
@@ -49,7 +52,7 @@ int main()
 				UserInput::save(song_name);
 				break;
 			}
-			case 4:
+			case '4':
 			{
 				std::string song_name; 
 				cout << "Please enter the name of the song you wish to play: ";
@@ -58,7 +61,7 @@ int main()
 				UserInput::load(song_name);
 				break;
 			}
-			case 5:
+			case '5':
 			{
 				cout << "Goodbye!" << endl;
 				run_program = false;
@@ -66,7 +69,9 @@ int main()
 			}
 			default:
 			{
-				cout << "Invalid input. Please try again" << endl; 
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				cout << "Invalid input. Please try again" << endl;
 				break;
 			}
 		}
