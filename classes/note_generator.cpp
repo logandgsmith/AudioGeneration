@@ -137,7 +137,7 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 as high as the keyboard gets
 */
 Note NoteGenerator::getNote(int index) {
-	int multiple = index / 7;
+	int multiple = (index - 1) / 7;
 	index %= 7;
 	switch (index) {
 	case 1:
