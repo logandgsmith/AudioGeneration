@@ -1,21 +1,22 @@
 #pragma once
 
 #include <cstdlib>
-#include <iostream>
-#include <string>
 #include <fstream>
+#include <string>
+#include "song_writer.h"
+
+const unsigned char chord_prog_length = 5;
 
 int main();
 
 namespace UserInput {
 
 //public:
-	void save(string name);
-	void load(string name);
+	void save(std::string name);
+	void load(std::string name);
 	void playnewSong();
 
 
 //private:
 	std::string song_name;
-	SongWriter mySongWriter;
 }

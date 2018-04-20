@@ -1,68 +1,79 @@
 #include "../headers/user_input.h"
-#include <string> 
-#include <ios>
 #include <stdexcept>
 
-int main(){
+int main() 
+{
+	SongWriter s_w();
 
-SongWriter Song_Writer = new SongWriter();
+	unsigned char user_input;
+	bool run_program = true; 
 
-string user_input;
-bool run_program = true; 
+	cout << "Welcome to group 9's project!" << endl;
 
-cout << "Welcome to group 9's project!" << endl;
+	while(run_program){
 
-while(run_program){
+		cout << "< Please input your desired command >" << endl;
+		cout 	<< "1.Play a new song" << endl
+				<< "2. Print the song" << endl
+				<< "3. Save Song" << endl
+				<< "4. Load and play a saved song" << endl
+				<< "5. Exit program" << endl;
 
-	cout << "< Please input your desired command >" << endl;
-	cout 	<< "1.Play a new song" << endl
-			<< "2. Print the song" << endl
-			<< "3. Save Song" << endl
-			<< "4. Load and play a saved song" << endl
-			<< "5. Exit program" << endl;
+		try 
+		{
+			cin >> user_input;
+		}
+		catch (const std::exception &e)
+		{
+			continue;
+		}
 
-	try 
-	{
-		cin >> user_input;
-	}
-	catch (const std::exception &e)
-	{
-		continue;
-	}
-
-	case(user_input)
-	{
-		case 1:
-			// do stuff
-			break;
-		case 2:
-			cout << "Song notes:" << endl; 
-			// call songwriter class and the print() method
-			break;
-		case 3:
-			string song_name;
-			cout << "Please name the song:" << endl;
-			cin >> song_name;
-			save(song_name);
-			break;
-		case 4:
-			string song_name; 
-			cout << "Please enter the name of the song you wish to play: "
-			cin >> song_name + ".txt";
-			load(song_name);
-			break;
-		case 5:
-			cout << "Goodbye!" << endl;
-			run_program = false;
-			break;
-		default:
-			cout << "Invalid input. Please try again" << endl; 
-			break;
-	}
+		switch(user_input)
+		{
+			case 1:
+			{
+				// do stuff
+				break;
+			}
+			case 2:
+			{
+				cout << "Song notes:" << endl; 
+				// call songwriter class and the print() method
+				break;
+			}
+			case 3:
+			{
+				std::string song_name;
+				cout << "Please name the song:" << endl;
+				cin >> song_name;
+				UserInput::save(song_name);
+				break;
+			}
+			case 4:
+			{
+				std::string song_name; 
+				cout << "Please enter the name of the song you wish to play: ";
+				cin >> song_name;
+				song_name.append(".txt");
+				UserInput::load(song_name);
+				break;
+			}
+			case 5:
+			{
+				cout << "Goodbye!" << endl;
+				run_program = false;
+				break;
+			}
+			default:
+			{
+				cout << "Invalid input. Please try again" << endl; 
+				break;
+			}
+		}
+	}	
 }
 
-
-void UserInput::save(string song_name){
+void UserInput::save(std::string song_name){
 
 ofstream saveFile(song_name);
 
@@ -81,59 +92,45 @@ saveFile.close();
 }
 
 
-void UserInput::load(string song_name){
+void UserInput::load(std::string song_name){
 
-ifstream loadFile(song_name);
+	ifstream loadFile(song_name);
 
-if(loadFile.is_open()){
+	if(loadFile.is_open())
+	{
+		std::string sheet_music;
+		std::string har;
+		std::string mel;
 
+		getline(loadFile,sheet_music);
 
-	string sheet_music;
-	string har;
-	string mel;
+		cout << sheet_music << endl;
 
-	//const unsigned char chord_prog_length = 5;
+		har = sheet_music.substr(0, (sheet_music.length()/2));
 
-	getline(loadFile,sheet_music);
+		mel = sheet_music.substr((sheet_music.length()/2), sheet_music.length());
 
-	cout << sheet_music << endl;
+		unsigned char harmony [har.length()];
 
-	har = sheet_music.substr(0, (sheet_music.length()/2));
+		unsigned char melody [mel.length()];
 
-	mel = sheet_music.substr((sheet_music.length()/2), sheet_music.length());
-
-	unsigned char harmony [har.length()];
-
-	unsigned char melody [mel.length()];
-
-	for(unsigned char i = 0; i < chord_prog_length; i++){
-
-		unsigned char temp = ((unsigned char)har[i] - 48);
-	
-		harmony[i] = temp;
-
+		for(unsigned char i = 0; i < chord_prog_length; i++)
+		{
+			unsigned char temp = ((unsigned char)har[i] - 48);
+			harmony[i] = temp;
 		}
 
-	for(unsigned char i = 0; i < mel.length; i++){
-
-		unsigned char temp = ((unsigned char)mel[i] - 48);
-
-		melody[i] = temp;
-
+		for(unsigned char i = 0; i < mel.length(); i++)
+		{
+			unsigned char temp = ((unsigned char)mel[i] - 48);
+			melody[i] = temp;
 		}
-
-
 	//Call up songwriter to load unsigned char arrays (I.E. Harmony and Melody)
-
-}
-
-else{
-
-	cout << "The file does not exist. Input another name."
-	return;
-
 	}
-
+	else
+	{
+		cout << "The file for this song does not exist. Please provide another file name.";
+	}
 }
 
 /*
