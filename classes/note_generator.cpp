@@ -16,7 +16,7 @@ NoteGenerator::NoteGenerator() {
 }
 
 //frequncy getter
-double NoteGenerator::getNoteFreq(unsigned char index) {
+float NoteGenerator::getNoteFreq(unsigned char index) {
 	return getNote(index).note_frequency;
 }
 
@@ -36,7 +36,7 @@ unsigned char NoteGenerator::getKeyboardSize() {
 
 //Mutators
 //set all the notes in the keyboard. give each note a note name, frequency, and duration 0
-void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned char num_of_notes) {
+void NoteGenerator::setNote(float base_freq, std::string base_note, unsigned char num_of_notes) {
 	char letter = base_note[0];
 	bool has_sharp = false;
 	if (base_note[1] == '#') {
@@ -44,7 +44,7 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned ch
 	}
 	int number = has_sharp ? base_note[2] : base_note[1] - '0';
 	std::string note_name = base_note;
-	double freq = base_freq;
+	float freq = base_freq;
 	keyboard.push_back(Note());
 	keyboard[0].note_frequency = freq;
 	keyboard[0].note_name = note_name;

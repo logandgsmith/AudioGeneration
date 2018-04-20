@@ -18,56 +18,53 @@ int progressions[Num_of_Progressions][4] =
 
 
 //Constructor
-SongWriter::SongWriter(int tempo, int num_measures)
+SongWriter::SongWriter()
 {
-	SongWriter::setTempo(tempo);
-	SongWriter::setNumMeasures(num_measures);
-	myChords = new ChordGenerator;
 	note_gen = new NoteGenerator;
 	vector<Chord*> song();
+	harmony = vector<unsigned char>();
+	melody = vector<float>();
 }
 
 //Accessors
-int SongWriter::getTempo()
-{
-	return this->tempo;
-}
 
-int* SongWriter::getHarmony()
+unsigned char SongWriter::getHarmony()
 {
-	int* output = &harmony[0];
+	unsigned char output = harmony[0];
 	return output;
 }
 
-float* SongWriter::getMelody()
+float SongWriter::getMelody()
 {
-	float* output = &melody[0];
+	float output = melody[0];
 	return output;
 }
 
 //Mutators
-void SongWriter::setTempo(int tempo)
-{
-	this->tempo = tempo;
-}
-
-void SongWriter::setNumMeasures(int num_measures)
-{
-	this->num_measures = num_measures;
-}
-
+//Can be modified to print more informations in a user-friendly way
 void SongWriter::printSong()
 {
-	//Should display the notes of the song on the console and
-	//get the user to name the song
+	string melodyStr = "";
+	string harmonyStr = "";
+	for (int i = 0; i < melody.size(); i++) {
+		if (i % 16 == 0&&i!=0) {
+			cout << endl;
+		}
+		if (i % 4 == 0) {
+			if (i != 0) {
+				cout << endl;
+			}
+			cout << Chord(*note_gen,harmony.at(i/4)).getName() << endl;
+			
+		}
+		cout << melody.at(i)<<" ";
+	}
 }
 
 void SongWriter::clearSong()
 {
-	//this->song.clear();
-	melody.clear();
-	harmony.clear();
-
+	harmony = vector<unsigned char>();
+	melody = vector<float>();
 }
 
 void SongWriter::writeSong()
@@ -76,7 +73,7 @@ void SongWriter::writeSong()
 
 	for(int i = 0; i < (SONG_LENGTH/4); i++)
 	{
-		int r = rand() % progressions.size(); //change the modulo returned
+		int r = rand() % Num_of_Progressions; //change the modulo returned
 		for(int j = 0; j < 4; j++)
 		{
 			harmony.push_back(progressions[r][j]);
@@ -84,29 +81,29 @@ void SongWriter::writeSong()
 	}
 	for(int k = 0; k < NUM_MELODY_NOTES; k++ )
 	{
-		Note new_note = this->note_gen->getRandomNote(true);
-		melody.push_back(new_note);
+		Note new_note = this->note_gen->getRandomNote();
+		melody.push_back(new_note.note_frequency);
 	}
 
 }
 
-void SongWriter::setMelody(int[] melodyArr)
+void SongWriter::setMelody(unsigned char* melodyArr)
 {
-	melody.clear();
-
-	for (int i = 0; i < melodyArr.size(); i++)
+	melody = vector<float>();
+	int length = sizeof(melodyArr) / sizeof(unsigned char);
+	for (int i=0;i<length;i++)
 	{
-		float temp_note_freq = getNoteFreq(melodyArr[i]);
+		float temp_note_freq = note_gen->getNoteFreq(melodyArr[i]);
 		melody.push_back(temp_note_freq);
 	}
 }
 
-void SongWriter::setHarmony(int[] harmonyArr)
+void SongWriter::setHarmony(unsigned char* harmonyArr)
 {
-	harmony.clear();
-
+	harmony = vector<unsigned char>();
+	int length = sizeof(harmonyArr) / sizeof(unsigned char);
 	//use getNoteFreq to convert int representation of notes back to freq
-	for (int i = 0; i < harmonyArr.size(); i++)
+	for (int i = 0; i < length; i++)
 	{
 		harmony.push_back(harmonyArr[i]);
 	}

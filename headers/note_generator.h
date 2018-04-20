@@ -4,7 +4,7 @@
 
 const size_t default_keyboard_size = 24;
 struct Note {
-	double      note_frequency;
+	float      note_frequency;
 	std::string note_name;
 	int         note_duration;
 };
@@ -18,7 +18,7 @@ public:
 	NoteGenerator();
 
 	//Accessors
-	double				getNoteFreq(unsigned char index);
+	float				getNoteFreq(unsigned char index);
 	std::string			getNoteName(unsigned char index);
 	std::vector<Note>	getKeyboard();
 	unsigned char		getKeyboardSize();
@@ -28,5 +28,5 @@ public:
 
 	//Mutators
 	//starting from the base note with base freq, count numOfNotes notes
-	void setNote(double base_freq, std::string base_note, unsigned char num_of_notes);
+	void setNote(float base_freq, std::string base_note, unsigned char num_of_notes);
 };
