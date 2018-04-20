@@ -46,13 +46,19 @@ int main() {
 		goto error;
 
 	//Composite Wave Form for Chord
-	waveform_one = AudioGeneration::generateWaveform(523.25f);
-	waveform_two = AudioGeneration::generateWaveform(659.26f);
-	waveform_thr = AudioGeneration::generateWaveform(783.99f);
+	waveform_one = AudioGeneration::generateWaveform(261.63f);
+	waveform_two = AudioGeneration::generateWaveform(329.63f);
+	waveform_thr = AudioGeneration::generateWaveform(392.00f);
 	waveform_end = new float[SAMPLE_RATE];
 
-	for (int i = 0; i < SAMPLE_RATE; i++)
+	//Attempting to make the tone sound a little "rounder"
+	for (int i = 0; i < SAMPLE_RATE; i++) {
 		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
+		if(i < SAMPLE_RATE / 2)
+			waveform_end[i] *= 0.001 * i;
+		else if(i > SAMPLE_RATE / 2)
+			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
+	}
 
 	bufferCount = ((NUM_SECONDS * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
@@ -97,33 +103,34 @@ error:
 float* AudioGeneration::generateWaveform(float frequency) {
 	float* waveform = new float[SAMPLE_RATE];
 
-	for (int i = 0; i < SAMPLE_RATE; i++)
+	for (int i = 0; i < SAMPLE_RATE; i++) {
 		waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency);
+	}
 
 	return waveform;
 }
 
-/*
 float* AudioGeneration::findMelody(Song song) {
-//This is where frequencies of notes will be stored
-float* melody = new float[SONG_LENGTH];
+	//This is where frequencies of notes will be stored
+	float* melody = new float[SONG_LENGTH];
 
-//Turns all of the Notes in melody into frequencies
-for(int i = 0; i < SONG_LENGTH; i++)
-melody[i] = song->melody.at(i).getFrequency();
+	//Turns all of the Notes in melody into frequencies
+	for(int i = 0; i < SONG_LENGTH; i++)
+	melody[i] = song->melody.at(i).getFrequency();
 
-return melody;
+	return melody;
 }
 
 
 float* AudioGeneration::findHarmony(Song song) {
-float* harmony = new float[SONG_LENGTH * 3];
-int index = 0;
+	float* harmony = new float[SONG_LENGTH * 3];
+	int index = 0;
 
-for(int i = 0; i < SONG_LENGTH * 3; i++) {
-for(int j = 0; j < 3; j++) {
+	for(int i = 0; i < SONG_LENGTH * 3; i++) {
+		for(int j = 0; j < 3; j++) {
 
+		}
+	}
 }
-}
-}
-*/
+
+
