@@ -1,6 +1,13 @@
 #include "../headers/note_generator.h"
 #include <vector>
 #include <ctime> // To be used for note generator
+#include <stdexcept>
+
+/*
+* Triple slashes ("///") denote a location where the note_duration value 
+* of the struct Note was used. Currently, there is no apparent need for
+* the duration of notes to be stored within their respective struct
+*/
 
 // constructor defaults to the note range starting one octave below middle C (C3) and being 2 octaves
 NoteGenerator::NoteGenerator() {
@@ -9,11 +16,11 @@ NoteGenerator::NoteGenerator() {
 }
 
 //frequncy getter
-double NoteGenerator::getNoteFreq(int index) {
+double NoteGenerator::getNoteFreq(unsigned char index) {
 	return keyboard.at(index).note_frequency;
 }
 //name getter
-std::string NoteGenerator::getNoteName(int index) {
+std::string NoteGenerator::getNoteName(unsigned char index) {
 	return keyboard.at(index).note_name;
 }
 //keyboard vector getter
@@ -21,12 +28,12 @@ std::vector<Note> NoteGenerator::getKeyboard() {
 	return keyboard;
 }
 //keyboard size getter
-size_t NoteGenerator::getKeyboardSize() {
+unsigned char NoteGenerator::getKeyboardSize() {
 	return this->keyboard.size();
 }
 
-//Mutators  //ERROR MIGHT OCCUR DUE TO ME NOT USING POINTER NOTATION '->'
-void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_notes) {
+//Mutators
+void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned char num_of_notes) {
 	char letter = base_note[0];
 	bool has_sharp = false;
 	if (base_note[1] == '#') {
@@ -38,7 +45,7 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_
 	keyboard.push_back(Note());
 	keyboard[0].note_frequency = freq;
 	keyboard[0].note_name = note_name;
-	keyboard[0].note_duration = 0; // the keyboard doesn't have note durations
+///	keyboard[0].note_duration = 0; // the keyboard doesn't have note durations
 	int octave_count = 0;
 	for (int i = 1; i < num_of_notes; i++) {
 		note_name = "";
@@ -82,7 +89,7 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_
 		keyboard.push_back(Note());
 		keyboard[i].note_frequency = freq;
 		keyboard[i].note_name = note_name;
-		keyboard[i].note_duration = 0; // the keyboard doesn't have note durations
+///		keyboard[i].note_duration = 0; // the keyboard doesn't have note durations
 	}
 }
 
@@ -114,9 +121,9 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 
 	/*
 	int rand_note_duration = (rand() % 2) + 1; // notes can be quarter (1 beat) or half (2 beats)
-	rand_note.note_duration = rand_note_duration;
+///	rand_note.note_duration = rand_note_duration;
 	*/
-	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
+///	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
 
 	return rand_note;
 }
@@ -136,8 +143,8 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 .
 as high as the keyboard gets
 */
-Note NoteGenerator::getNote(int index) {
-	int multiple = index / 7;
+Note NoteGenerator::getNote(unsigned char index) {
+	unsigned char multiple = index / 7;
 	index %= 7;
 	switch (index) {
 	case 1:
@@ -152,8 +159,10 @@ Note NoteGenerator::getNote(int index) {
 		return keyboard.at(7 + multiple * 12);
 	case 6:
 		return keyboard.at(9 + multiple * 12);
-	case 0:
+	case 0: // Actually note 7 of the given key
 		return keyboard.at(11 + multiple * 12);
+	default:
+		throw std::domain_error("Invalid note index");
 	}
 
 }

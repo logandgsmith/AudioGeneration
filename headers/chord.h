@@ -1,24 +1,31 @@
 #pragma once
 
 #include "note_generator.h"
-#include <string>
+//#include <string>
 
 using namespace std;
-//this is a test
  
-class Chord {
+class Chord 
+{
 public:
 	//Constructor
-	Chord(std::string name, Note note_one, Note note_two, Note note_three);
+	Chord(NoteGenerator &ng);
+	Chord(NoteGenerator &ng, unsigned char scale_degree); // Constructs a triad
 
 	//Accessors
+	unsigned char getNumNotes();
+	Note getNote(unsigned char index);
+	/*
 	std::string getName();
-	Note* getNoteOne();
-	Note* getNoteTwo();
-	Note* getNoteThree();
+	*/
+	
+	//Mutators
+	void push_back_note(Note n);
+	void push_back_note(unsigned char note_index); // Must be greater than or equal to 1
+	void create_triad(unsigned char scale_degree);
 
 private:
 	std::vector<Note> chord;
-	string name;
-//	NoteGenerator* note_generator;
+	NoteGenerator ng;
+//	string name;
 };

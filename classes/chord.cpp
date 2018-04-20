@@ -1,50 +1,42 @@
 #include "../headers/chord.h"
-#include <stdexcept>
 
 //Constructor for triads
-Chord :: Chord(std::string name, Note note_one, Note note_two, Note note_three) {
-//	this->note_generator = new NoteGenerator();
+Chord::Chord(NoteGenerator &ng) { }
 
-	this->name = name;
-	this->chord.push_back(note_one);
-	this->chord.push_back(note_two);
-	this->chord.push_back(note_three);
+Chord::Chord(NoteGenerator &ng, unsigned char scale_degree)
+{
+	Chord::create_triad(scale_degree);
 }
 
 //Accessors
+Note Chord::getNote(unsigned char index)
+{
+	return this->chord.at(index);
+}
+unsigned char Chord::getNumNotes()
+{
+	return this->chord.size();
+}
+/*
 std::string Chord::getName() {
 	return name;
 }
+*/
 
-Note* Chord::getNoteOne() {
-	Note* note;
-	try {
-		note = &(this->chord.at(0));
-	}
-	catch (const std::out_of_range &e) {
-		note = nullptr;
-	}
-	return note;
+//Mutators
+void Chord::push_back_note(Note n)
+{
+	this->chord.push_back(n);
+}
+void Chord::push_back_note(unsigned char note_index) // Must be greater than or equal to 1
+{
+	this->push_back_note(ng.getNote(note_index));
+}
+void Chord::create_triad(unsigned char scale_degree)
+{
+	this->chord.clear();
+	this->push_back_note(scale_degree);
+	this->push_back_note(scale_degree + 2);
+	this->push_back_note(scale_degree + 4);
 }
 
-Note* Chord::getNoteTwo() {
-	Note* note;
-	try {
-		note = &(this->chord.at(1));
-	}
-	catch (const std::out_of_range &e) {
-		note = nullptr;
-	}
-	return note;
-}
-
-Note* Chord::getNoteThree() {
-	Note* note;
-	try {
-		note = &(this->chord.at(2));
-	}
-	catch (const std::out_of_range &e) {
-		note = nullptr;
-	}
-	return note;
-}
