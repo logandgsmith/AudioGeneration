@@ -7,7 +7,10 @@
 *https://www.libertyparkmusic.com/common-chord-progressions/
 *https://en.wikipedia.org/wiki/Chord_progression
 */
-
+/*
+These are the possible chord progressions we have in this program.
+The numbers represent the position of the root note of each chord in out scale.
+*/
 int progressions[Num_of_Progressions][4] =
 {
 	{1,6,4,5},
@@ -27,16 +30,24 @@ SongWriter::SongWriter()
 }
 
 //Accessors
+int SongWriter::getSongLength() {
+	return SONG_LENGTH;
+}
 
-unsigned char SongWriter::getHarmony()
+unsigned char* SongWriter::getHarmony()
 {
-	unsigned char output = harmony[0];
+	unsigned char* output = &harmony[0];
 	return output;
 }
 
-float SongWriter::getMelody()
+float* SongWriter::getMelody()
 {
-	float output = melody[0];
+	float* output = &melody[0];
+	return output;
+}
+
+unsigned char* SongWriter::getMelodyIndexes() {
+	unsigned char* output = &melody_indexes[0];
 	return output;
 }
 
@@ -65,12 +76,15 @@ void SongWriter::clearSong()
 {
 	harmony = vector<unsigned char>();
 	melody = vector<float>();
+	melody_indexes = vector<unsigned char>();
 }
 
 void SongWriter::writeSong()
 {
 	//srand(time(0));
-
+	harmony = vector<unsigned char>();
+	melody = vector<float>();
+	melody_indexes = vector<unsigned char>();
 	for(int i = 0; i < (SONG_LENGTH/4); i++)
 	{
 		int r = rand() % Num_of_Progressions; //change the modulo returned
@@ -81,18 +95,22 @@ void SongWriter::writeSong()
 	}
 	for(int k = 0; k < NUM_MELODY_NOTES; k++ )
 	{
-		Note new_note = this->note_gen->getRandomNote();
-		melody.push_back(new_note.note_frequency);
+		unsigned char new_index = this->note_gen->getRandomNote();
+		melody.push_back(note_gen->getNote(new_index).note_frequency);
+		melody_indexes.push_back(new_index);
 	}
 
 }
 
 void SongWriter::setMelody(unsigned char* melodyArr)
 {
+	melody_indexes = vector<unsigned char>();
 	melody = vector<float>();
 	int length = sizeof(melodyArr) / sizeof(unsigned char);
+	//use getNoteFreq to convert int representation of notes back to freq
 	for (int i=0;i<length;i++)
 	{
+		melody_indexes.push_back(melodyArr[i]);
 		float temp_note_freq = note_gen->getNoteFreq(melodyArr[i]);
 		melody.push_back(temp_note_freq);
 	}
@@ -102,7 +120,6 @@ void SongWriter::setHarmony(unsigned char* harmonyArr)
 {
 	harmony = vector<unsigned char>();
 	int length = sizeof(harmonyArr) / sizeof(unsigned char);
-	//use getNoteFreq to convert int representation of notes back to freq
 	for (int i = 0; i < length; i++)
 	{
 		harmony.push_back(harmonyArr[i]);

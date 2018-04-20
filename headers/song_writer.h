@@ -15,8 +15,10 @@ public:
 	SongWriter();
 
 	//Accessors
-	unsigned char       getHarmony();
-	float           getMelody(); //gets compatible melody notes with chords in a progression
+	int					getSongLength();
+	unsigned char*		getHarmony();
+	float*				getMelody(); //gets compatible melody notes with chords in a progression
+	unsigned char*		getMelodyIndexes();
 
 	//Mutators
 	void             clearSong();
@@ -30,5 +32,6 @@ private:
 	const int        NUM_MELODY_NOTES = 4 * SONG_LENGTH;
 	NoteGenerator*   note_gen;
 	std::vector<unsigned char> harmony;
-  std::vector<float> melody;
+	std::vector<float> melody;
+	std::vector<unsigned char> melody_indexes;
 };

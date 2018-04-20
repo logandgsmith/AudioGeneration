@@ -97,44 +97,10 @@ void NoteGenerator::setNote(float base_freq, std::string base_note, unsigned cha
 }
 
 //generate a random note in the higher octave only (without sharp)
-Note NoteGenerator::getRandomNote() {
-	/*
-	Note rand_note;
-	//	srand(time(NULL));
-	bool valid_key = false;
-	int rn_i; // rn_i is the random note's index
-	if (is_major_key) {
-	do {
-	rn_i = rand() % (this->keyboard.size());
-	if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 4) || (rn_i % 12 == 5) ||
-	(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10))
-	valid_key = true;
-	} while (valid_key == false);
-	}
-	else {
-	do {
-	rn_i = rand() % (this->keyboard.size());
-	if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 3) || (rn_i % 12 == 5) ||
-	(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10))
-	valid_key = true;
-	} while (valid_key == false);
-	}
-
-	rand_note.note_frequency = getNoteFreq(rn_i);
-	rand_note.note_name = getNoteName(rn_i);
-
-	/*
-	int rand_note_duration = (rand() % 2) + 1; // notes can be quarter (1 beat) or half (2 beats)
-
-	///	rand_note.note_duration = rand_note_duration;
-	///	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
-	*/
-
+unsigned char NoteGenerator::getRandomNote() {
 	//higher octaves
-	Note rand_note;
-	int rand_num = rand() % 7 + 8;
-	rand_note = getNote(rand_num);
-	return rand_note;
+	unsigned char rand_num = rand() % 7 + 8;
+	return rand_num;
 }
 
 //get note based on the index on the major scale (after removing all the sharps)
