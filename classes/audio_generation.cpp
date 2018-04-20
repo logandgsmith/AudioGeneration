@@ -1,6 +1,14 @@
 #include "../headers/audio_generation.h"
 
-int main() {
+/**************************************************
+	This class makes use of the Portaudio library.
+	Portaudio is across platform library that allows 
+	us to use our code on different platforms. 
+	That being said, we are specifically targetting
+	Windows OS running minGW.
+***************************************************/
+
+bool AudioGeneration::play(Song& song) {
 	//PortAudio Setup
 	PaStreamParameters outputParameters;
 	PaStream* stream;
@@ -8,10 +16,13 @@ int main() {
 	float buffer[FRAMES_PER_BUFFER][2];
 	int phase = 0;
 	int bufferCount;
-	float* waveform_one;
-	float* waveform_two;
-	float* waveform_thr;
-	float* waveform_end;
+	chord* harmony;
+	float* melody;
+	float* harmony_current;
+	float* melody_current;
+
+	harmony = song->getHarmony();
+	melody  = song->getMelody();
 
 	//Initialize the Stream
 	err = Pa_Initialize();
@@ -45,37 +56,26 @@ int main() {
 	if (err != paNoError)
 		goto error;
 
-	//Composite Wave Form for Chord
-	waveform_one = AudioGeneration::generateWaveform(261.63f);
-	waveform_two = AudioGeneration::generateWaveform(329.63f);
-	waveform_thr = AudioGeneration::generateWaveform(392.00f);
-	waveform_end = new float[SAMPLE_RATE];
-
-	//Attempting to make the tone sound a little "rounder"
-	for (int i = 0; i < SAMPLE_RATE; i++) {
-		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
-		if(i < SAMPLE_RATE / 2)
-			waveform_end[i] *= 0.001 * i;
-		else if(i > SAMPLE_RATE / 2)
-			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
-	}
-
 	bufferCount = ((NUM_SECONDS * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
-	//Add Waveform to buffer then output
-	for (int i = 0; i < bufferCount; i++) {
-		for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
-			buffer[j][0] = waveform_end[phase];
-			buffer[j][1] = waveform_end[phase];
-			phase++;
-			if (phase >= TABLE_SIZE)
-				phase -= TABLE_SIZE;
+	//Write Waveforms and plays them for each part of a song
+	for(int h = 0; h < song.size(); h++) {
+		harmony_current = AudioGeneration::generateChordWave(harmony[h]);
+		melody_current  = AudioGeneration::generateWaveform(melody[h]);
+		//Add Waveform to buffer then output
+		for (int i = 0; i < bufferCount; i++) {
+			for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
+				buffer[j][0] = harmony_current[phase];
+				buffer[j][1] = melody_current[phase];
+				phase++;
+				if (phase >= TABLE_SIZE)
+					phase -= TABLE_SIZE;
+			}
+
+			err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
+			if (err != paNoError)
+				goto error;
 		}
-
-		err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
-		if (err != paNoError)
-			goto error;
-
 	}
 
 	err = Pa_StopStream(stream);
@@ -91,6 +91,7 @@ int main() {
 
 	return err;
 
+//Handles errors that occur in the PortAudio Stream only
 error:
 	std::cout << stderr << "An error has occured in the portaudio stream \n" << std::endl;
 	std::cout << stderr << "Error Number: " << err << std::endl;
@@ -100,6 +101,7 @@ error:
 	return err;
 }
 
+//Generates a single sine wave of a given frequency
 float* AudioGeneration::generateWaveform(float frequency) {
 	float* waveform = new float[SAMPLE_RATE];
 
@@ -110,27 +112,27 @@ float* AudioGeneration::generateWaveform(float frequency) {
 	return waveform;
 }
 
-float* AudioGeneration::findMelody(Song song) {
-	//This is where frequencies of notes will be stored
-	float* melody = new float[SONG_LENGTH];
+//First finds the frequencies of a chord, then creates the composite waveform
+float* AudioGeneration::generateChordWave(Chord chord) {
+	float* waveform_one;
+	float* waveform_two;
+	float* waveform_thr;
+	float* waveform_end;
 
-	//Turns all of the Notes in melody into frequencies
-	for(int i = 0; i < SONG_LENGTH; i++)
-	melody[i] = song->melody.at(i).getFrequency();
+	waveform_one = AudioGeneration::generateWaveform(chord->getNote(0));
+	waveform_two = AudioGeneration::generateWaveform(chord->getNote(1));
+	waveform_thr = AudioGeneration::generateWaveform(chord->getNote(2));
+	waveform_end = new float[SAMPLE_RATE];
 
-	return melody;
-}
-
-
-float* AudioGeneration::findHarmony(Song song) {
-	float* harmony = new float[SONG_LENGTH * 3];
-	int index = 0;
-
-	for(int i = 0; i < SONG_LENGTH * 3; i++) {
-		for(int j = 0; j < 3; j++) {
-
-		}
+	//Attempting to make the tone sound a little "rounder"
+	for (int i = 0; i < SAMPLE_RATE; i++) {
+		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
+		//The following if/else block will be changed
+		if(i < SAMPLE_RATE / 2)
+			waveform_end[i] *= 0.001 * i;
+		else if(i > SAMPLE_RATE / 2)
+			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
 	}
+
+	return waveform_end;
 }
-
-
