@@ -49,7 +49,7 @@ while(run_program){
 
 			string song_name; 
 			cout << "Please enter the name of the song you wish to play: "
-			cin >> song_name;
+			cin >> song_name + ".txt";
 			load(song_name);
 
 		}
@@ -95,8 +95,44 @@ void UserInput::load(string song_name){
 ifstream loadFile(song_name);
 
 if(loadFile.is_open()){
+
+
+	string sheet_music;
+	string har;
+	string mel;
+
+	//const unsigned char chord_prog_length = 5;
+
+	getline(loadFile,sheet_music);
+
+	cout << sheet_music << endl;
+
+	har = sheet_music.substr(0, (sheet_music.length()/2));
+
+	mel = sheet_music.substr((sheet_music.length()/2), sheet_music.length());
+
+	unsigned char harmony [har.length()];
+
+	unsigned char melody [mel.length()];
+
+	for(unsigned char i = 0; i < chord_prog_length; i++){
+
+		unsigned char temp = ((unsigned char)har[i] - 48);
 	
-	//do stuff. Call up songwriter perhaps
+		harmony[i] = temp;
+
+		}
+
+	for(unsigned char i = 0; i < mel.length; i++){
+
+		unsigned char temp = ((unsigned char)mel[i] - 48);
+
+		melody[i] = temp;
+
+		}
+
+
+	//Call up songwriter to load unsigned char arrays (I.E. Harmony and Melody)
 
 }
 
@@ -108,6 +144,23 @@ else{
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 void UserInput::playBack() {
