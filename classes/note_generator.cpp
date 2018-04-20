@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 /*
-* Triple slashes ("///") denote a location where the note_duration value 
+* Triple slashes ("///") denote a location where the note_duration value
 * of the struct Note was used. Currently, there is no apparent need for
 * the duration of notes to be stored within their respective struct
 */
@@ -17,14 +17,14 @@ NoteGenerator::NoteGenerator() {
 
 //frequncy getter
 double NoteGenerator::getNoteFreq(unsigned char index) {
-	return keyboard.at(index).note_frequency;
+	return getNote(index).note_frequency;
 }
-/*
+
 //name getter
 std::string NoteGenerator::getNoteName(unsigned char index) {
-	return keyboard.at(index).note_name;
-*/
+	return getNote(index).note_name;
 }
+
 //keyboard vector getter
 std::vector<Note> NoteGenerator::getKeyboard() {
 	return keyboard;
@@ -35,7 +35,6 @@ unsigned char NoteGenerator::getKeyboardSize() {
 }
 
 //Mutators
-<<<<<<< HEAD
 //set all the notes in the keyboard. give each note a note name, frequency, and duration 0
 void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned char num_of_notes) {
 	char letter = base_note[0];
@@ -49,7 +48,7 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned ch
 	keyboard.push_back(Note());
 	keyboard[0].note_frequency = freq;
 	keyboard[0].note_name = note_name;
-///	keyboard[0].note_duration = 0; // the keyboard doesn't have note durations
+	///	keyboard[0].note_duration = 0; // the keyboard doesn't have note durations
 	int octave_count = 0;
 	for (int i = 1; i < num_of_notes; i++) {
 		note_name = "";
@@ -93,7 +92,7 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned ch
 		keyboard.push_back(Note());
 		keyboard[i].note_frequency = freq;
 		keyboard[i].note_name = note_name;
-///		keyboard[i].note_duration = 0; // the keyboard doesn't have note durations
+		///		keyboard[i].note_duration = 0; // the keyboard doesn't have note durations
 	}
 }
 
@@ -105,20 +104,20 @@ Note NoteGenerator::getRandomNote() {
 	bool valid_key = false;
 	int rn_i; // rn_i is the random note's index
 	if (is_major_key) {
-		do {
-			rn_i = rand() % (this->keyboard.size());
-			if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 4) || (rn_i % 12 == 5) ||
-				(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10))
-				valid_key = true;
-		} while (valid_key == false);
+	do {
+	rn_i = rand() % (this->keyboard.size());
+	if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 4) || (rn_i % 12 == 5) ||
+	(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10))
+	valid_key = true;
+	} while (valid_key == false);
 	}
 	else {
-		do {
-			rn_i = rand() % (this->keyboard.size());
-			if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 3) || (rn_i % 12 == 5) ||
-				(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10))
-				valid_key = true;
-		} while (valid_key == false);
+	do {
+	rn_i = rand() % (this->keyboard.size());
+	if ((rn_i % 12 == 0) || (rn_i % 12 == 2) || (rn_i % 12 == 3) || (rn_i % 12 == 5) ||
+	(rn_i % 12 == 7) || (rn_i % 12 == 8) || (rn_i % 12 == 10))
+	valid_key = true;
+	} while (valid_key == false);
 	}
 
 	rand_note.note_frequency = getNoteFreq(rn_i);
@@ -127,10 +126,10 @@ Note NoteGenerator::getRandomNote() {
 	/*
 	int rand_note_duration = (rand() % 2) + 1; // notes can be quarter (1 beat) or half (2 beats)
 
-///	rand_note.note_duration = rand_note_duration;
-///	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
+	///	rand_note.note_duration = rand_note_duration;
+	///	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
 	*/
-	
+
 	//higher octaves
 	Note rand_note;
 	int rand_num = rand() % 7 + 8;

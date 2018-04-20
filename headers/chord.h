@@ -4,8 +4,8 @@
 //#include <string>
 
 using namespace std;
- 
-class Chord 
+
+class Chord
 {
 public:
 	//Constructor
@@ -15,11 +15,9 @@ public:
 	//Accessors
 	unsigned char getNumNotes();
 	Note getNote(unsigned char index);
-	/*
 	std::string getName();
-<<<<<<< HEAD
-	*/
-	
+	string printChord(bool withNotes);
+
 	//Mutators
 	void push_back_note(Note n);
 	void push_back_note(unsigned char note_index); // Must be greater than or equal to 1
@@ -28,5 +26,5 @@ public:
 private:
 	std::vector<Note> chord;
 	NoteGenerator ng;
-//	string name;
+	string name;
 };
