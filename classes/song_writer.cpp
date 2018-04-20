@@ -2,10 +2,6 @@
 #include "../headers/note_generator.h"
 
 #define Num_of_Progressions 4
-/*
-const selectedChord progression1[4] = { selectedChord(0,true), selectedChord(9,false), selectedChord(5,true), selectedChord(7,true) };
-const selectedChord progression2[4] = { selectedChord(0,true), selectedChord(7,true), selectedChord(9,false), selectedChord(5,true) };
-*/
 
 /*Preset major chord progressions
 *https://www.libertyparkmusic.com/common-chord-progressions/
@@ -37,14 +33,16 @@ int SongWriter::getTempo()
 	return this->tempo;
 }
 
-Chord SongWriter::getChord(int index)
+int* SongWriter::getHarmony()
 {
-	//return specified Chord
+	int* output = &harmony[0];
+	return output;
 }
 
-std::vector<Chord*[4]> SongWriter::getSong()
+float* SongWriter::getMelody()
 {
-	return this->song;
+	float* output = &melody[0];
+	return output;
 }
 
 //Mutators
@@ -58,75 +56,6 @@ void SongWriter::setNumMeasures(int num_measures)
 	this->num_measures = num_measures;
 }
 
-void SongWriter::addChord(Chord new_chord)
-{
-
-	//Adds a new Chord to the end of the song vector
-}
-
-void SongWriter::removeChord(int index)
-{
-	//Deletes the indexed Chord
-}
-
-void SongWriter::generateSong()
-{
-	/*
-	// Measures are assumed to be in common time (4/4)
-	int max_num_quarter_notes = 4 * num_measures;
-	std::vector<Note> melody;
-	for(int i = 0; i < max_num_quarter_notes; )
-	{
-		Note new_note = this->note_gen->getRandomNote(true); // Will be in the major key
-		melody.push_back(new_note);
-		i += new_note.note_duration;
-	}
-
-	std::vector<Chord> new_song;
-
-	return new_song;
-	*/
-	/*
-	Chord* progA[4];
-	Chord* progB[4];
-	int randNum = 0;
-	//generate progressions
-	for (int i = 0; i < 4; i++) {
-		Chord* in = NULL;
-		if (progression1[i].major) {
-			in = myChords->getMajorTriadChord(note_gen->getNoteName(progression1[i].index->note_one->name));
-		}
-		else {
-			in = myChords->getMinorTriadChord(note_gen->getNoteName(progression1[i].index));
-		}
-		progA[i] = in;
-	}
-	for (int i = 0; i < 4; i++) {
-		Chord* in = NULL;
-		if (progression2[i].major) {
-			in = myChords->getMajorTriadChord(note_gen->getNoteName(progression2[i].index));
-		}
-		else {
-			in = myChords->getMinorTriadChord(note_gen->getNoteName(progression2[i].index));
-		}
-		progB[i] = in;
-	}
-	//one chord per measure (4 measures per progression)
-	for (int i = 0; i < num_measures; i+=4) {
-		randNum = rand() % 2;
-		randNum == 0 ? song.push_back(progA) : song.push_back(progB);
-	}
-	*/
-
-
-}
-
-/*
-Note SongWriter::getMelodyNotes()
-{
-
-}
-*/
 void SongWriter::printSong()
 {
 	//Should display the notes of the song on the console and
@@ -135,29 +64,19 @@ void SongWriter::printSong()
 
 void SongWriter::clearSong()
 {
-	this->song.clear();
-	//generateSong(); //initialize new song
+	//this->song.clear();
+	melody.clear();
+	harmony.clear();
+
 }
 
-int* getHarmony()
-{
-	int* output = &harmony[0];
-	return output;
-}
-
-float* getMelody()
-{
-	float* output = &melody[0];
-	return output;
-}
-
-void writeSong()
+void SongWriter::writeSong()
 {
 	//srand(time(0));
 
 	for(int i = 0; i < (SONG_LENGTH/4); i++)
 	{
-		int r = rand() % progressions.length(); //change the modulo returned
+		int r = rand() % progressions.size(); //change the modulo returned
 		for(int j = 0; j < 4; j++)
 		{
 			harmony.push_back(progressions[r][j]);
@@ -169,5 +88,26 @@ void writeSong()
 		melody.push_back(new_note);
 	}
 
+}
 
+void SongWriter::setMelody(int[] melodyArr)
+{
+	melody.clear();
+
+	for (int i = 0; i < melodyArr.size(); i++)
+	{
+		float temp_note_freq = getNoteFreq(melodyArr[i]);
+		melody.push_back(temp_note_freq);
+	}
+}
+
+void SongWriter::setHarmony(int[] harmonyArr)
+{
+	harmony.clear();
+
+	//use getNoteFreq to convert int representation of notes back to freq
+	for (int i = 0; i < harmonyArr.size(); i++)
+	{
+		harmony.push_back(harmonyArr[i]);
+	}
 }
