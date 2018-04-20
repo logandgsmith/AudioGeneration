@@ -1,8 +1,8 @@
 iostream>
+#include "../headers/user_input.h"
 #include <string> 
 #include <fstream>
-#include "../headers/user_input.h"
-
+#include <stdexcept>
 
 int main(){
 
@@ -11,62 +11,54 @@ SongWriter Song_Writer = new SongWriter();
 string user_input;
 bool run_program = true; 
 
-
-
 cout << "Welcome to group 9's project!" << endl;
 
 while(run_program){
 
 	cout << "< Please input your desired command >" << endl;
-	cout << "1.Play a new song\n2. Print the song\n3. Save Song\n4.load and play a saved song\n5. Exit prorgram" << endl;
+	cout 	<< "1.Play a new song" << endl
+			<< "2. Print the song" << endl
+			<< "3. Save Song" << endl
+			<< "4. Load and play a saved song" << endl
+			<< "5. Exit program" << endl;
 
-	cin >> user_input;
+	try 
+	{
+		cin >> user_input;
+	}
+	catch (const std::exception &e)
+	{
+		continue;
+	}
 
-
-		if(user_input == "1"){
-
+	case(user_input)
+	{
+		case 1:
 			// do stuff
-
-		}
-
-
-		else if (user_input == "2"){
-
+			break;
+		case 2:
 			cout << "Song notes:" << endl; 
 			// call songwriter class and the print() method
-		}
-
-		else if (user_input == "3"){
-
+			break;
+		case 3:
 			string song_name;
 			cout << "Please name the song:" << endl;
 			cin >> song_name;
 			save(song_name);
-
-		}
-
-		else if (user_input == "4"){
-
+			break;
+		case 4:
 			string song_name; 
 			cout << "Please enter the name of the song you wish to play: "
 			cin >> song_name + ".txt";
 			load(song_name);
-
-		}
-
-		else if (user_input == "5"){
-
-			cout << "Logging out...";
+			break;
+		case 5:
+			cout << "Goodbye!" << endl;
 			run_program = false;
-
-		}
-
-		else{
-
+			break;
+		default:
 			cout << "Invalid input. Please try again" << endl; 
-
-		}
-
+			break;
 	}
 }
 
@@ -144,23 +136,6 @@ else{
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 void UserInput::playBack() {
