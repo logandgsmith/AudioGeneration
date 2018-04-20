@@ -17,6 +17,7 @@ public:
 	Note getNote(unsigned char index);
 	/*
 	std::string getName();
+<<<<<<< HEAD
 	*/
 	
 	//Mutators

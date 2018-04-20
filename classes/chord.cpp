@@ -18,6 +18,9 @@ unsigned char Chord::getNumNotes()
 	return this->chord.size();
 }
 /*
+=======
+//return the name of the chord
+>>>>>>> ea459e60a8d2f405acf3e80c67b0e0882541f753
 std::string Chord::getName() {
 	return name;
 }
@@ -40,3 +43,15 @@ void Chord::create_triad(unsigned char scale_degree)
 	this->push_back_note(scale_degree + 4);
 }
 
+/*
+//format the chord to a string, if withNotes is true, the string includes both the chord name and the note names;
+//if withNote is false, the string contains only chord name (same as getName)
+string Chord::printChord(bool withNotes) {
+	string a = "";
+	if (withNotes)
+		a = a + getName() + ": " + getNote(0)->note_name + " " + getNote(1)->note_name + " " + getNote(2)->note_name;
+	else
+		a = a + getName();
+	return a;
+*/
+}

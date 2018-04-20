@@ -19,9 +19,11 @@ NoteGenerator::NoteGenerator() {
 double NoteGenerator::getNoteFreq(unsigned char index) {
 	return keyboard.at(index).note_frequency;
 }
+/*
 //name getter
 std::string NoteGenerator::getNoteName(unsigned char index) {
 	return keyboard.at(index).note_name;
+*/
 }
 //keyboard vector getter
 std::vector<Note> NoteGenerator::getKeyboard() {
@@ -33,7 +35,13 @@ unsigned char NoteGenerator::getKeyboardSize() {
 }
 
 //Mutators
+<<<<<<< HEAD
+//set all the notes in the keyboard. give each note a note name, frequency, and duration 0
 void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned char num_of_notes) {
+=======
+
+void NoteGenerator::setNote(double base_freq, std::string base_note, int num_of_notes) {
+>>>>>>> ea459e60a8d2f405acf3e80c67b0e0882541f753
 	char letter = base_note[0];
 	bool has_sharp = false;
 	if (base_note[1] == '#') {
@@ -93,9 +101,10 @@ void NoteGenerator::setNote(double base_freq, std::string base_note, unsigned ch
 	}
 }
 
-Note NoteGenerator::getRandomNote(bool is_major_key) {
+//generate a random note in the higher octave only (without sharp)
+Note NoteGenerator::getRandomNote() {
+	/*
 	Note rand_note;
-
 	//	srand(time(NULL));
 	bool valid_key = false;
 	int rn_i; // rn_i is the random note's index
@@ -121,10 +130,15 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 
 	/*
 	int rand_note_duration = (rand() % 2) + 1; // notes can be quarter (1 beat) or half (2 beats)
-///	rand_note.note_duration = rand_note_duration;
-	*/
-///	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
 
+///	rand_note.note_duration = rand_note_duration;
+///	rand_note.note_duration = 1; // Melody notes will only last a quarter beat
+	*/
+	
+	//higher octaves
+	Note rand_note;
+	int rand_num = rand() % 7 + 8;
+	rand_note = getNote(rand_num);
 	return rand_note;
 }
 
@@ -144,7 +158,7 @@ Note NoteGenerator::getRandomNote(bool is_major_key) {
 as high as the keyboard gets
 */
 Note NoteGenerator::getNote(unsigned char index) {
-	unsigned char multiple = index / 7;
+	unsigned char multiple = (index - 1) / 7;
 	index %= 7;
 	switch (index) {
 	case 1:
