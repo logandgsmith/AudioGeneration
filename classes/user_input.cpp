@@ -6,7 +6,10 @@
 
 int main() 
 {
-	SongWriter s_w();
+
+	SongWriter
+
+	//SongWriter s_w();
 
 	char user_input;
 	bool run_program = true; 
@@ -15,12 +18,15 @@ int main()
 
 	while(run_program){
 
-		cout 	<< "< Please input your desired command >" << endl;
-		cout 	<< "1. Play a new song" << endl
-				<< "2. Print the song" << endl
-				<< "3. Save Song" << endl
-				<< "4. Load and play a saved song" << endl
-				<< "5. Exit program" << endl;
+
+		cout 	<< "****************************************" << endl;
+		cout 	<< " < Please input your desired command >" << endl;
+		cout 	<< " 1. Play a new song" << endl
+				<< " 2. Print the song" << endl
+				<< " 3. Save Song" << endl
+				<< " 4. Load and play a saved song" << endl
+				<< " 5. Exit program" << endl;
+		cout 	<< "****************************************"; 
 
 		try 
 		{
@@ -80,7 +86,7 @@ int main()
 	}	
 }
 
-void UserInput::save(std::string song_name){
+void UserInput::save(std::string song_name, unsigned char* sheet_music){
 
 ofstream saveFile(song_name);
 
