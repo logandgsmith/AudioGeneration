@@ -115,34 +115,34 @@ int main()
 
 void UserInput::save(std::string song_name, unsigned char* harmony, unsigned char* melody){
 
-ofstream saveFile(song_name + ".txt");
+	ofstream saveFile(song_name + ".txt");
 
-for(int i = 0; i < (int)(sizeof(harmony)/sizeof(harmony[0])); i++){
+	for(int i = 0; i < (int)(sizeof(harmony)/sizeof(harmony[0])); i++){
 
-	saveFile << (char)(harmony[i] + 48);
+		saveFile << (char)(harmony[i] + 48);
 
-}
-
-
-for(int i = 0; i < (int)(sizeof(melody)/sizeof(melody[0])); i++){
-
-	saveFile << (char)(melody[i] + 48);
-
-}
-
-saveFile.close();
+	}
 
 
+	for(int i = 0; i < (int)(sizeof(melody)/sizeof(melody[0])); i++){
 
-// getline(cin, printsong()); this is ideally what is supposed to happen. 
-// We still need to work on this on the "song writer class".
-// my logic may be wrong tho, but it will be easy to fix ;).
+		saveFile << (char)(melody[i] + 48);
+
+	}
+
+	saveFile.close();
 
 
-//saveFile << getline(cin, printsong());
-//this is the the function that actually saves the strings.
 
-saveFile.close();
+	// getline(cin, printsong()); this is ideally what is supposed to happen. 
+	// We still need to work on this on the "song writer class".
+	// my logic may be wrong tho, but it will be easy to fix ;).
+
+
+	//saveFile << getline(cin, printsong());
+	//this is the the function that actually saves the strings.
+
+	saveFile.close();
 
 }
 
@@ -158,8 +158,6 @@ void UserInput::load(SongWriter song, std::string song_name){
 		std::string mel; // Melody data as a std::string
 
 		getline(loadFile,sheet_music);
-
-		cout << sheet_music << endl;
 		
 		// The songs are in common time (4/4) w/ all melody notes as quarter notes and all chords as whole notes
 		// Hence, for every 4 chords there are 16 melody notes, so only the first fifth are harmony notes
@@ -179,10 +177,12 @@ void UserInput::load(SongWriter song, std::string song_name){
 
 		song.setHarmony(harmony);
 		song.setMelody(melody);
+
+		AudioGeneration::play(song);
 	}
 	else
 	{
-		cout << "The file for this song does not exist. Please provide another file name.";
+		std::cout << "The file for this song does not exist. Please provide another file name. \n" << std::endl;
 	}
 }
 
