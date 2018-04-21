@@ -3,6 +3,13 @@
 #include <ctime> // To be used for note generator
 #include <stdexcept>
 
+/**************************************************
+This class defines a struct called Note, which
+contains the note name and note frequency. The
+note generator generates and contains a certain 
+number of 
+***************************************************/
+
 /*
 * Triple slashes ("///") denote a location where the note_duration value
 * of the struct Note was used. Currently, there is no apparent need for

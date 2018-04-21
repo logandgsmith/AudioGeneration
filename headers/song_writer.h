@@ -20,6 +20,7 @@ public:
 	float*         getMelody(); //gets compatible melody notes with chords in a progression
 	unsigned char* getMelodyIndexes();
 	Chord*         getChords();
+	bool		   isEmpty();
 
 	//Mutators
 	void           clearSong();

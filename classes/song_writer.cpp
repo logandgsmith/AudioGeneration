@@ -204,3 +204,7 @@ Chord* SongWriter::getChords() {
 
 	return harmony_chords;
 }
+
+bool SongWriter::isEmpty() {
+	return harmony.size() == 0;
+}
