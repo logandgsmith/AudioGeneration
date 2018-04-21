@@ -21,11 +21,9 @@ int main() {
 bool AudioGeneration::play(SongWriter song) {
 	//PortAudio Setup
 	PaStreamParameters outputParameters;
-	PaStream* stream_one;
-	PaStream* stream_two;
+	PaStream* stream;
 	PaError err;
-	float harmony_buffer[FRAMES_PER_BUFFER][1];
-	float melody_buffer[FRAMES_PER_BUFFER][1];
+	float buffer[FRAMES_PER_BUFFER][2];
 	int phase = 0;
 	int bufferCount;
 	//Song Info
@@ -52,22 +50,8 @@ bool AudioGeneration::play(SongWriter song) {
 	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 	outputParameters.hostApiSpecificStreamInfo = nullptr;
 
-    //STREAM ONE: HARMONY
 	err = Pa_OpenStream(
-		&stream_one,
-		nullptr,
-		&outputParameters,
-		SAMPLE_RATE,
-		FRAMES_PER_BUFFER,
-		paNoFlag,
-		nullptr,
-		nullptr);
-	if (err != paNoError)
-		goto error;
-
-	//STREAM TWO: MELODY
-	err = Pa_OpenStream(
-		&stream_two,
+		&stream,
 		nullptr,
 		&outputParameters,
 		SAMPLE_RATE,
@@ -79,30 +63,25 @@ bool AudioGeneration::play(SongWriter song) {
 		goto error;
 
 	//Audio Generation
+	err = Pa_StartStream(stream);
+		if (err != paNoError)
+			goto error;
+		
 	bufferCount = ((NOTE_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
 	//Write Waveforms and plays them for each part of a song
 	for(int h = 0; h < AUDIO_LENGTH; h++) {
 
-		if(h % 4 == 0) {
-			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
-	
-			err = Pa_StartStream(stream_one);
-			if (err != paNoError)
-				goto error;
-		}
-
 		melody_current = AudioGeneration::generateWaveform(melody[h]);
 
-		err = Pa_StartStream(stream_two);
-		if (err != paNoError)
-			goto error;
+		if(h % 4 == 0)
+			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
 
 		//Add Waveform to buffer then output
 		for (int i = 0; i < bufferCount; i++) {
 			for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
-				harmony_buffer[j][0] = harmony_current[phase];
-				melody_buffer[j][0]  = melody_current[phase];
+				buffer[j][0] = harmony_current[phase];
+				buffer[j][1] = melody_current[phase];
 				
 				phase++;
 
@@ -110,32 +89,18 @@ bool AudioGeneration::play(SongWriter song) {
 					phase -= TABLE_SIZE;
 			}
 
-			err = Pa_WriteStream(stream_one, harmony_buffer, FRAMES_PER_BUFFER);
-			if (err != paNoError)
-				goto error;
-
-			err = Pa_WriteStream(stream_two, melody_buffer, FRAMES_PER_BUFFER);
+			err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
 			if (err != paNoError)
 				goto error;
 		}
 
-		if(h % 3 == 0 && h != 0) {
-			err = Pa_StopStream(stream_one);
-			if (err != paNoError)
-				goto error;
-		}
-
-
-		err = Pa_StopStream(stream_two);
-		if (err != paNoError)
-			goto error;
 	}
 
-	err = Pa_CloseStream(stream_one);
-	if (err != paNoError)
+	err = Pa_StopStream(stream);
+		if (err != paNoError)
 		goto error;
 
-	err = Pa_CloseStream(stream_two);
+	err = Pa_CloseStream(stream);
 	if (err != paNoError)
 		goto error;
 
