@@ -99,7 +99,7 @@ void NoteGenerator::setNote(float base_freq, std::string base_note, unsigned cha
 //generate a random note in the higher octave only (without sharp)
 unsigned char NoteGenerator::getRandomNote() {
 	//higher octaves
-	unsigned char rand_num = rand() % 28+1;
+	unsigned char rand_num = rand() % 7+8;
 	return rand_num;
 }
 

@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-const size_t default_keyboard_size = 48;
+const size_t default_keyboard_size = 24;
 struct Note {
 	float      note_frequency;
 	std::string note_name;
