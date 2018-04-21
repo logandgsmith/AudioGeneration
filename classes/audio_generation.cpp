@@ -64,15 +64,15 @@ bool AudioGeneration::play(SongWriter song) {
 
 	//Audio Generation
 	err = Pa_StartStream(stream);
-	if (err != paNoError)
-		goto error;
-
+		if (err != paNoError)
+			goto error;
+		
 	bufferCount = ((NOTE_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
 	//Write Waveforms and plays them for each part of a song
-	for(int h = 0; h < AUDIO_LENGTH; h += 2) {
+	for(int h = 0; h < AUDIO_LENGTH; h++) {
 
-		melody_current = AudioGeneration::generateWaveform(melody[h], melody[h+1]);
+		melody_current = AudioGeneration::generateWaveform(melody[h]);
 
 		if(h % 4 == 0)
 			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
@@ -93,10 +93,11 @@ bool AudioGeneration::play(SongWriter song) {
 			if (err != paNoError)
 				goto error;
 		}
+
 	}
 
 	err = Pa_StopStream(stream);
-	if (err != paNoError)
+		if (err != paNoError)
 		goto error;
 
 	err = Pa_CloseStream(stream);
@@ -124,23 +125,6 @@ float* AudioGeneration::generateWaveform(float frequency) {
 
 	for (int i = 0; i < SAMPLE_RATE; i++) {
 		waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency);
-	}
-
-	return waveform;
-}
-
-//Creates 2 notes on the same wave (for shorter notes)
-float* AudioGeneration::generateWaveform(float frequency_one, float frequency_two) {
-	int midway_break = SAMPLE_RATE / 2;
-	float* waveform = new float[SAMPLE_RATE];
-
-	for (int i = 0; i < SAMPLE_RATE; i++) {
-		if(i < midway_break)
-			waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency_one);
-		else if(i == midway_break)
-			waveform[i] = 0;
-		else
-			waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency_two);
 	}
 
 	return waveform;
