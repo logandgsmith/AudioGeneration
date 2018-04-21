@@ -12,6 +12,7 @@
 int main() {
 	SongWriter sw = SongWriter();
 	sw.writeSong();
+	sw.printSong();
 
 	AudioGeneration::play(sw);
 }
@@ -66,7 +67,7 @@ bool AudioGeneration::play(SongWriter song) {
 	if (err != paNoError)
 		goto error;
 
-	bufferCount = ((MELODY_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
+	bufferCount = ((NOTE_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
 	//Write Waveforms and plays them for each part of a song
 	for(int h = 0; h < AUDIO_LENGTH; h++) {
@@ -79,7 +80,7 @@ bool AudioGeneration::play(SongWriter song) {
 		//Add Waveform to buffer then output
 		for (int i = 0; i < bufferCount; i++) {
 			for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
-				buffer[j][0] = harmony_current[phase];
+				buffer[j][0] = melody_current[phase];
 				buffer[j][1] = melody_current[phase];
 				phase++;
 				if (phase >= TABLE_SIZE)

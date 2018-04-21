@@ -7,8 +7,7 @@
 
 //Declaration of Constants
 const float PI                = 3.14159265f;
-const int 	HARMONY_TIME      = 4;
-const int   MELODY_TIME       = 1;
+const int   NOTE_TIME         = 1;
 const int 	SAMPLE_RATE       = 44100;
 const int 	FRAMES_PER_BUFFER = 64;
 const int 	TABLE_SIZE        = 75;
