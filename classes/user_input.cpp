@@ -51,6 +51,28 @@ int main()
 			}
 			case '2':
 			{
+				if(song.isEmpty()) {
+					std::cout << "There is no song to print yet. Try writing one!" << std::endl;
+					break;
+				}
+
+				bool isValid = false;
+				std::string response;
+
+				while(!isValid) {
+					std::cout << "Would you like note names included (y/n)?" << std::endl;
+					std::cin  >> response;
+					if(response.compare("y") == 0 || response.compare("Y") == 0) {
+						song.printsong(true);
+						isValid = true;
+					}
+					else if(response.compare("n") == 0 || response.compare("N") == 0)
+						song.printsong(false);
+						isValid = true;
+					else
+						std::cout << "That was not a valid response. Please try again." << std::endl;
+				}
+
 				std::cout << "Song notes:" << std::endl; 
 				song.printSong();
 				break;
@@ -103,7 +125,6 @@ ofstream saveFile(song_name);
 //this is the the function that actually saves the strings.
 
 saveFile.close();
-
 
 }
 
