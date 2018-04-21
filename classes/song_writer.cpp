@@ -127,7 +127,7 @@ void SongWriter::setHarmony(unsigned char* harmonyArr)
 }
 
 Chord* SongWriter::getChords() {
-	Chord* harmony_chords [SONG_LENGTH]; 
+	Chord* harmony_chords=new Chord[SONG_LENGTH];
 
 	for(int i = 0; i < SONG_LENGTH; i++) {
 		harmony_chords[i] = Chord(*note_gen, harmony.at(i));

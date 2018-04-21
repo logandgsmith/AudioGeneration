@@ -9,6 +9,7 @@ class Chord
 {
 public:
 	//Constructor
+	Chord();
 	Chord(NoteGenerator &ng);
 	Chord(NoteGenerator &ng, unsigned char scale_degree); // Constructs a triad
 

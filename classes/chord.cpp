@@ -1,6 +1,9 @@
 #include "../headers/chord.h"
 
 //Constructor for triads
+Chord::Chord() {
+
+}
 Chord::Chord(NoteGenerator &ng) { }
 
 Chord::Chord(NoteGenerator &ng, unsigned char scale_degree)
