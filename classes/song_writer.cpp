@@ -23,10 +23,10 @@ int progressions[Num_of_Progressions][4] =
 //Constructor
 SongWriter::SongWriter()
 {
-	note_gen = new NoteGenerator;
+	note_gen = new NoteGenerator();
 	vector<Chord*> song();
-	harmony = vector<unsigned char>();
-	melody = vector<float>();
+	harmony  = vector<unsigned char>();
+	melody   = vector<float>();
 }
 
 //Accessors
@@ -57,7 +57,7 @@ void SongWriter::printSong()
 {
 	string melodyStr = "";
 	string harmonyStr = "";
-	for (int i = 0; i < melody.size(); i++) {
+	for (int i = 0; i < (int)melody.size(); i++) {
 		if (i % 16 == 0&&i!=0) {
 			cout << endl;
 		}
@@ -124,4 +124,14 @@ void SongWriter::setHarmony(unsigned char* harmonyArr)
 	{
 		harmony.push_back(harmonyArr[i]);
 	}
+}
+
+Chord* SongWriter::getChords() {
+	Chord* harmony_chords [SONG_LENGTH]; 
+
+	for(int i = 0; i < SONG_LENGTH; i++) {
+		harmony_chords[i] = Chord(*note_gen, harmony.at(i));
+	}
+
+	return harmony_chords;
 }

@@ -8,7 +8,16 @@
 	Windows OS running minGW.
 ***************************************************/
 
-bool AudioGeneration::play(Song& song) {
+//For Testing
+int main() {
+	SongWriter sw = SongWriter();
+	sw.writeSong();
+
+	AudioGeneration::play(sw);
+}
+
+//Plays Songs via the portaudio library
+bool AudioGeneration::play(SongWriter song) {
 	//PortAudio Setup
 	PaStreamParameters outputParameters;
 	PaStream* stream;
@@ -16,14 +25,15 @@ bool AudioGeneration::play(Song& song) {
 	float buffer[FRAMES_PER_BUFFER][2];
 	int phase = 0;
 	int bufferCount;
-	chord* harmony;
+	//Song Info
+	Chord* harmony;
 	float* melody;
 	float* harmony_current;
 	float* melody_current;
 
-	harmony = song->getHarmony();
-	melody  = song->getMelody();
-
+	harmony = song.getChords();
+	melody  = song.getMelody();
+	
 	//Initialize the Stream
 	err = Pa_Initialize();
 	if (err != paNoError)
@@ -45,7 +55,7 @@ bool AudioGeneration::play(Song& song) {
 		&outputParameters,
 		SAMPLE_RATE,
 		FRAMES_PER_BUFFER,
-		paClipOff,
+		paNoFlag,
 		nullptr,
 		nullptr);
 	if (err != paNoError)
@@ -56,12 +66,16 @@ bool AudioGeneration::play(Song& song) {
 	if (err != paNoError)
 		goto error;
 
-	bufferCount = ((NUM_SECONDS * SAMPLE_RATE) / FRAMES_PER_BUFFER);
+	bufferCount = ((MELODY_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
 	//Write Waveforms and plays them for each part of a song
-	for(int h = 0; h < song.size(); h++) {
-		harmony_current = AudioGeneration::generateChordWave(harmony[h]);
-		melody_current  = AudioGeneration::generateWaveform(melody[h]);
+	for(int h = 0; h < AUDIO_LENGTH; h++) {
+
+		melody_current = AudioGeneration::generateWaveform(melody[h]);
+
+		if(h % 4 == 0)
+			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
+
 		//Add Waveform to buffer then output
 		for (int i = 0; i < bufferCount; i++) {
 			for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
@@ -119,19 +133,20 @@ float* AudioGeneration::generateChordWave(Chord chord) {
 	float* waveform_thr;
 	float* waveform_end;
 
-	waveform_one = AudioGeneration::generateWaveform(chord->getNote(0));
-	waveform_two = AudioGeneration::generateWaveform(chord->getNote(1));
-	waveform_thr = AudioGeneration::generateWaveform(chord->getNote(2));
+	waveform_one = AudioGeneration::generateWaveform(chord.getNote(0).note_frequency);
+	waveform_two = AudioGeneration::generateWaveform(chord.getNote(1).note_frequency);
+	waveform_thr = AudioGeneration::generateWaveform(chord.getNote(2).note_frequency);
 	waveform_end = new float[SAMPLE_RATE];
 
 	//Attempting to make the tone sound a little "rounder"
 	for (int i = 0; i < SAMPLE_RATE; i++) {
 		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
-		//The following if/else block will be changed
+		/*//The following if/else block will be changed
 		if(i < SAMPLE_RATE / 2)
 			waveform_end[i] *= 0.001 * i;
 		else if(i > SAMPLE_RATE / 2)
 			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
+		*/
 	}
 
 	return waveform_end;
