@@ -17,6 +17,5 @@ const int   AUDIO_LENGTH      = 16;
 namespace AudioGeneration {
 	bool   	play(SongWriter song);
 	float* 	generateWaveform(float frequency);
-	float*  generateWaveform(float frequency_one, float frequency_two);
 	float*	generateChordWave(Chord chord);
 };
