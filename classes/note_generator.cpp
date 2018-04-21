@@ -6,8 +6,10 @@
 /**************************************************
 This class defines a struct called Note, which
 contains the note name and note frequency. The
-note generator generates and contains a certain 
-number of 
+note generator automatically generates and stores
+a certain number of notes in the keyboard vector.
+These notes can be used to form chords and melody
+in our song.
 ***************************************************/
 
 /*

@@ -1,9 +1,18 @@
 #include "../headers/chord.h"
 
+/**************************************************
+This class defines the Chord object. Each chord
+usually has three notes that are generated with 
+a formula. These notes in the same chord has 
+frequencies that are in small ratios to make the 
+chord sound good.
+***************************************************/
+
 //Constructor for triads
 Chord::Chord() {
 
 }
+
 Chord::Chord(NoteGenerator &ng) { }
 
 Chord::Chord(NoteGenerator &ng, unsigned char scale_degree)

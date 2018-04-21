@@ -3,6 +3,19 @@
 
 #define Num_of_Progressions 4
 
+/**************************************************
+This class definds a SongWriter object. The song
+writer can generate songs in two ways:
+	1. Generate song using available chords,
+	pre-defined popular chord progressions, and 
+	available notes.
+	2. Generate song when given two unsigned char
+	arrays, one for harmony (series of chords) and
+	the other for melody (series of notes). The
+	two arrays will be passed in by the userInput
+	class when it load song from a text file.
+***************************************************/
+
 /*Preset major chord progressions
 *https://www.libertyparkmusic.com/common-chord-progressions/
 *https://en.wikipedia.org/wiki/Chord_progression
@@ -21,44 +34,133 @@ int progressions[Num_of_Progressions][4] =
 
 
 //Constructor
+/*
+Initialize the song writer with the necessary components.
+harmony: series of chords
+melody: series of note frequencies
+melody_indexes: series of notes
+*/
 SongWriter::SongWriter()
 {
 	note_gen = new NoteGenerator();
-	vector<Chord*> song();
 	harmony  = vector<unsigned char>();
 	melody   = vector<float>();
+	melody_indexes = vector<unsigned char>();
 }
 
 //Accessors
+/*
+Return the length of the song.
+
+The length is a pre-defined const that equals
+the number of measures in the song. Since
+our song has one chord for each measure, the
+song length is also the number of chords in our song.
+*/
 int SongWriter::getSongLength() {
 	return SONG_LENGTH;
 }
 
+/*
+Convert harmony vector to an unsigned char array
+and return the array.
+
+The harmony vector contains the indexes of the root
+notes of the chord. These indexes, combined with the 
+note generator and the chord constructor, help the
+program generate the corresponding chords.
+*/
 unsigned char* SongWriter::getHarmony()
 {
 	unsigned char* output = &harmony[0];
 	return output;
 }
 
+/*
+Convert melody vector to an float array
+and return the array.
+
+The melody vector contains the frequencies
+of the corresponding notes. The audio 
+generation class will need these frequencies
+to generate sounds.
+*/
 float* SongWriter::getMelody()
 {
 	float* output = &melody[0];
 	return output;
 }
 
+/*
+Convert melody_indexes vector to an unsigned 
+char array and return the array.
+
+The melody_indexes vector contains the indexes of the
+corresponding notes. These indexes, combined with the
+note generator, help the program generate
+the corresponding notes.
+*/
 unsigned char* SongWriter::getMelodyIndexes() {
 	unsigned char* output = &melody_indexes[0];
 	return output;
 }
 
 //Mutators
-//Can be modified to print more informations in a user-friendly way
+/*
+Print the song in the form of a music sheet. 
+If the parameter "displayNoteName" is true, this
+method will print the notes on the music sheet with
+their names. If the parameter is false, the note
+names will be replaced by "0"s.
+
+The printed music sheet will have 4 measures in each line.
+The number of lines depends on the length of the song.
+Each measure can hold four notes with a frequency range
+of two octaves. The note names on each music line depends
+on the base note defined in the note generator class.
+
+On top of each measure, the corresponding chord names are
+also displayed. Each line will be separated by a line of
+"XXXX...", so the user will not mix two measures that 
+are vertically adjacent to each other.
+
+Example:
+ C3_Chord         G3_Chord         A3_Chord         F3_Chord
+								   B   B            B
+		-A-      -A-
+														    G
+|----------------|----------------|----------------|----------------|
+|                |                |                |                |
+|----------------|----------------|----------------|----------------|
+|                |        C       |        C       |                |
+|----------------|----B-----------|----------------|----------------|
+|                |            A   |                |                |
+|----------------|----------------|----------------|------------G---|
+|F               |                |                |                |
+|----E-----------|----------------|----------------|----------------|
+											   D
+            -C-                                        -C-
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+NEXT line...
+*/
 void SongWriter::printSong(bool displayNoteName)
 {
+	//Initialize a 2D array that represents the music sheet
 	string** music_sheet = new string*[16*SONG_LENGTH/4];
 	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
 		music_sheet[i] = new string[69];
 	}
+
+	/*
+	Set up the outline of the music sheet. 
+	
+	Each line has four measures, each measure is consist of 
+	the chord name, the music staff, two extra lines below the
+	main music staff (for low C and low B) and 3 extra lines above
+	the main music staff (for high G, high A, and high B).
+	Different measures are separated by verticle arrangement of "|"s.
+	Different lines are separated ny horicontal arrangement of "X"s.
+	*/
 	int chord_count = 0;
 	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
 		for (int j = 0; j < 69; j++) {
@@ -105,6 +207,17 @@ void SongWriter::printSong(bool displayNoteName)
 			}
 		}
 	}
+
+	/*
+	Add melody notes to the correct position in the music sheet.
+
+	Each measure has 16 spaces for melody notes. Since we have 4
+	notes in each measure, they will be positioned in the space 1,
+	5, 9, and 13.
+	If the note is not in the main staff but need a line across it,
+	it will be represented by "-0-" or "-note name-" depending on
+	the mode (parameter).
+	*/
 	int line_count = 0;
 	unsigned char note_count = 0;
 	while (line_count < SONG_LENGTH / 4) {
@@ -141,6 +254,10 @@ void SongWriter::printSong(bool displayNoteName)
 	}
 }
 
+/*
+Clear the data in current song sheet, including the
+harmony, melody, and melody_indexes.
+*/
 void SongWriter::clearSong()
 {
 	harmony = vector<unsigned char>();
@@ -148,20 +265,44 @@ void SongWriter::clearSong()
 	melody_indexes = vector<unsigned char>();
 }
 
+/*
+Generate song based on the available chords, available
+notes, and pre-defined chord progressions.
+*/
 void SongWriter::writeSong()
 {
 	//srand(time(0));
+	/*
+	Clear everything to make sure the new song is written 
+	on a fresh song sheet.
+	*/
 	harmony = vector<unsigned char>();
 	melody = vector<float>();
 	melody_indexes = vector<unsigned char>();
 	for(int i = 0; i < (SONG_LENGTH/4); i++)
 	{
+		/*
+		Choose which progression to use randomly.
+		rand()%4 produces a random number between 0 and 3.
+		*/
 		int r = rand() % Num_of_Progressions; //change the modulo returned
 		for(int j = 0; j < 4; j++)
 		{
+			/*
+			Push the indexes in the corresponding progression into
+			the harmony vector. These indexes can be used to generate
+			chords later.
+			*/
 			harmony.push_back(progressions[r][j]);
 		}
 	}
+	/*
+	Use getRandomNote() method in note generator to get
+	random notes that are available on our keyboard. The 
+	indexes of these notes are stored in the melody_indexes
+	vector; the frequencies of these notes are stored in the 
+	melody vector.
+	*/
 	for(int k = 0; k < NUM_MELODY_NOTES; k++ )
 	{
 		unsigned char new_index = this->note_gen->getRandomNote();
@@ -171,20 +312,32 @@ void SongWriter::writeSong()
 
 }
 
+/*
+Take an unsigned char array of indexes of the melody 
+notes, store these indexes into the melody_indexes vector;
+convert these indexes to the frequencies of corresponding 
+notes and store the frequencies in the melody vector.
+*/
 void SongWriter::setMelody(unsigned char* melodyArr)
 {
 	melody_indexes = vector<unsigned char>();
 	melody = vector<float>();
 	int length = sizeof(melodyArr) / sizeof(unsigned char);
-	//use getNoteFreq to convert int representation of notes back to freq
+	
 	for (int i=0;i<length;i++)
 	{
 		melody_indexes.push_back(melodyArr[i]);
+		//use getNoteFreq to convert int representation of notes back to freq
 		float temp_note_freq = note_gen->getNoteFreq(melodyArr[i]);
 		melody.push_back(temp_note_freq);
 	}
 }
 
+/*
+Take an unsigned char array of indexes of the chords. Store the
+indexes into the harmony vector. These indexes can be used to
+generate chords later.
+*/
 void SongWriter::setHarmony(unsigned char* harmonyArr)
 {
 	harmony = vector<unsigned char>();
@@ -195,6 +348,11 @@ void SongWriter::setHarmony(unsigned char* harmonyArr)
 	}
 }
 
+/*
+Convert the indexes in the harmony vector to the 
+corresponding chords, store them in a chord array,
+return the chord array.
+*/
 Chord* SongWriter::getChords() {
 	Chord* harmony_chords=new Chord[SONG_LENGTH];
 
@@ -205,6 +363,11 @@ Chord* SongWriter::getChords() {
 	return harmony_chords;
 }
 
+/*
+Return true if the song is empty (no chord or melody note);
+otherwise, if the any of the vectors (harmony, melody, and 
+melody_indexes) is not empty, return false.
+*/
 bool SongWriter::isEmpty() {
-	return harmony.size() == 0;
+	return harmony.size() == 0 && melody.size()==0 && melody_indexes.size()==0;
 }
