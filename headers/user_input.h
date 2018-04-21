@@ -5,8 +5,6 @@
 #include <string>
 #include "song_writer.h"
 
-const unsigned char chord_prog_length = 5;
-
 int main();
 
 namespace UserInput {

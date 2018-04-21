@@ -2,6 +2,8 @@
 #include <limits>
 #include <stdexcept>
 
+
+
 int main() 
 {
 	SongWriter s_w();
@@ -104,32 +106,29 @@ void UserInput::load(std::string song_name){
 	if(loadFile.is_open())
 	{
 		std::string sheet_music;
-		std::string har;
-		std::string mel;
+		std::string har; // Harmony data as a std::string
+		std::string mel; // Melody data as a std::string
 
 		getline(loadFile,sheet_music);
 
 		cout << sheet_music << endl;
+		
+		// The songs are in common time (4/4) w/ all melody notes as quarter notes and all chords as whole notes
+		// Hence, for every 4 chords there are 16 melody notes, so only the first fifth are harmony notes
+		har = sheet_music.substr(0, (sheet_music.length()/5)); 
 
-		har = sheet_music.substr(0, (sheet_music.length()/2));
+		mel = sheet_music.substr((sheet_music.length()/5), sheet_music.length());
 
-		mel = sheet_music.substr((sheet_music.length()/2), sheet_music.length());
+		unsigned char harmony [har.length()]; // Harmony data as integers
 
-		unsigned char harmony [har.length()];
+		unsigned char melody [mel.length()]; // Melody data as integers
 
-		unsigned char melody [mel.length()];
-
-		for(unsigned char i = 0; i < chord_prog_length; i++)
-		{
-			unsigned char temp = ((unsigned char)har[i] - 48);
-			harmony[i] = temp;
-		}
+		for(unsigned char i = 0; i < har.length(); i++)
+			harmony[i] = (unsigned char)(har.at(i) - 48);
 
 		for(unsigned char i = 0; i < mel.length(); i++)
-		{
-			unsigned char temp = ((unsigned char)mel[i] - 48);
-			melody[i] = temp;
-		}
+			melody[i] = (unsigned char)(mel.at(i) - 48);
+
 	//Call up songwriter to load unsigned char arrays (I.E. Harmony and Melody)
 	}
 	else
