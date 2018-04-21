@@ -70,9 +70,9 @@ bool AudioGeneration::play(SongWriter song) {
 	bufferCount = ((NOTE_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
 	//Write Waveforms and plays them for each part of a song
-	for(int h = 0; h < AUDIO_LENGTH; h++) {
+	for(int h = 0; h < AUDIO_LENGTH; h += 2) {
 
-		melody_current = AudioGeneration::generateWaveform(melody[h]);
+		melody_current = AudioGeneration::generateWaveform(melody[h], melody[h+1]);
 
 		if(h % 4 == 0)
 			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
@@ -80,9 +80,11 @@ bool AudioGeneration::play(SongWriter song) {
 		//Add Waveform to buffer then output
 		for (int i = 0; i < bufferCount; i++) {
 			for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
-				buffer[j][0] = melody_current[phase];
+				buffer[j][0] = harmony_current[phase];
 				buffer[j][1] = melody_current[phase];
+				
 				phase++;
+
 				if (phase >= TABLE_SIZE)
 					phase -= TABLE_SIZE;
 			}
@@ -122,6 +124,23 @@ float* AudioGeneration::generateWaveform(float frequency) {
 
 	for (int i = 0; i < SAMPLE_RATE; i++) {
 		waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency);
+	}
+
+	return waveform;
+}
+
+//Creates 2 notes on the same wave (for shorter notes)
+float* AudioGeneration::generateWaveform(float frequency_one, float frequency_two) {
+	int midway_break = SAMPLE_RATE / 2;
+	float* waveform = new float[SAMPLE_RATE];
+
+	for (int i = 0; i < SAMPLE_RATE; i++) {
+		if(i < midway_break)
+			waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency_one);
+		else if(i == midway_break)
+			waveform[i] = 0;
+		else
+			waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency_two);
 	}
 
 	return waveform;
