@@ -26,7 +26,7 @@ public:
 	void           writeSong();
 	void           setMelody(unsigned char* melodyArr);
 	void           setHarmony(unsigned char* harmonyArr);
-	void           printSong();
+	void           printSong(bool displayNoteName);
 
 private:
 	const int      SONG_LENGTH = 16; //# of chords / num_measures

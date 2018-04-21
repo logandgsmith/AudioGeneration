@@ -53,21 +53,91 @@ unsigned char* SongWriter::getMelodyIndexes() {
 
 //Mutators
 //Can be modified to print more informations in a user-friendly way
-void SongWriter::printSong()
+void SongWriter::printSong(bool displayNoteName)
 {
-	string melodyStr = "";
-	string harmonyStr = "";
-	for (int i = 0; i < melody.size(); i++) {
-		if (i % 16 == 0 && i != 0) {
-			cout << endl;
-		}
-		if (i % 4 == 0) {
-			if (i != 0) {
-				cout << endl;
+	string** music_sheet = new string*[16*SONG_LENGTH/4];
+	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
+		music_sheet[i] = new string[69];
+	}
+	int chord_count = 0;
+	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
+		for (int j = 0; j < 69; j++) {
+			if (i % 16 >= 4 && i % 16 <= 12) {
+				if (i % 16 % 2 == 1) {
+					if (j%17==0) {
+						music_sheet[i][j] = "|";
+					}
+					else {
+						music_sheet[i][j] = " ";
+					}
+				}
+				else {
+					if (j%17==0) {
+						music_sheet[i][j] = "|";
+					}
+					else {
+						music_sheet[i][j] = "-";
+					}
+				}
 			}
-			cout << Chord(*note_gen,harmony.at(i/4)).getName() << endl;
+			else {
+				if (i % 16 == 0 && j%17==1) {
+					string chord_name = Chord(*note_gen,harmony.at(chord_count)).getName();
+					music_sheet[i][j+0] = chord_name.substr(0, 1);
+					music_sheet[i][j+1] = chord_name.substr(1, 1);
+					music_sheet[i][j+2] = chord_name.substr(2, 1);
+					music_sheet[i][j+3] = chord_name.substr(3, 1);
+					music_sheet[i][j+4] = chord_name.substr(4, 1);
+					music_sheet[i][j+5] = chord_name.substr(5, 1);
+					music_sheet[i][j+6] = chord_name.substr(6, 1);
+					music_sheet[i][j+7] = chord_name.substr(7, 1);
+					chord_count++;
+				}
+				else if (i % 16 == 15) {
+					music_sheet[i][j] = "X";
+				}
+				else if (i % 16 == 0 && j % 17 >= 2 && j % 17 <= 8) {
+					continue;
+				}
+				else {
+					music_sheet[i][j] = " ";
+				}
+			}
 		}
-		cout << melody.at(i)<<" ";
+	}
+	int line_count = 0;
+	unsigned char note_count = 0;
+	while (line_count < SONG_LENGTH / 4) {
+		for (int x = 0; x < 69; x++) {
+			string display = "";
+			if (x % 17 == 0) {
+				continue;
+			}
+			int note_position = 22 - melody_indexes.at(note_count);
+			if (displayNoteName) {
+				display = note_gen->getNoteName(melody_indexes.at(note_count)).substr(0, 1);
+			}
+			else {
+				display = "0";
+			}
+			if (note_position == 2 || note_position == 14) {
+				music_sheet[note_position + line_count * 16][x-1] = "-";
+				music_sheet[note_position + line_count * 16][x] = display;
+				music_sheet[note_position + line_count * 16][x+1] = "-";
+			}
+			else {
+				music_sheet[note_position + line_count * 16][x] = display;
+			}
+			note_count++;
+			x+=3;
+		}
+		line_count++;
+	}
+	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
+		for (int j = 0; j < 69; j++) {
+			cout << music_sheet[i][j];
+		}
+		cout << endl;
 	}
 }
 
