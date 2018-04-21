@@ -9,6 +9,7 @@
 	in this namespace.
 **********************************************************/
 
+
 int main() 
 {
 	SongWriter song; 
@@ -82,7 +83,7 @@ int main()
 				std::string song_name;
 				std::cout << "Please name the song:" << std::endl;
 				std::cin  >> song_name;
-				UserInput::save(song_name);
+				UserInput::save(song_name, song.getMelodyIndexes(), song.getHarmony());
 				break;
 			}
 			case '4':
@@ -113,7 +114,23 @@ int main()
 
 void UserInput::save(std::string song_name, unsigned char* harmony, unsigned char* melody){
 
-ofstream saveFile(song_name);
+ofstream saveFile(song_name + ".txt");
+
+for(int i = 0; i < (sizeof(harmony)/sizeof(harmony[0])); i++){
+
+	saveFile << (char)(harmony[i] + 48);
+
+}
+
+
+for(int i = 0; i < (sizeof(melody)/sizeof(melody[0])); i++){
+
+	saveFile << (char)(melody[i] + 48);
+
+}
+
+saveFile.close();
+
 
 
 // getline(cin, printsong()); this is ideally what is supposed to happen. 
