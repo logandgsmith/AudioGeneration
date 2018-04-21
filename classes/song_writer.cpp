@@ -57,8 +57,8 @@ void SongWriter::printSong()
 {
 	string melodyStr = "";
 	string harmonyStr = "";
-	for (int i = 0; i < (int)melody.size(); i++) {
-		if (i % 16 == 0&&i!=0) {
+	for (int i = 0; i < melody.size(); i++) {
+		if (i % 16 == 0 && i != 0) {
 			cout << endl;
 		}
 		if (i % 4 == 0) {
@@ -66,7 +66,6 @@ void SongWriter::printSong()
 				cout << endl;
 			}
 			cout << Chord(*note_gen,harmony.at(i/4)).getName() << endl;
-			
 		}
 		cout << melody.at(i)<<" ";
 	}
