@@ -34,7 +34,7 @@ std::string NoteGenerator::getNoteName(unsigned char index) {
 
 //keyboard vector getter
 std::vector<Note> NoteGenerator::getKeyboard() {
-	return keyboard;
+	return this->keyboard;
 }
 //keyboard size getter
 unsigned char NoteGenerator::getKeyboardSize() {
@@ -125,6 +125,7 @@ unsigned char NoteGenerator::getRandomNote() {
 .
 as high as the keyboard gets
 */
+
 Note NoteGenerator::getNote(unsigned char index) {
 	unsigned char multiple = (index - 1) / 7;
 	index %= 7;

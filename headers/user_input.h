@@ -5,7 +5,9 @@
 #include <limits>
 #include <stdexcept>
 #include <string>
-#include "song_writer.h"
+
+#include "../headers/audio_generation.h"
+#include "../headers/song_writer.h"
 
 namespace UserInput {
 	void save(std::string name , unsigned char* harmony, unsigned char* melody);
