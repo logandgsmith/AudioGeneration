@@ -1,36 +1,38 @@
 #include "../headers/user_input.h"
-#include <limits>
-#include <stdexcept>
 
-
+/*********************************************************
+							MAIN 
+	The following code controls the program. It will
+	handle any input the user gives it and will display
+	the menu along with the outputs of functions. We 
+	also give the user the ability to save/load songs
+	in this namespace.
+**********************************************************/
 
 int main() 
 {
-
-	SongWriter Song; 
-
-	//SongWriter s_w();
+	SongWriter song; 
 
 	char user_input;
 	bool run_program = true; 
 
-	cout << "Welcome to group 9's project!" << endl;
+	std::cout << "Welcome to group 9's project!" << std::endl;
 
 	while(run_program){
 
 
-		cout 	<< "****************************************" << endl;
-		cout 	<< " < Please input your desired command >" << endl;
-		cout 	<< " 1. Play a new song" << endl
-				<< " 2. Print the song" << endl
-				<< " 3. Save Song" << endl
-				<< " 4. Load and play a saved song" << endl
-				<< " 5. Exit program" << endl;
-		cout 	<< "****************************************"; 
+		std::cout 	<< "****************************************" << std::endl
+				 	<< " < Please input your desired command >"   << std::endl
+				 	<< " 1. Play a new song"                      << std::endl
+					<< " 2. Print the song"                       << std::endl
+					<< " 3. Save Song"                            << std::endl
+					<< " 4. Load and play a saved song"           << std::endl
+					<< " 5. Exit program"                         << std::endl
+					<< "****************************************" << std::endl; 
 
 		try 
 		{
-			cin >> user_input;
+			std::cin >> user_input;
 		}
 		catch (const std::exception &e)
 		{
@@ -43,43 +45,44 @@ int main()
 		{
 			case '1':
 			{
-				// do stuff
+				song.writeSong();
+				AudioGeneration::play(song);
 				break;
 			}
 			case '2':
 			{
-				cout << "Song notes:" << endl; 
-				// call songwriter class and the print() method
+				std::cout << "Song notes:" << std::endl; 
+				song.printSong();
 				break;
 			}
 			case '3':
 			{
 				std::string song_name;
-				cout << "Please name the song:" << endl;
-				cin >> song_name;
+				std::cout << "Please name the song:" << std::endl;
+				std::cin  >> song_name;
 				UserInput::save(song_name);
 				break;
 			}
 			case '4':
 			{
 				std::string song_name; 
-				cout << "Please enter the name of the song you wish to play: ";
-				cin >> song_name;
+				std::cout << "Please enter the name of the song you wish to play: ";
+				std::cin  >> song_name;
 				song_name.append(".txt");
 				UserInput::load(song_name);
 				break;
 			}
 			case '5':
 			{
-				cout << "Goodbye!" << endl;
+				std::cout << "Goodbye!" << std::endl;
 				run_program = false;
 				break;
 			}
 			default:
 			{
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				cout << "Invalid input. Please try again" << endl;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::cout << "Invalid input. Please try again" << std::endl;
 				break;
 			}
 		}
