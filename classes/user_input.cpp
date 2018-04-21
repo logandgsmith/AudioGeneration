@@ -7,7 +7,7 @@
 int main() 
 {
 
-	SongWriter
+	SongWriter Song; 
 
 	//SongWriter s_w();
 
@@ -86,7 +86,7 @@ int main()
 	}	
 }
 
-void UserInput::save(std::string song_name, unsigned char* sheet_music){
+void UserInput::save(std::string song_name, unsigned char* harmony, unsigned char* melody){
 
 ofstream saveFile(song_name);
 

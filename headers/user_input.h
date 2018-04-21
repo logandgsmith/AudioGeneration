@@ -10,7 +10,7 @@ int main();
 namespace UserInput {
 
 //public:
-	void save(std::string name , unsigned char* sheet_music);
+	void save(std::string name , unsigned char* harmony, unsigned char* melody);
 	void load(std::string name);
 	void playnewSong();
 
