@@ -64,18 +64,19 @@ int main()
 					std::cout << "Would you like note names included (y/n)?" << std::endl;
 					std::cin  >> response;
 					if(response.compare("y") == 0 || response.compare("Y") == 0) {
-						song.printsong(true);
+						std::cout << "Song notes:" << std::endl;
+						song.printSong(true);
 						isValid = true;
 					}
-					else if(response.compare("n") == 0 || response.compare("N") == 0)
-						song.printsong(false);
+					else if(response.compare("n") == 0 || response.compare("N") == 0) {
+						std::cout << "Song notes:" << std::endl;
+						song.printSong(false);
 						isValid = true;
+					}
 					else
 						std::cout << "That was not a valid response. Please try again." << std::endl;
 				}
 
-				std::cout << "Song notes:" << std::endl; 
-				song.printSong();
 				break;
 			}
 			case '3':
@@ -92,7 +93,7 @@ int main()
 				std::cout << "Please enter the name of the song you wish to play: ";
 				std::cin  >> song_name;
 				song_name.append(".txt");
-				UserInput::load(song_name);
+				UserInput::load(song, song_name);
 				break;
 			}
 			case '5':
@@ -116,14 +117,14 @@ void UserInput::save(std::string song_name, unsigned char* harmony, unsigned cha
 
 ofstream saveFile(song_name + ".txt");
 
-for(int i = 0; i < (sizeof(harmony)/sizeof(harmony[0])); i++){
+for(int i = 0; i < (int)(sizeof(harmony)/sizeof(harmony[0])); i++){
 
 	saveFile << (char)(harmony[i] + 48);
 
 }
 
 
-for(int i = 0; i < (sizeof(melody)/sizeof(melody[0])); i++){
+for(int i = 0; i < (int)(sizeof(melody)/sizeof(melody[0])); i++){
 
 	saveFile << (char)(melody[i] + 48);
 
@@ -146,7 +147,7 @@ saveFile.close();
 }
 
 
-void UserInput::load(std::string song_name){
+void UserInput::load(SongWriter song, std::string song_name){
 
 	ifstream loadFile(song_name);
 
@@ -176,7 +177,8 @@ void UserInput::load(std::string song_name){
 		for(unsigned char i = 0; i < mel.length(); i++)
 			melody[i] = (unsigned char)(mel.at(i) - 48);
 
-	//Call up songwriter to load unsigned char arrays (I.E. Harmony and Melody)
+		song.setHarmony(harmony);
+		song.setMelody(melody);
 	}
 	else
 	{

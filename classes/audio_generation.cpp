@@ -8,14 +8,17 @@
 	Windows OS running minGW.
 ***************************************************/
 
-//For Testing
+//Debug Function, uncomment to use
+/*
 int main() {
 	SongWriter sw = SongWriter();
 	sw.writeSong();
-	sw.printSong();
+	sw.printSong(true);
 
 	AudioGeneration::play(sw);
 }
+*/
+
 
 //Plays Songs via the portaudio library
 bool AudioGeneration::play(SongWriter song) {
@@ -26,6 +29,7 @@ bool AudioGeneration::play(SongWriter song) {
 	float buffer[FRAMES_PER_BUFFER][2];
 	int phase = 0;
 	int bufferCount;
+
 	//Song Info
 	Chord* harmony;
 	float* melody;
@@ -40,12 +44,15 @@ bool AudioGeneration::play(SongWriter song) {
 	if (err != paNoError)
 		goto error;
 
+	//Checks if should output from speakers or headphones
 	outputParameters.device = Pa_GetDefaultOutputDevice();
 	if (outputParameters.device == paNoDevice) {
 		std::cout << stderr << "Error: No Output Devices Found" << std::endl;
 		goto error;
 	}
-	outputParameters.channelCount = 2;
+
+	//Uses what we know about the system to output correctly
+	outputParameters.channelCount = 2; //Stereo Output
 	outputParameters.sampleFormat = paFloat32;
 	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 	outputParameters.hostApiSpecificStreamInfo = nullptr;
@@ -62,11 +69,12 @@ bool AudioGeneration::play(SongWriter song) {
 	if (err != paNoError)
 		goto error;
 
-	//Audio Generation
+	//Audio Generation Begins
 	err = Pa_StartStream(stream);
 		if (err != paNoError)
 			goto error;
-		
+	
+	//How many buffers should be created for the wave
 	bufferCount = ((NOTE_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
 	//Write Waveforms and plays them for each part of a song
@@ -89,6 +97,7 @@ bool AudioGeneration::play(SongWriter song) {
 					phase -= TABLE_SIZE;
 			}
 
+			//Writes buffer to stream -> speakers
 			err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
 			if (err != paNoError)
 				goto error;
@@ -96,6 +105,7 @@ bool AudioGeneration::play(SongWriter song) {
 
 	}
 
+	//Ending the stream
 	err = Pa_StopStream(stream);
 		if (err != paNoError)
 		goto error;
@@ -104,6 +114,7 @@ bool AudioGeneration::play(SongWriter song) {
 	if (err != paNoError)
 		goto error;
 
+	//Cleans up anything leftover from the streams
 	Pa_Terminate();
 	std::cout << "No Error" << std::endl;
 
@@ -145,12 +156,10 @@ float* AudioGeneration::generateChordWave(Chord chord) {
 	//Attempting to make the tone sound a little "rounder"
 	for (int i = 0; i < SAMPLE_RATE; i++) {
 		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
-		/*//The following if/else block will be changed
 		if(i < SAMPLE_RATE / 2)
 			waveform_end[i] *= 0.001 * i;
 		else if(i > SAMPLE_RATE / 2)
 			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
-		*/
 	}
 
 	return waveform_end;
