@@ -12,7 +12,6 @@
 
 int main() 
 {
-	//creates the object song of type SongWriter 
 	SongWriter song; 
 
 	char user_input;
@@ -24,13 +23,14 @@ int main()
 
 
 		std::cout 	<< "****************************************\n" << std::endl
-				 	<< " < Please input your desired command >"   << std::endl
-				 	<< " 1. Play a new song"                      << std::endl
-					<< " 2. Print the song"                       << std::endl
-					<< " 3. Save Song"                            << std::endl
-					<< " 4. Load and play a saved song"           << std::endl
-					<< " 5. Exit program\n"                         << std::endl
-					<< "****************************************" << std::endl; 
+				 	<< " < Please input your desired command >"     << std::endl
+				 	<< " 1. Play a New Song"                        << std::endl
+					<< " 2. Print the Song"                         << std::endl
+					<< " 3. Save Song"                              << std::endl
+					<< " 4. Load and Play a Saved Song"             << std::endl
+					<< " 5. Follow Along Mode"                      << std::endl
+					<< " 6. Exit Program\n"                         << std::endl
+					<< "****************************************"   << std::endl; 
 
 		//Try and catch statment to prevent bad user input
 		try 
@@ -63,7 +63,7 @@ int main()
 			{
 
 				if(song.isEmpty()) {
-					std::cout << "There is no song to print yet. Try writing one!" << std::endl;
+					std::cout << "There is no song to print yet. Try writing or loading one!" << std::endl;
 					break;
 				}
 
@@ -115,15 +115,30 @@ int main()
 
 			}
 
-			//exits program
+			//Plays a version of the song that the user can follow
 			case '5':
+			{
+
+				if(song.isEmpty()) {
+					std::cout << "There's no song to play yet. Try writing or loading one!" << std::endl;
+					break;
+				}
+
+				AudioGeneration::followAlong(song);
+				
+				break;
+
+			}
+
+			//Exits the Program
+			case '6':
 			{
 				std::cout << "Goodbye!" << std::endl;
 				run_program = false;
 				break;
 			}
 
-			//error statement 
+			//The user did not enter a valid operation
 			default:
 			{
 				std::cin.clear();
@@ -136,7 +151,7 @@ int main()
 }
 
 
-//user save function
+//Saves the current song in SongWriter as a .txt file
 void UserInput::save(std::string song_name, unsigned char* harmony, unsigned char* melody){
 	SongWriter sw=SongWriter();
 	int length = sw.getSongLength();

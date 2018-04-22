@@ -1271,7 +1271,7 @@ return the chord array.
 */
 Chord* SongWriter::getChords()
 {
-	Chord* harmony_chords = new Chord[SONG_LENGTH*4];
+	Chord* harmony_chords = new Chord[SONG_LENGTH];
 
 	for (int i = 0; i < SONG_LENGTH; i++)
 	{
