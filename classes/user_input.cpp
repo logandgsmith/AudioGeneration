@@ -165,9 +165,9 @@ void UserInput::load(SongWriter song, std::string song_name){
 
 		mel = sheet_music.substr((sheet_music.length()/5), sheet_music.length());
 
-		unsigned char harmony [har.length()]; // Harmony data as integers
+		unsigned char* harmony=new unsigned char[har.length()]; // Harmony data as integers
 
-		unsigned char melody [mel.length()]; // Melody data as integers
+		unsigned char* melody = new unsigned char[mel.length()]; // Melody data as integers
 
 		for(unsigned char i = 0; i < har.length(); i++)
 			harmony[i] = (unsigned char)(har.at(i) - 48);

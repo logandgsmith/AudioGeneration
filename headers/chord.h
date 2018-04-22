@@ -2,6 +2,7 @@
 
 #include "note_generator.h"
 #include <string>
+using namespace std;
 
 class Chord
 {
