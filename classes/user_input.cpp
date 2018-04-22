@@ -47,7 +47,7 @@ int main()
 			case '1':
 			{
 				song.writeSong();
-				AudioGeneration::play(song);
+				//AudioGeneration::play(song);
 				break;
 			}
 			case '2':
@@ -84,7 +84,7 @@ int main()
 				std::string song_name;
 				std::cout << "Please name the song:" << std::endl;
 				std::cin  >> song_name;
-				UserInput::save(song_name, song.getMelodyIndexes(), song.getHarmony());
+				UserInput::save(song_name, song.getHarmony(), song.getMelodyIndexes());
 				break;
 			}
 			case '4':
@@ -114,17 +114,18 @@ int main()
 }
 
 void UserInput::save(std::string song_name, unsigned char* harmony, unsigned char* melody){
-
+	SongWriter sw=SongWriter();
+	int length = sw.getSongLength();
 	ofstream saveFile(song_name + ".txt");
 
-	for(int i = 0; i < (int)(sizeof(harmony)/sizeof(harmony[0])); i++){
-
+	for(int i = 0; i < length; i++){
+		
 		saveFile << (char)(harmony[i] + 48);
 
 	}
 
 
-	for(int i = 0; i < (int)(sizeof(melody)/sizeof(melody[0])); i++){
+	for(int i = 0; i < length*4; i++){
 
 		saveFile << (char)(melody[i] + 48);
 
@@ -147,7 +148,7 @@ void UserInput::save(std::string song_name, unsigned char* harmony, unsigned cha
 }
 
 
-void UserInput::load(SongWriter song, std::string song_name){
+void UserInput::load(SongWriter &song, std::string song_name){
 
 	ifstream loadFile(song_name);
 
@@ -178,7 +179,7 @@ void UserInput::load(SongWriter song, std::string song_name){
 		song.setHarmony(harmony);
 		song.setMelody(melody);
 
-		AudioGeneration::play(song);
+		//AudioGeneration::play(song);
 	}
 	else
 	{

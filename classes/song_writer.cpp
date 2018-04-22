@@ -260,9 +260,9 @@ harmony, melody, and melody_indexes.
 */
 void SongWriter::clearSong()
 {
-	harmony = vector<unsigned char>();
-	melody = vector<float>();
-	melody_indexes = vector<unsigned char>();
+	this->harmony = vector<unsigned char>();
+	this->melody = vector<float>();
+	this->melody_indexes = vector<unsigned char>();
 }
 
 /*
@@ -276,9 +276,9 @@ void SongWriter::writeSong()
 	Clear everything to make sure the new song is written 
 	on a fresh song sheet.
 	*/
-	harmony = vector<unsigned char>();
-	melody = vector<float>();
-	melody_indexes = vector<unsigned char>();
+	this->harmony = vector<unsigned char>();
+	this->melody = vector<float>();
+	this->melody_indexes = vector<unsigned char>();
 	for(int i = 0; i < (SONG_LENGTH/4); i++)
 	{
 		/*
@@ -320,17 +320,16 @@ notes and store the frequencies in the melody vector.
 */
 void SongWriter::setMelody(unsigned char* melodyArr)
 {
-	melody_indexes = vector<unsigned char>();
-	melody = vector<float>();
-	int length = sizeof(melodyArr) / sizeof(unsigned char);
-	
-	for (int i=0;i<length;i++)
+	this->melody_indexes = vector<unsigned char>();
+	this->melody = vector<float>();
+	for (int i=0;i<SONG_LENGTH*4;i++)
 	{
 		melody_indexes.push_back(melodyArr[i]);
 		//use getNoteFreq to convert int representation of notes back to freq
 		float temp_note_freq = note_gen->getNoteFreq(melodyArr[i]);
 		melody.push_back(temp_note_freq);
 	}
+	return;
 }
 
 /*
@@ -340,12 +339,12 @@ generate chords later.
 */
 void SongWriter::setHarmony(unsigned char* harmonyArr)
 {
-	harmony = vector<unsigned char>();
-	int length = sizeof(harmonyArr) / sizeof(unsigned char);
-	for (int i = 0; i < length; i++)
+	this->harmony = vector<unsigned char>();
+	for (int i = 0; i < SONG_LENGTH; i++)
 	{
 		harmony.push_back(harmonyArr[i]);
 	}
+	return;
 }
 
 /*
@@ -356,7 +355,7 @@ return the chord array.
 Chord* SongWriter::getChords() {
 	Chord* harmony_chords=new Chord[SONG_LENGTH];
 
-	for(int i = 0; i < SONG_LENGTH; i++) {
+	for(int i = 0; i < SONG_LENGTH*4; i++) {
 		harmony_chords[i] = Chord(*note_gen, harmony.at(i));
 	}
 
