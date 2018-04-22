@@ -159,23 +159,6 @@ void UserInput::save(std::string song_name, unsigned char* harmony, unsigned cha
 
 }
 
-//load function
-void UserInput::load(SongWriter song, std::string song_name){
-
-
-
-	// getline(cin, printsong()); this is ideally what is supposed to happen. 
-	// We still need to work on this on the "song writer class".
-	// my logic may be wrong tho, but it will be easy to fix ;).
-
-
-	//saveFile << getline(cin, printsong());
-	//this is the the function that actually saves the strings.
-
-	saveFile.close();
-
-}
-
 
 void UserInput::load(SongWriter &song, std::string song_name){
 
