@@ -15,7 +15,6 @@ int main() {
 	SongWriter sw = SongWriter();
 	sw.writeSong();
 	sw.printSong(true);
-
 	AudioGeneration::play(sw);
 }
 */
@@ -23,7 +22,7 @@ int main() {
 
 /*
 	Plays the song it's passed
-
+	
 	We utilize the portaudio stream in this function extensively.
 	The stream, once properly set up, takes multiple buffers of 
 	frequencies then outputs them on the default audio device for
@@ -172,7 +171,6 @@ float* AudioGeneration::generateSineWave(float frequency)
 	constructive and destructive properties, we're able to 
 	produce a waves that mimics the three notes being played
 	simultaneously for our harmonies. 
-
 */
 float* AudioGeneration::generateChordWave(Chord chord) 
 {
@@ -190,6 +188,10 @@ float* AudioGeneration::generateChordWave(Chord chord)
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
 		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
+		if(i < SAMPLE_RATE / 2)
+			waveform_end[i] *= 0.001 * i;
+		else if(i > SAMPLE_RATE / 2)
+			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
 	}
 
 	return waveform_end;
