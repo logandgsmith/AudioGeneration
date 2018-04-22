@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+using namespace std;
 
 const size_t default_keyboard_size = 36;
 struct Note {
@@ -20,11 +21,13 @@ public:
 	//Accessors
 	float				getNoteFreq(unsigned char index);
 	std::string			getNoteName(unsigned char index);
+	unsigned char		getNoteIndex(string note_name);
 	std::vector<Note>	getKeyboard();
 	unsigned char		getKeyboardSize();
 	unsigned char		getMajorKeyboardSize();
 	unsigned char		getRandomNote();
 	Note				getNote(unsigned char index);
+	Note				getSharpNote(unsigned char index);
 
 
 	//Mutators

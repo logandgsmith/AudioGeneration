@@ -2,7 +2,6 @@
 #include <vector>
 #include <ctime> // To be used for note generator
 #include <stdexcept>
-#include <iostream>
 
 /**************************************************
 This class defines a struct called Note, which
@@ -33,6 +32,16 @@ float NoteGenerator::getNoteFreq(unsigned char index) {
 //name getter
 std::string NoteGenerator::getNoteName(unsigned char index) {
 	return getNote(index).note_name;
+}
+
+unsigned char NoteGenerator::getNoteIndex(string note_name) {
+	for (int i = 0; i < getKeyboardSize(); i++) {
+		string curr_name = keyboard.at(i).note_name;
+		if (curr_name.compare(note_name) == 0) {
+			return i;
+		}
+	}
+	return 255;
 }
 
 //keyboard vector getter
@@ -105,7 +114,6 @@ void NoteGenerator::setNote(float base_freq, std::string base_note, unsigned cha
 		}
 		//calculate frequency
 		freq *= 1.059463;
-		//std::cout << freq << std::endl;
 		keyboard.push_back(Note());
 		keyboard[i].note_frequency = freq;
 		keyboard[i].note_name = note_name;
@@ -136,7 +144,8 @@ unsigned char NoteGenerator::getRandomNote() {
 as high as the keyboard gets
 */
 
-Note NoteGenerator::getNote(unsigned char index) {
+Note NoteGenerator::getNote(unsigned char index) 
+{
 	unsigned char multiple = (index - 1) / 7;
 	index %= 7;
 	switch (index) {
@@ -152,12 +161,31 @@ Note NoteGenerator::getNote(unsigned char index) {
 		return keyboard.at(7 + multiple * 12);
 	case 6:
 		return keyboard.at(9 + multiple * 12);
-	
-	// Actually note 7 of the given key
-	case 0: 
+
+		// Actually note 7 of the given key
+	case 0:
 		return keyboard.at(11 + multiple * 12);
 	default:
 		throw std::domain_error("Invalid note index");
 	}
+}
 
+Note NoteGenerator::getSharpNote(unsigned char index) 
+{
+	unsigned char multiple = (index - 1) / 5;
+	index %= 5;
+	switch (index) {
+	case 1:
+		return keyboard.at(1 + multiple * 12);
+	case 2:
+		return keyboard.at(3 + multiple * 12);
+	case 3:
+		return keyboard.at(6 + multiple * 12);
+	case 4:
+		return keyboard.at(8 + multiple * 12);
+	case 0:
+		return keyboard.at(10 + multiple * 12);
+	default:
+		throw std::domain_error("Invalid note index");
+	}
 }
