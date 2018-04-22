@@ -23,13 +23,13 @@ int main()
 	while(run_program){
 
 
-		std::cout 	<< "****************************************" << std::endl
+		std::cout 	<< "****************************************\n" << std::endl
 				 	<< " < Please input your desired command >"   << std::endl
 				 	<< " 1. Play a new song"                      << std::endl
 					<< " 2. Print the song"                       << std::endl
 					<< " 3. Save Song"                            << std::endl
 					<< " 4. Load and play a saved song"           << std::endl
-					<< " 5. Exit program"                         << std::endl
+					<< " 5. Exit program\n"                         << std::endl
 					<< "****************************************" << std::endl; 
 
 		//Try and catch statment to prevent bad user input
@@ -157,12 +157,11 @@ void UserInput::save(std::string song_name, unsigned char* harmony, unsigned cha
 
 	saveFile.close();
 
-<<<<<<< HEAD
 }
 
 //load function
 void UserInput::load(SongWriter song, std::string song_name){
-=======
+
 
 
 	// getline(cin, printsong()); this is ideally what is supposed to happen. 
@@ -179,7 +178,6 @@ void UserInput::load(SongWriter song, std::string song_name){
 
 
 void UserInput::load(SongWriter &song, std::string song_name){
->>>>>>> 6e245dbdec9cc0d58f70bbbaa1a134ca2edb483b
 
 	ifstream loadFile(song_name);
 
@@ -211,15 +209,10 @@ void UserInput::load(SongWriter &song, std::string song_name){
 		song.setHarmony(harmony);
 		song.setMelody(melody);
 
-<<<<<<< HEAD
-=======
-		AudioGeneration::play(song);
->>>>>>> 6e245dbdec9cc0d58f70bbbaa1a134ca2edb483b
 	}
 
 	else
 	{
-<<<<<<< HEAD
 		cout << "The file for this song does not exist. Please provide another file name.";
 	}
 	
@@ -252,8 +245,6 @@ void UserInput::playBack() {
 
 	while (inFile >> token) {
 		//TODO TURN TOKENS INTO CHORDS THEN ADD TO SONG VECTOR
-=======
-		std::cout << "The file for this song does not exist. Please provide another file name. \n" << std::endl;
->>>>>>> 6e245dbdec9cc0d58f70bbbaa1a134ca2edb483b
+
 	}
 }
