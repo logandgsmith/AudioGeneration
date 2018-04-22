@@ -544,12 +544,12 @@ void SongWriter::printKeyboard(unsigned char chord_index,
 		-------
 
 		Shape 2:
-		  ---
-		  | |
-		  | |
-		  | |
-		  | |
-		  | |
+		---
+		| |
+		| |
+		| |
+		| |
+		| |
 		--- ---
 		|     |
 		|     |
@@ -558,12 +558,12 @@ void SongWriter::printKeyboard(unsigned char chord_index,
 		-------
 
 		Shape 3:
-		  -----
-		  |   |
-		  |   |
-		  |   |
-		  |   |
-		  |   |
+		-----
+		|   |
+		|   |
+		|   |
+		|   |
+		|   |
 		---   |
 		|     |
 		|     |
@@ -980,12 +980,12 @@ void SongWriter::printKeyboard(unsigned char* note_index, int length)
 	-------
 
 	Shape 2:
-	  ---
-	  | |
-	  | |
-	  | |
-	  | |
-	  | |
+	---
+	| |
+	| |
+	| |
+	| |
+	| |
 	--- ---
 	|     |
 	|     |
@@ -994,12 +994,12 @@ void SongWriter::printKeyboard(unsigned char* note_index, int length)
 	-------
 
 	Shape 3:
-	  -----
-	  |   |
-	  |   |
-	  |   |
-	  |   |
-	  |   |
+	-----
+	|   |
+	|   |
+	|   |
+	|   |
+	|   |
 	---   |
 	|     |
 	|     |
