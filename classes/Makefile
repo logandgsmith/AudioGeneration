@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -g 
-LDLIBS = -Llibs/ -lportaudio-2 
+LDLIBS = -Llibs -lportaudio-2 
 INC = ../headers/
 
 audio.out: user_input.o note_generator.o chord.o audio_generation.o song_writer.o
