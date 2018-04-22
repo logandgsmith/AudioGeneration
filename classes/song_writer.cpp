@@ -279,6 +279,14 @@ void SongWriter::printSong(bool displayNoteName)
 	}
 }
 
+void SongWriter::printKeyboard(unsigned char chord_index, 
+							   unsigned char note_index1, 
+							   unsigned char note_index2, 
+							   unsigned char note_index3) 
+{
+
+}
+
 /*
 Clear the data in current song sheet, including the
 harmony, melody, and melody_indexes.

@@ -42,6 +42,12 @@ std::vector<Note> NoteGenerator::getKeyboard() {
 unsigned char NoteGenerator::getKeyboardSize() {
 	return this->keyboard.size();
 }
+//keyboard size without sharps
+unsigned char NoteGenerator::getMajorKeyboardSize() {
+	unsigned char actual_keyboard_size = getKeyboardSize();
+	unsigned char major_keyboard_size = actual_keyboard_size / 12 * 7;
+	return major_keyboard_size;
+}
 
 //Mutators
 //set all the notes in the keyboard. give each note a note name, frequency, and duration 0
