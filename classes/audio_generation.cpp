@@ -20,8 +20,16 @@ int main() {
 */
 
 
-//Plays Songs via the portaudio library
-bool AudioGeneration::play(SongWriter song) {
+/*
+	Plays the song it's passed
+
+	We utilize the portaudio stream in this function extensively.
+	The stream, once properly set up, takes multiple buffers of 
+	frequencies then outputs them on the default audio device for
+	the system which is found during the discovery process
+*/
+bool AudioGeneration::play(SongWriter song) 
+{
 	//PortAudio Setup
 	PaStreamParameters outputParameters;
 	PaStream* stream;
@@ -46,7 +54,8 @@ bool AudioGeneration::play(SongWriter song) {
 
 	//Checks if should output from speakers or headphones
 	outputParameters.device = Pa_GetDefaultOutputDevice();
-	if (outputParameters.device == paNoDevice) {
+	if (outputParameters.device == paNoDevice) 
+	{
 		std::cout << stderr << "Error: No Output Devices Found" << std::endl;
 		goto error;
 	}
@@ -86,8 +95,10 @@ bool AudioGeneration::play(SongWriter song) {
 			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
 
 		//Add Waveform to buffer then output
-		for (int i = 0; i < bufferCount; i++) {
-			for (int j = 0; j < FRAMES_PER_BUFFER; j++) {
+		for (int i = 0; i < bufferCount; i++) 
+		{
+			for (int j = 0; j < FRAMES_PER_BUFFER; j++) 
+			{
 				buffer[j][0] = harmony_current[phase];
 				buffer[j][1] = melody_current[phase];
 				
@@ -130,19 +141,40 @@ error:
 	return err;
 }
 
-//Generates a single sine wave of a given frequency
-float* AudioGeneration::generateWaveform(float frequency) {
+/*
+	Generates a single sine wave of a given frequency
+
+	The sine waves sound the most pleasing to the ear out
+	of the waves we tested (sawtooth, triagle, square, etc.)
+	We generate the waves using the formula in the way
+	shown below in order to chop up the sine wave into
+	samples that the buffer could hold
+*/
+float* AudioGeneration::generateWaveform(float frequency) 
+{
 	float* waveform = new float[SAMPLE_RATE];
 
-	for (int i = 0; i < SAMPLE_RATE; i++) {
+	for (int i = 0; i < SAMPLE_RATE; i++) 
+	{
 		waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency);
 	}
 
 	return waveform;
 }
 
-//First finds the frequencies of a chord, then creates the composite waveform
-float* AudioGeneration::generateChordWave(Chord chord) {
+/*
+	First finds the frequencies of a chord, then creates
+	the composite waveform
+
+	This method creates the sum of all of the waves
+	that create a chord. Since waves naturally have both
+	constructive and destructive properties, we're able to 
+	produce a waves that mimics the three notes being played
+	simultaneously for our harmonies. 
+
+*/
+float* AudioGeneration::generateChordWave(Chord chord) 
+{
 	float* waveform_one;
 	float* waveform_two;
 	float* waveform_thr;
@@ -154,7 +186,8 @@ float* AudioGeneration::generateChordWave(Chord chord) {
 	waveform_end = new float[SAMPLE_RATE];
 
 	//Attempting to make the tone sound a little "rounder"
-	for (int i = 0; i < SAMPLE_RATE; i++) {
+	for (int i = 0; i < SAMPLE_RATE; i++) 
+	{
 		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
 		if(i < SAMPLE_RATE / 2)
 			waveform_end[i] *= 0.001 * i;
