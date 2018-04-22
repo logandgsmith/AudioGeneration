@@ -144,7 +144,9 @@ Note NoteGenerator::getNote(unsigned char index) {
 		return keyboard.at(7 + multiple * 12);
 	case 6:
 		return keyboard.at(9 + multiple * 12);
-	case 0: // Actually note 7 of the given key
+	
+	// Actually note 7 of the given key
+	case 0: 
 		return keyboard.at(11 + multiple * 12);
 	default:
 		throw std::domain_error("Invalid note index");

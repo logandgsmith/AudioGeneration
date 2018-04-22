@@ -57,7 +57,8 @@ the number of measures in the song. Since
 our song has one chord for each measure, the
 song length is also the number of chords in our song.
 */
-int SongWriter::getSongLength() {
+int SongWriter::getSongLength()
+{
 	return SONG_LENGTH;
 }
 
@@ -100,7 +101,8 @@ corresponding notes. These indexes, combined with the
 note generator, help the program generate
 the corresponding notes.
 */
-unsigned char* SongWriter::getMelodyIndexes() {
+unsigned char* SongWriter::getMelodyIndexes() 
+{
 	unsigned char* output = &melody_indexes[0];
 	return output;
 }
@@ -147,7 +149,8 @@ void SongWriter::printSong(bool displayNoteName)
 {
 	//Initialize a 2D array that represents the music sheet
 	string** music_sheet = new string*[16*SONG_LENGTH/4];
-	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
+	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) 
+	{
 		music_sheet[i] = new string[69];
 	}
 
@@ -162,28 +165,38 @@ void SongWriter::printSong(bool displayNoteName)
 	Different lines are separated ny horicontal arrangement of "X"s.
 	*/
 	int chord_count = 0;
-	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
+	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) 
+	{
 		for (int j = 0; j < 69; j++) {
-			if (i % 16 >= 4 && i % 16 <= 12) {
-				if (i % 16 % 2 == 1) {
-					if (j%17==0) {
+			if (i % 16 >= 4 && i % 16 <= 12) 
+			{
+				if (i % 16 % 2 == 1) 
+				{
+					if (j%17==0) 
+					{
 						music_sheet[i][j] = "|";
 					}
-					else {
+					else 
+					{
 						music_sheet[i][j] = " ";
 					}
 				}
-				else {
-					if (j%17==0) {
+				else 
+				{
+					if (j%17==0) 
+					{
 						music_sheet[i][j] = "|";
 					}
-					else {
+					else 
+					{
 						music_sheet[i][j] = "-";
 					}
 				}
 			}
-			else {
-				if (i % 16 == 0 && j%17==1) {
+			else 
+			{
+				if (i % 16 == 0 && j%17==1) 
+				{
 					string chord_name = Chord(*note_gen,harmony.at(chord_count)).getName();
 					music_sheet[i][j+0] = chord_name.substr(0, 1);
 					music_sheet[i][j+1] = chord_name.substr(1, 1);
@@ -195,13 +208,16 @@ void SongWriter::printSong(bool displayNoteName)
 					music_sheet[i][j+7] = chord_name.substr(7, 1);
 					chord_count++;
 				}
-				else if (i % 16 == 15) {
+				else if (i % 16 == 15) 
+				{
 					music_sheet[i][j] = "X";
 				}
-				else if (i % 16 == 0 && j % 17 >= 2 && j % 17 <= 8) {
+				else if (i % 16 == 0 && j % 17 >= 2 && j % 17 <= 8) 
+				{
 					continue;
 				}
-				else {
+				else 
+				{
 					music_sheet[i][j] = " ";
 				}
 			}
@@ -220,25 +236,32 @@ void SongWriter::printSong(bool displayNoteName)
 	*/
 	int line_count = 0;
 	unsigned char note_count = 0;
-	while (line_count < SONG_LENGTH / 4) {
-		for (int x = 0; x < 69; x++) {
+	while (line_count < SONG_LENGTH / 4) 
+	{
+		for (int x = 0; x < 69; x++)
+		{
 			string display = "";
-			if (x % 17 == 0) {
+			if (x % 17 == 0) 
+			{
 				continue;
 			}
 			int note_position = 22 - melody_indexes.at(note_count);
-			if (displayNoteName) {
+			if (displayNoteName)
+			{
 				display = note_gen->getNoteName(melody_indexes.at(note_count)).substr(0, 1);
 			}
-			else {
+			else 
+			{
 				display = "0";
 			}
-			if (note_position == 2 || note_position == 14) {
+			if (note_position == 2 || note_position == 14)
+			{
 				music_sheet[note_position + line_count * 16][x-1] = "-";
 				music_sheet[note_position + line_count * 16][x] = display;
 				music_sheet[note_position + line_count * 16][x+1] = "-";
 			}
-			else {
+			else 
+			{
 				music_sheet[note_position + line_count * 16][x] = display;
 			}
 			note_count++;
@@ -246,8 +269,10 @@ void SongWriter::printSong(bool displayNoteName)
 		}
 		line_count++;
 	}
-	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) {
-		for (int j = 0; j < 69; j++) {
+	for (int i = 0; i < 16 * SONG_LENGTH / 4; i++) 
+	{
+		for (int j = 0; j < 69; j++) 
+		{
 			cout << music_sheet[i][j];
 		}
 		cout << endl;
@@ -352,10 +377,12 @@ Convert the indexes in the harmony vector to the
 corresponding chords, store them in a chord array,
 return the chord array.
 */
-Chord* SongWriter::getChords() {
+Chord* SongWriter::getChords() 
+{
 	Chord* harmony_chords=new Chord[SONG_LENGTH];
 
-	for(int i = 0; i < SONG_LENGTH*4; i++) {
+	for(int i = 0; i < SONG_LENGTH*4; i++) 
+	{
 		harmony_chords[i] = Chord(*note_gen, harmony.at(i));
 	}
 
@@ -367,6 +394,7 @@ Return true if the song is empty (no chord or melody note);
 otherwise, if the any of the vectors (harmony, melody, and 
 melody_indexes) is not empty, return false.
 */
-bool SongWriter::isEmpty() {
+bool SongWriter::isEmpty() 
+{
 	return harmony.size() == 0 && melody.size()==0 && melody_indexes.size()==0;
 }
