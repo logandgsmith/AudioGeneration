@@ -12,6 +12,7 @@
 
 int main() 
 {
+	//creates the object song of type SongWriter 
 	SongWriter song; 
 
 	char user_input;
@@ -31,6 +32,7 @@ int main()
 					<< " 5. Exit program"                         << std::endl
 					<< "****************************************" << std::endl; 
 
+		//Try and catch statment to prevent bad user input
 		try 
 		{
 			std::cin >> user_input;
@@ -42,16 +44,24 @@ int main()
 			continue;
 		}
 
+		//A switch statement that utilizes char's. This is evidenced by the single quotes. 
 		switch(user_input)
 		{
+
+			//generates and plays a unique song on command.
 			case '1':
 			{
+
 				song.writeSong();
 				AudioGeneration::play(song);
 				break;
+
 			}
+
+			//Prints the song
 			case '2':
 			{
+
 				if(song.isEmpty()) {
 					std::cout << "There is no song to print yet. Try writing one!" << std::endl;
 					break;
@@ -79,29 +89,41 @@ int main()
 
 				break;
 			}
+
+			//Saves the song under a desired name
 			case '3':
 			{
+
 				std::string song_name;
 				std::cout << "Please name the song:" << std::endl;
 				std::cin  >> song_name;
 				UserInput::save(song_name, song.getMelodyIndexes(), song.getHarmony());
 				break;
+
 			}
+
+			//Loads a song if it exists
 			case '4':
 			{
+
 				std::string song_name; 
 				std::cout << "Please enter the name of the song you wish to play: ";
 				std::cin  >> song_name;
 				song_name.append(".txt");
 				UserInput::load(song, song_name);
 				break;
+
 			}
+
+			//exits program
 			case '5':
 			{
 				std::cout << "Goodbye!" << std::endl;
 				run_program = false;
 				break;
 			}
+
+			//error statement 
 			default:
 			{
 				std::cin.clear();
@@ -113,6 +135,8 @@ int main()
 	}	
 }
 
+
+//user save function
 void UserInput::save(std::string song_name, unsigned char* harmony, unsigned char* melody){
 
 ofstream saveFile(song_name + ".txt");
@@ -132,27 +156,16 @@ for(int i = 0; i < (int)(sizeof(melody)/sizeof(melody[0])); i++){
 
 saveFile.close();
 
-
-
-// getline(cin, printsong()); this is ideally what is supposed to happen. 
-// We still need to work on this on the "song writer class".
-// my logic may be wrong tho, but it will be easy to fix ;).
-
-
-//saveFile << getline(cin, printsong());
-//this is the the function that actually saves the strings.
-
-saveFile.close();
-
 }
 
-
+//load function
 void UserInput::load(SongWriter song, std::string song_name){
 
 	ifstream loadFile(song_name);
 
 	if(loadFile.is_open())
 	{
+
 		std::string sheet_music;
 		std::string har; // Harmony data as a std::string
 		std::string mel; // Melody data as a std::string
@@ -179,11 +192,14 @@ void UserInput::load(SongWriter song, std::string song_name){
 
 		song.setHarmony(harmony);
 		song.setMelody(melody);
+
 	}
+
 	else
 	{
 		cout << "The file for this song does not exist. Please provide another file name.";
 	}
+	
 }
 
 /*
