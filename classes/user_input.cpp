@@ -47,7 +47,7 @@ int main()
 			case '1':
 			{
 				song.writeSong();
-				//AudioGeneration::play(song);
+				AudioGeneration::play(song);
 				break;
 			}
 			case '2':
@@ -179,44 +179,10 @@ void UserInput::load(SongWriter &song, std::string song_name){
 		song.setHarmony(harmony);
 		song.setMelody(melody);
 
-		//AudioGeneration::play(song);
+		AudioGeneration::play(song);
 	}
 	else
 	{
 		std::cout << "The file for this song does not exist. Please provide another file name. \n" << std::endl;
 	}
 }
-
-/*
-void UserInput::playBack() {
-	//TODO: WRITE A FUNCTION TO FIND SONG .TXT FILES 
-
-	//Checks for valid file names
-	bool          isValidFileName = false;
-	std::ifstream inFile;
-	std::string   token;
-
-	while (!isValidFileName) {
-		std::cout << "Please enter the name of the input file:" << std::endl;
-		std::getline(std::cin, fileName);
-		try {
-			inFile.open(fileName);
-			if (!inFile)
-				throw std::runtime_error("File could not be opened");
-		}
-		catch (std::runtime_error e) {
-			std::cout << e.what() << std::endl;
-			continue;
-		}
-
-		isValidFileName = true;
-	}
-
-	while (inFile >> token) {
-		//TODO TURN TOKENS INTO CHORDS THEN ADD TO SONG VECTOR
-	}
-
-	//TODO: CALL AUDIOGENERATION CLASS TO PLAY THE SONG
-}
-
-*/

@@ -12,10 +12,9 @@ const int 	SAMPLE_RATE       = 44100;
 const int 	FRAMES_PER_BUFFER = 64;
 const int 	TABLE_SIZE        = 75;
 const int   MEASURES          = 16;
-const int   AUDIO_LENGTH      = 16;
 
 namespace AudioGeneration {
 	bool   	play(SongWriter song);
-	float* 	generateWaveform(float frequency);
+	float* 	generateSineWave(float frequency);
 	float*	generateChordWave(Chord chord);
 };

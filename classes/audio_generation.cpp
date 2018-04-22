@@ -1,5 +1,6 @@
 #include "../headers/audio_generation.h"
 
+
 /**************************************************
 	This class makes use of the Portaudio library.
 	Portaudio is across platform library that allows 
@@ -87,9 +88,9 @@ bool AudioGeneration::play(SongWriter song)
 	bufferCount = ((NOTE_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
 
 	//Write Waveforms and plays them for each part of a song
-	for(int h = 0; h < AUDIO_LENGTH; h++) {
+	for(int h = 0; h < song.getSongLength() * 4; h++) {
 
-		melody_current = AudioGeneration::generateWaveform(melody[h]);
+		melody_current = AudioGeneration::generateSineWave(melody[h]);
 
 		if(h % 4 == 0)
 			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
@@ -150,7 +151,7 @@ error:
 	shown below in order to chop up the sine wave into
 	samples that the buffer could hold
 */
-float* AudioGeneration::generateWaveform(float frequency) 
+float* AudioGeneration::generateSineWave(float frequency) 
 {
 	float* waveform = new float[SAMPLE_RATE];
 
@@ -180,9 +181,9 @@ float* AudioGeneration::generateChordWave(Chord chord)
 	float* waveform_thr;
 	float* waveform_end;
 
-	waveform_one = AudioGeneration::generateWaveform(chord.getNote(0).note_frequency);
-	waveform_two = AudioGeneration::generateWaveform(chord.getNote(1).note_frequency);
-	waveform_thr = AudioGeneration::generateWaveform(chord.getNote(2).note_frequency);
+	waveform_one = AudioGeneration::generateSineWave(chord.getNote(0).note_frequency);
+	waveform_two = AudioGeneration::generateSineWave(chord.getNote(1).note_frequency);
+	waveform_thr = AudioGeneration::generateSineWave(chord.getNote(2).note_frequency);
 	waveform_end = new float[SAMPLE_RATE];
 
 	//Attempting to make the tone sound a little "rounder"
