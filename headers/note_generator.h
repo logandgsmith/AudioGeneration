@@ -22,6 +22,7 @@ public:
 	std::string			getNoteName(unsigned char index);
 	std::vector<Note>	getKeyboard();
 	unsigned char		getKeyboardSize();
+	unsigned char		getMajorKeyboardSize();
 	unsigned char		getRandomNote();
 	Note				getNote(unsigned char index);
 

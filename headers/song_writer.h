@@ -6,7 +6,9 @@
 #include <ctime>
 #include <array>
 #include <iostream>
-
+#include <vector>
+#include <string>
+using namespace std;
 
 class SongWriter
 {
@@ -28,6 +30,7 @@ public:
 	void           setMelody(unsigned char* melodyArr);
 	void           setHarmony(unsigned char* harmonyArr);
 	void           printSong(bool displayNoteName);
+	void		   printKeyboard(unsigned char chord_index, unsigned char note_index1, unsigned char note_index2, unsigned char note_index3);
 
 private:
 	const int      SONG_LENGTH = 16; //# of chords / num_measures

@@ -11,6 +11,6 @@
 
 namespace UserInput {
 	void save(std::string name , unsigned char* harmony, unsigned char* melody);
-	void load(SongWriter song, std::string name);
+	void load(SongWriter &song, std::string name);
 	void playnewSong();
 }

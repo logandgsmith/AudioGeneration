@@ -1,8 +1,7 @@
 #pragma once
 
 #include "note_generator.h"
-//#include <string>
-
+#include <string>
 using namespace std;
 
 class Chord

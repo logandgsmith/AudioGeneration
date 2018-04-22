@@ -42,6 +42,12 @@ std::vector<Note> NoteGenerator::getKeyboard() {
 unsigned char NoteGenerator::getKeyboardSize() {
 	return this->keyboard.size();
 }
+//keyboard size without sharps
+unsigned char NoteGenerator::getMajorKeyboardSize() {
+	unsigned char actual_keyboard_size = getKeyboardSize();
+	unsigned char major_keyboard_size = actual_keyboard_size / 12 * 7;
+	return major_keyboard_size;
+}
 
 //Mutators
 //set all the notes in the keyboard. give each note a note name, frequency, and duration 0
@@ -144,7 +150,9 @@ Note NoteGenerator::getNote(unsigned char index) {
 		return keyboard.at(7 + multiple * 12);
 	case 6:
 		return keyboard.at(9 + multiple * 12);
-	case 0: // Actually note 7 of the given key
+	
+	// Actually note 7 of the given key
+	case 0: 
 		return keyboard.at(11 + multiple * 12);
 	default:
 		throw std::domain_error("Invalid note index");
