@@ -2,6 +2,7 @@
 #include <vector>
 #include <ctime> // To be used for note generator
 #include <stdexcept>
+#include <iostream>
 
 /**************************************************
 This class defines a struct called Note, which
@@ -104,6 +105,7 @@ void NoteGenerator::setNote(float base_freq, std::string base_note, unsigned cha
 		}
 		//calculate frequency
 		freq *= 1.059463;
+		//std::cout << freq << std::endl;
 		keyboard.push_back(Note());
 		keyboard[i].note_frequency = freq;
 		keyboard[i].note_name = note_name;

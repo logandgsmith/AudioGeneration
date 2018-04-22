@@ -1,4 +1,5 @@
 #include "../headers/audio_generation.h"
+#include <math.h>
 
 
 /**************************************************
@@ -20,6 +21,7 @@ int main() {
 }
 */
 
+int p = 0;
 
 /*
 	Plays the song it's passed
@@ -92,18 +94,28 @@ bool AudioGeneration::play(SongWriter song)
 
 		melody_current = AudioGeneration::generateSineWave(melody[h]);
 
-		if(h % 4 == 0)
-			harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
+		if(1==1)//h % 4 == 0)
+		{
+			int last_chord = floor(h/4);
+			harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
+		}
+		for (int i = 0; i < bufferCount; i++) 
+		{
+		harmony_current[i] = harmony_current[i] + melody_current[i];
+		}
 
 		//Add Waveform to buffer then output
-		for (int i = 0; i < bufferCount; i++) 
+		for (int i = 0; i < bufferCount; i++) 		
 		{
 			for (int j = 0; j < FRAMES_PER_BUFFER; j++) 
 			{
 				buffer[j][0] = harmony_current[phase];
-				buffer[j][1] = melody_current[phase];
+				buffer[j][1] = harmony_current[phase];
+				p++;
 				
 				phase++;
+				
+				p = phase;
 
 				if (phase >= TABLE_SIZE)
 					phase -= TABLE_SIZE;
@@ -157,7 +169,7 @@ float* AudioGeneration::generateSineWave(float frequency)
 
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
-		waveform[i] = (float)sin(((double)i / (double)SAMPLE_RATE) * PI * 2 * frequency);
+		waveform[i] = (float)sin(((((double)i + p % SAMPLE_RATE) / (double)SAMPLE_RATE) * PI * 2 * frequency);
 	}
 
 	return waveform;
@@ -189,11 +201,12 @@ float* AudioGeneration::generateChordWave(Chord chord)
 	//Attempting to make the tone sound a little "rounder"
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
-		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
-		if(i < SAMPLE_RATE / 2)
-			waveform_end[i] *= 0.001 * i;
-		else if(i > SAMPLE_RATE / 2)
-			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
+		waveform_end[i] = (waveform_one[i] + waveform_two[i] + waveform_thr[i]);
+		//if(i < SAMPLE_RATE / 2)
+			//waveform_end[i] *= 0.001 * i;
+		//else
+			//if(i > SAMPLE_RATE / 2)
+			//waveform_end[i] *= (SAMPLE_RATE - i)/SAMPLE_RATE;
 	}
 
 	return waveform_end;

@@ -1,4 +1,5 @@
 #include "../headers/chord.h"
+#include <iostream>
 
 /**************************************************
 This class defines the Chord object. Each chord

@@ -10,7 +10,7 @@ const float PI                = 3.14159265f;
 const int   NOTE_TIME         = 1;
 const int 	SAMPLE_RATE       = 44100;
 const int 	FRAMES_PER_BUFFER = 64;
-const int 	TABLE_SIZE        = 75;
+const int 	TABLE_SIZE        = 400;
 const int   MEASURES          = 16;
 
 namespace AudioGeneration {
