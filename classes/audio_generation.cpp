@@ -190,10 +190,6 @@ float* AudioGeneration::generateChordWave(Chord chord)
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
 		waveform_end[i] = waveform_one[i] + waveform_two[i] + waveform_thr[i];
-		if(i < SAMPLE_RATE / 2)
-			waveform_end[i] *= 0.001 * i;
-		else if(i > SAMPLE_RATE / 2)
-			waveform_end[i] *= 0.001 * (SAMPLE_RATE - i);
 	}
 
 	return waveform_end;
