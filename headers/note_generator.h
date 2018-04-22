@@ -1,13 +1,16 @@
 #pragma once
 #include <string>
 #include <vector>
-using namespace std;
 
-const size_t default_keyboard_size = 36;
+// Default values for the NoteGenerator Constructor
+const size_t default_keyboard_size = 36; // 3 octaves of range
+const float default_base_freq = 130.81;
+const std::string default_base_note_name = "C3";
+
 struct Note {
-	float      note_frequency;
-	std::string note_name;
-	int         note_duration;
+	float		note_frequency;
+	std::string	note_name;
+	int		note_duration;
 };
 
 class NoteGenerator {
@@ -19,15 +22,15 @@ public:
 	NoteGenerator();
 
 	//Accessors
-	float				getNoteFreq(unsigned char index);
-	std::string			getNoteName(unsigned char index);
-	unsigned char		getNoteIndex(string note_name);
+	float			getNoteFreq(unsigned char index);
+	std::string		getNoteName(unsigned char index);
+	unsigned char		getNoteIndex(std::string note_name);
 	std::vector<Note>	getKeyboard();
 	unsigned char		getKeyboardSize();
 	unsigned char		getMajorKeyboardSize();
 	unsigned char		getRandomNote();
-	Note				getNote(unsigned char index);
-	Note				getSharpNote(unsigned char index);
+	Note			getNote(unsigned char index);
+	Note			getSharpNote(unsigned char index);
 
 
 	//Mutators
