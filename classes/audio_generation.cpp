@@ -168,7 +168,7 @@ float* AudioGeneration::generateSineWave(float frequency)
 
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
-		waveform[i] = (float)sin(((((double)i + p % SAMPLE_RATE) / (double)SAMPLE_RATE) * PI * 2 * frequency);
+		waveform[i] = (float)sin(((((double)i + p % SAMPLE_RATE) / (double)SAMPLE_RATE) * PI * 2 * frequency));
 	}
 
 	return waveform;

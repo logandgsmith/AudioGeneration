@@ -113,10 +113,14 @@ void NoteGenerator::setNote(float base_freq, std::string base_note, unsigned cha
 	}
 }
 
+int state = 0;
+
 //generate a random note in the higher octave only (without sharp)
 unsigned char NoteGenerator::getRandomNote() {
 	//higher octaves
-	unsigned char rand_num = rand() % 14+8;
+	//unsigned char rand_num = rand() % 14+8;
+	unsigned char rand_num = state % 14 + 8;
+	state++;
 	return rand_num;
 }
 
