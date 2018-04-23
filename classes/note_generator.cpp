@@ -150,8 +150,9 @@ not affect the index.
 unsigned char NoteGenerator::getRandomNote() {
 	//higher octaves
 	//unsigned char rand_num = rand() % 14+8;
+	srand(time(0));
 	unsigned char rand_num = state % 14 + 8;
-	state++;
+	rand() % 2 == 1 ? state += (rand() % 3) : state -= (rand() % 3);
 	return rand_num;
 }
 
