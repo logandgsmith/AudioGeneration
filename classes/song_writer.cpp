@@ -1188,7 +1188,7 @@ notes, and pre-defined chord progressions.
 */
 void SongWriter::writeSong()
 {
-	//srand(time(0));
+	srand(time(0));
 	/*
 	Clear everything to make sure the new song is written
 	on a fresh song sheet.
