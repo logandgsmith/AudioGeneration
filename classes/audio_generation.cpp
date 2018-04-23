@@ -20,8 +20,6 @@ int main() {
 }
 */
 
-int p = 0;
-
 /*
 	Plays the song it's passed
 	
@@ -92,9 +90,7 @@ bool AudioGeneration::play(SongWriter song)
 	for(int h = 0; h < song.getSongLength() * 4; h++) {
 
 		melody_current = AudioGeneration::generateSineWave(melody[h]);
-		
-		int last_chord = floor(h/4);
-		harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
+		harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
 		
 		for (int i = 0; i < bufferCount; i++) 
 		{
@@ -108,15 +104,12 @@ bool AudioGeneration::play(SongWriter song)
 			{
 				buffer[j][0] = harmony_current[phase];
 				buffer[j][1] = harmony_current[phase];
-				p++;
-				
+
 				phase++;
 				
 
 				if (phase >= TABLE_SIZE)
 					phase -= TABLE_SIZE;
-
-				p = phase;
 			}
 
 			//Writes buffer to stream -> speakers
@@ -154,6 +147,7 @@ error:
 
 	Pa_Terminate();
 	return err;
+
 }
 
 /*
@@ -229,9 +223,7 @@ bool AudioGeneration::followAlong(SongWriter song)
 			goto error;
 
 		melody_current = AudioGeneration::generateSineWave(melody[h]);
-
-		int last_chord = floor(h/4);
-		harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
+		harmony_current = AudioGeneration::generateChordWave(harmony[h/4]);
 
 		for (int i = 0; i < bufferCount; i++) 
 		{
@@ -245,14 +237,12 @@ bool AudioGeneration::followAlong(SongWriter song)
 			{
 				buffer[j][0] = harmony_current[phase];
 				buffer[j][1] = harmony_current[phase];
-				p++;
 				
 				phase++;
 
 				if (phase >= TABLE_SIZE)
 					phase -= TABLE_SIZE;
 
-				p = phase;
 			}
 
 			//Writes buffer to stream -> speakers
@@ -310,7 +300,10 @@ float* AudioGeneration::generateSineWave(float frequency)
 
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
-		waveform[i] = (float)sin(((((double)i + p % SAMPLE_RATE) / (double)SAMPLE_RATE) * PI * 2 * frequency));
+		waveform[i] = (float)sin(((((float)i) / (float)SAMPLE_RATE) * PI * 2 * frequency));
+
+		if(waveform[i] == 0)
+			waveform[i] = 0.1;
 	}
 
 	return waveform;
@@ -342,6 +335,9 @@ float* AudioGeneration::generateChordWave(Chord chord)
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
 		waveform_end[i] = (waveform_one[i] + waveform_two[i] + waveform_thr[i]);
+
+		if(waveform_end[i] == 0)
+			waveform_end[i] = 0.1;
 	}
 
 	return waveform_end;
