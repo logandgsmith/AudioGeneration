@@ -22,15 +22,15 @@ int main()
 	while(run_program){
 
 
-		std::cout 	<< "****************************************\n" << std::endl
-				 	<< "* < Please input your desired command > *"  << std::endl
-				 	<< "* 1. Play a New Song                    *"  << std::endl
-					<< "* 2. Print the Song                     *"  << std::endl
-					<< "* 3. Save Song                          *"  << std::endl
-					<< "* 4. Load and Play a Saved Song         *"  << std::endl
-					<< "* 5. Follow Along Mode                  *"  << std::endl
-					<< "* 6. Exit Program\n                     *"  << std::endl
-					<< "****************************************"   << std::endl; 
+		std::cout 	<< "*****************************************" << std::endl
+				 	<< "* < Please input your desired command > *" << std::endl
+				 	<< "* 1. Play a New Song                    *" << std::endl
+					<< "* 2. Print the Song                     *" << std::endl
+					<< "* 3. Save Song                          *" << std::endl
+					<< "* 4. Load and Play a Saved Song         *" << std::endl
+					<< "* 5. Follow Along Mode                  *" << std::endl
+					<< "* 6. Exit Program                       *" << std::endl
+					<< "*****************************************" << std::endl; 
 
 		//Try and catch statment to prevent bad user input
 		try 
