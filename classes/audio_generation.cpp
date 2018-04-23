@@ -112,10 +112,11 @@ bool AudioGeneration::play(SongWriter song)
 				
 				phase++;
 				
-				p = phase;
 
 				if (phase >= TABLE_SIZE)
 					phase -= TABLE_SIZE;
+
+				p = phase;
 			}
 
 			//Writes buffer to stream -> speakers
@@ -247,11 +248,11 @@ bool AudioGeneration::followAlong(SongWriter song)
 				p++;
 				
 				phase++;
-				
-				p = phase;
 
 				if (phase >= TABLE_SIZE)
 					phase -= TABLE_SIZE;
+
+				p = phase;
 			}
 
 			//Writes buffer to stream -> speakers
