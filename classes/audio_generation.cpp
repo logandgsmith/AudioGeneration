@@ -92,15 +92,13 @@ bool AudioGeneration::play(SongWriter song)
 	for(int h = 0; h < song.getSongLength() * 4; h++) {
 
 		melody_current = AudioGeneration::generateSineWave(melody[h]);
-
-		if(1==1)//h % 4 == 0)
-		{
-			int last_chord = floor(h/4);
-			harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
-		}
+		
+		int last_chord = floor(h/4);
+		harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
+		
 		for (int i = 0; i < bufferCount; i++) 
 		{
-		harmony_current[i] = harmony_current[i] + melody_current[i];
+			harmony_current[i] = harmony_current[i] + melody_current[i];
 		}
 
 		//Add Waveform to buffer then output
@@ -139,20 +137,30 @@ bool AudioGeneration::play(SongWriter song)
 
 	//Cleans up anything leftover from the streams
 	Pa_Terminate();
-	std::cout << "No Error" << std::endl;
+	std::cout << "Complete!" << std::endl;
 
 	return err;
 
 //Handles errors that occur in the PortAudio Stream only
 error:
+	/*
 	std::cout << stderr << "An error has occured in the portaudio stream \n" << std::endl;
 	std::cout << stderr << "Error Number: " << err << std::endl;
 	std::cout << stderr << "Error Message: " << Pa_GetErrorText(err);
+	*/
+	
+	std::cout << "\n" << std::endl;
 
 	Pa_Terminate();
 	return err;
 }
 
+/*
+	This method allows the user to follow the notes that
+	the program outputs on a piano. The notes are played 
+	with a brief pause in order to give the user time to 
+	locate the keys
+*/
 bool AudioGeneration::followAlong(SongWriter song) 
 {
 	//PortAudio Setup
@@ -214,17 +222,16 @@ bool AudioGeneration::followAlong(SongWriter song)
 	//Write Waveforms and plays them for each part of a song
 	for(int h = 0; h < song.getSongLength() * 4; h++) {
 
+		//This block is now within the for loop to delay the next note
 		err = Pa_StartStream(stream);
 		if (err != paNoError)
 			goto error;
 
 		melody_current = AudioGeneration::generateSineWave(melody[h]);
 
-		if(1==1)//h % 4 == 0)
-		{
-			int last_chord = floor(h/4);
-			harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
-		}
+		int last_chord = floor(h/4);
+		harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
+
 		for (int i = 0; i < bufferCount; i++) 
 		{
 			harmony_current[i] = harmony_current[i] + melody_current[i];
@@ -269,15 +276,19 @@ bool AudioGeneration::followAlong(SongWriter song)
 
 	//Cleans up anything leftover from the streams
 	Pa_Terminate();
-	std::cout << "No Error" << std::endl;
+	std::cout << "Complete!" << std::endl;
 
 	return err;
 
 //Handles errors that occur in the PortAudio Stream only
 error:
+	/*
 	std::cout << stderr << "An error has occured in the portaudio stream \n" << std::endl;
 	std::cout << stderr << "Error Number: " << err << std::endl;
 	std::cout << stderr << "Error Message: " << Pa_GetErrorText(err);
+	*/
+	
+	std::cout << "\n" << std::endl;
 
 	Pa_Terminate();
 	return err;
@@ -326,15 +337,10 @@ float* AudioGeneration::generateChordWave(Chord chord)
 	waveform_thr = AudioGeneration::generateSineWave(chord.getNote(2).note_frequency);
 	waveform_end = new float[SAMPLE_RATE];
 
-	//Attempting to make the tone sound a little "rounder"
+	//Composes the waves
 	for (int i = 0; i < SAMPLE_RATE; i++) 
 	{
 		waveform_end[i] = (waveform_one[i] + waveform_two[i] + waveform_thr[i]);
-		//if(i < SAMPLE_RATE / 2)
-			//waveform_end[i] *= 0.001 * i;
-		//else
-			//if(i > SAMPLE_RATE / 2)
-			//waveform_end[i] *= (SAMPLE_RATE - i)/SAMPLE_RATE;
 	}
 
 	return waveform_end;

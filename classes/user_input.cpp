@@ -23,13 +23,13 @@ int main()
 
 
 		std::cout 	<< "****************************************\n" << std::endl
-				 	<< " < Please input your desired command >"     << std::endl
-				 	<< " 1. Play a New Song"                        << std::endl
-					<< " 2. Print the Song"                         << std::endl
-					<< " 3. Save Song"                              << std::endl
-					<< " 4. Load and Play a Saved Song"             << std::endl
-					<< " 5. Follow Along Mode"                      << std::endl
-					<< " 6. Exit Program\n"                         << std::endl
+				 	<< "* < Please input your desired command > *"  << std::endl
+				 	<< "* 1. Play a New Song                    *"  << std::endl
+					<< "* 2. Print the Song                     *"  << std::endl
+					<< "* 3. Save Song                          *"  << std::endl
+					<< "* 4. Load and Play a Saved Song         *"  << std::endl
+					<< "* 5. Follow Along Mode                  *"  << std::endl
+					<< "* 6. Exit Program\n                     *"  << std::endl
 					<< "****************************************"   << std::endl; 
 
 		//Try and catch statment to prevent bad user input
@@ -194,7 +194,7 @@ void UserInput::load(SongWriter &song, std::string song_name){
 
 		mel = sheet_music.substr((sheet_music.length()/5), sheet_music.length());
 
-		unsigned char* harmony=new unsigned char[har.length()]; // Harmony data as integers
+		unsigned char* harmony= new unsigned char[har.length()]; // Harmony data as integers
 
 		unsigned char* melody = new unsigned char[mel.length()]; // Melody data as integers
 
@@ -206,6 +206,8 @@ void UserInput::load(SongWriter &song, std::string song_name){
 
 		song.setHarmony(harmony);
 		song.setMelody(melody);
+
+		AudioGeneration::play(song);
 
 	}
 
