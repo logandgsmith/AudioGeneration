@@ -13,7 +13,9 @@ mathematically represented by a ratio between the frequency
 of the two notes. Observation and testing shows simple ratios
 sound pleasing and concordant." - Bill Carroll
 
-https://www.quora.com/Why-do-the-minor-chords-sound-sad-and-major-chords-happy-Ive-read-everything-there-is-to-read-on-this-subject-and-theres-still-no-answer
+https://www.quora.com/Why-do-the-minor-chords-sound-sad-and-major-
+chords-happy-Ive-read-everything-there-is-to-read-on-this-subject-
+and-theres-still-no-answer
 ***************************************************/
 
 //Constructor for triads

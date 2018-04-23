@@ -48,7 +48,7 @@ bool AudioGeneration::play(SongWriter song)
 
 	harmony = song.getChords();
 	melody  = song.getMelody();
-	
+
 	//Initialize the Stream
 	err = Pa_Initialize();
 	if (err != paNoError)
@@ -132,6 +132,136 @@ bool AudioGeneration::play(SongWriter song)
 	err = Pa_StopStream(stream);
 		if (err != paNoError)
 		goto error;
+
+	err = Pa_CloseStream(stream);
+	if (err != paNoError)
+		goto error;
+
+	//Cleans up anything leftover from the streams
+	Pa_Terminate();
+	std::cout << "No Error" << std::endl;
+
+	return err;
+
+//Handles errors that occur in the PortAudio Stream only
+error:
+	std::cout << stderr << "An error has occured in the portaudio stream \n" << std::endl;
+	std::cout << stderr << "Error Number: " << err << std::endl;
+	std::cout << stderr << "Error Message: " << Pa_GetErrorText(err);
+
+	Pa_Terminate();
+	return err;
+}
+
+bool AudioGeneration::followAlong(SongWriter song) 
+{
+	//PortAudio Setup
+	PaStreamParameters outputParameters;
+	PaStream* stream;
+	PaError err;
+	float buffer[FRAMES_PER_BUFFER][2];
+	int phase = 0;
+	int bufferCount;
+
+	//Song Info
+	Chord* harmony;
+	float* melody;
+	float* harmony_current;
+	float* melody_current;
+	unsigned char* harmony_indexes;
+	unsigned char* melody_indexes;
+
+	harmony = song.getChords();
+	melody  = song.getMelody();
+
+	harmony_indexes = song.getHarmony();
+	melody_indexes = song.getMelodyIndexes();
+
+	//Initialize the Stream
+	err = Pa_Initialize();
+	if (err != paNoError)
+		goto error;
+
+	//Checks if should output from speakers or headphones
+	outputParameters.device = Pa_GetDefaultOutputDevice();
+	if (outputParameters.device == paNoDevice) 
+	{
+		std::cout << stderr << "Error: No Output Devices Found" << std::endl;
+		goto error;
+	}
+
+	//Uses what we know about the system to output correctly
+	outputParameters.channelCount = 2; //Stereo Output
+	outputParameters.sampleFormat = paFloat32;
+	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
+	outputParameters.hostApiSpecificStreamInfo = nullptr;
+
+	err = Pa_OpenStream(
+		&stream,
+		nullptr,
+		&outputParameters,
+		SAMPLE_RATE,
+		FRAMES_PER_BUFFER,
+		paNoFlag,
+		nullptr,
+		nullptr);
+	if (err != paNoError)
+		goto error;
+	
+	//How many buffers should be created for the wave
+	bufferCount = ((NOTE_TIME * SAMPLE_RATE) / FRAMES_PER_BUFFER);
+
+	//Write Waveforms and plays them for each part of a song
+	for(int h = 0; h < song.getSongLength() * 4; h++) {
+
+		err = Pa_StartStream(stream);
+		if (err != paNoError)
+			goto error;
+
+		melody_current = AudioGeneration::generateSineWave(melody[h]);
+
+		if(1==1)//h % 4 == 0)
+		{
+			int last_chord = floor(h/4);
+			harmony_current = AudioGeneration::generateChordWave(harmony[last_chord]);
+		}
+		for (int i = 0; i < bufferCount; i++) 
+		{
+			harmony_current[i] = harmony_current[i] + melody_current[i];
+		}
+
+		//Add Waveform to buffer then output
+		for (int i = 0; i < bufferCount; i++) 		
+		{
+			for (int j = 0; j < FRAMES_PER_BUFFER; j++) 
+			{
+				buffer[j][0] = harmony_current[phase];
+				buffer[j][1] = harmony_current[phase];
+				p++;
+				
+				phase++;
+				
+				p = phase;
+
+				if (phase >= TABLE_SIZE)
+					phase -= TABLE_SIZE;
+			}
+
+			//Writes buffer to stream -> speakers
+			err = Pa_WriteStream(stream, buffer, FRAMES_PER_BUFFER);
+			if (err != paNoError)
+				goto error;
+
+		}
+
+		//Ending the stream
+		err = Pa_StopStream(stream);
+		if (err != paNoError)
+			goto error;
+
+		song.printKeyboard(harmony_indexes[h/4], melody_indexes[h]);
+
+	}
 
 	err = Pa_CloseStream(stream);
 	if (err != paNoError)

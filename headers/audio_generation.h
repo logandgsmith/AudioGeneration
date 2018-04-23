@@ -15,6 +15,7 @@ const int   MEASURES          = 16;
 
 namespace AudioGeneration {
 	bool   	play(SongWriter song);
+	bool	followAlong(SongWriter song);
 	float* 	generateSineWave(float frequency);
 	float*	generateChordWave(Chord chord);
 };
